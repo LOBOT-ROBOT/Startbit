@@ -1,0 +1,21 @@
+{
+    "name": "qtruck",
+    "version": "0.0.1",
+    "description": "Blocks for Lobot qtruck",
+    "license": "MIT",
+    "dependencies": {
+        "core": "*"
+    },
+    "files": [
+        "README.md",
+        "main.ts",
+        "QtruckRGBLight.ts",
+        "sendbuffer.asm",
+        "_locales/zh/qtruck-strings.json",
+        "_locales/zh/qtruck-jsdoc-strings.json"
+    ],
+    "testFiles": [
+        "test.ts"
+    ],
+    "public": true
+}
