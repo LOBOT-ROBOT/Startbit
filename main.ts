@@ -113,10 +113,12 @@ namespace qtruck {
         VERSION = 10,
         //% block="Read angle"
         READ_ANGLE = 11,
+        //% block="Light belt"        
+        RGB_BELT = 12,
         //% block="WIFI mode"
-        WIFI_MODE = 12,
+        WIFI_MODE = 13,
         //% block="Get mac"
-        GET_MAC = 13
+        GET_MAC = 14
     }
 
     export enum qtruck_CarRunCmdType {
@@ -168,6 +170,7 @@ namespace qtruck {
 
 
     let MESSAGE_MAC = 0xff;
+    let MESSAGE_ANGLE = 0x100;
 
     let i2cPortValid: boolean = true;
     let connectStatus: boolean = false;
@@ -902,14 +905,11 @@ export function onQtruck_getAngle(servo: qtruck_Servos,body: Action) {
         let trigPin: DigitalPin = DigitalPin.P1;
         switch (port)
         {
-            case ultrasonicPort.port1:
+            case qtruck_ultrasonicPort.port1:
                 trigPin = DigitalPin.P1;
                 break;
-            case ultrasonicPort.port2:
+            case qtruck_ultrasonicPort.port2:
                 trigPin = DigitalPin.P13;
-                break;
-            case ultrasonicPort.port3:
-                trigPin = DigitalPin.P16;
                 break;
         }
         pins.setPull(trigPin, PinPullMode.PullNone);
@@ -1087,8 +1087,8 @@ export function onQtruck_getAngle(servo: qtruck_Servos,body: Action) {
      */
     //% weight=66  blockId=qtruck_cgetArgs block="Get bluetooth command|%str|argument at %index"
     //% index.min=1 index.max=3
-    export function qtruck_cgetArgs(str: string, index: number): number {
-        let cmdType = qtruck_canalyzeBluetoothCmd(str);
+    export function qtruck_getArgs(str: string, index: number): number {
+        let cmdType = qtruck_analyzeBluetoothCmd(str);
         if (cmdType == qtruck_CmdType.NO_COMMAND)
         {
             return qtruck_CarRunCmdType.COMMAND_ERRO;
