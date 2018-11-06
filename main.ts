@@ -410,7 +410,7 @@ export function qtruck_readAngle(servo: qtruck_Servos)
  * Do someting when Qtruck receive angle
  * @param body code to run when event is raised
  */
- //% weight=97 blockId=onQtruck_getAngle block="On qtruck|%servo|get angle"
+ //% weight=97 blockId=onQtruck_getAngle block="On Qtruck|%servo|get angle"
 export function onQtruck_getAngle(servo: qtruck_Servos,body: Action) {
     control.onEvent(MESSAGE_ANGLE, servo, body);
 }
