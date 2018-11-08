@@ -359,11 +359,36 @@ namespace qtruck {
             return -1; 
     }
 
+/**
+* Set the angle of servo 1 to 8, range of 0~180 degree
+*/
+//% weight=99 blockId=setServo block="Set pwm servo|index %index|angle(0~180) %angle|duration %duration"
+//% angle.min=0 angle.max=180
+export function setServo(index: number, angle: number, duration: number) {
+    if (angle > 180 || angle < 0)
+    {
+        return; 
+    }    
+    let position = mapRGB(angle, 0, 180, 500, 2500);
+   
+   let buf = pins.createBuffer(10);
+   buf[0] = 0x55;
+   buf[1] = 0x55;
+   buf[2] = 0x08;
+   buf[3] = 0x03;//cmd type
+   buf[4] = 0x01;
+   buf[5] = duration & 0xff;
+   buf[6] = (duration >> 8) & 0xff;
+   buf[7] = index;
+   buf[8] = position & 0xff;
+   buf[9] = (position >> 8) & 0xff;
+   serial.writeBuffer(buf);
+}
 
 /**
 * Set the angle of bus servo 1 to 8, range of -120~120 degree
 */
-//% weight=99 blockId=qtruck_setBusServo block="Set bus servo|port %port|index %index|angle(-120~1200) %angle|duration %duration"
+//% weight=98 blockId=qtruck_setBusServo block="Set bus servo|port %port|index %index|angle(-120~1200) %angle|duration %duration"
 //% angle.min=-120 angle.max=120
 export function qtruck_setBusServo(port: qtruck_busServoPort,index: number, angle: number, duration: number) {
     if (angle > 120 || angle < -120)
@@ -392,7 +417,7 @@ export function qtruck_setBusServo(port: qtruck_busServoPort,index: number, angl
 /**
  * Send read qtruck servos angle command
  */
-//% weight=98 blockId=qtruck_readAngle block="Send read|%servo|angle command "
+//% weight=97 blockId=qtruck_readAngle block="Send read|%servo|angle command "
 export function qtruck_readAngle(servo: qtruck_Servos)
 {
     let buf = pins.createBuffer(6);
@@ -410,7 +435,7 @@ export function qtruck_readAngle(servo: qtruck_Servos)
  * Do someting when Qtruck receive angle
  * @param body code to run when event is raised
  */
- //% weight=97 blockId=onQtruck_getAngle block="On Qtruck|%servo|get angle"
+ //% weight=96 blockId=onQtruck_getAngle block="On Qtruck|%servo|get angle"
 export function onQtruck_getAngle(servo: qtruck_Servos,body: Action) {
     control.onEvent(MESSAGE_ANGLE, servo, body);
 }
@@ -419,7 +444,7 @@ export function onQtruck_getAngle(servo: qtruck_Servos,body: Action) {
  /**
   *  Get servos angle
   */
- //% weight=96 blockId=getServosAngle block="Get|%servo|angle(-120~120)"
+ //% weight=95 blockId=getServosAngle block="Get|%servo|angle(-120~120)"
     export function getServosAngle(servo: qtruck_Servos): number {
         if (servo == qtruck_Servos.Servo1) {
             return servo1Angle;
@@ -434,7 +459,7 @@ export function onQtruck_getAngle(servo: qtruck_Servos,body: Action) {
 /**
 *	Set the speed of the number 1 motor and number 2 motor, range of -100~100, that can control the tank to go advance or turn of.
 */
-//% weight=95 blockId=qtruck_setMotorSpeed blockGap=50 block="Set motor1 speed(-100~100)|%speed1|and motor2|speed %speed2"
+//% weight=94 blockId=qtruck_setMotorSpeed blockGap=50 block="Set motor1 speed(-100~100)|%speed1|and motor2|speed %speed2"
 //% speed1.min=-100 speed1.max=100
 //% speed2.min=-100 speed2.max=100
     export function qtruck_setMotorSpeed(speed1: number, speed2: number) {
