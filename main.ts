@@ -934,12 +934,12 @@ export function onQtruck_getAngle(servo: qtruck_Servos,body: Action) {
         switch (port)
         {
             case qtruck_ultrasonicPort.port1:
-                echoPin = DigitalPin.P1;
-                trigPin = DigitalPin.P2;
+                echoPin = DigitalPin.P2;
+                trigPin = DigitalPin.P1;
                 break;
             case qtruck_ultrasonicPort.port2:
-                echoPin = DigitalPin.P13;
-                trigPin = DigitalPin.P14;
+                echoPin = DigitalPin.P14;
+                trigPin = DigitalPin.P13;
                 break;
         }
         pins.setPull(echoPin, PinPullMode.PullNone);
