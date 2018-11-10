@@ -914,8 +914,10 @@ export function onQtruck_getAngle(servo: qtruck_Servos,body: Action) {
                 status = !pins.digitalReadPin(DigitalPin.P13);
                 break;
             case qtruck_touchKeyPort.port3:
-                pins.setPull(DigitalPin.P16, PinPullMode.PullUp);
-                status = !pins.digitalReadPin(DigitalPin.P16);
+                if(P14_ad > 100)
+                    status = false;
+                else
+                    status = true;
                 break;
         }
         return status;
@@ -927,24 +929,29 @@ export function onQtruck_getAngle(servo: qtruck_Servos,body: Action) {
    */  
 //% weight=79 blockId=qtruck_ultrasonic  block="Ultrasonic|port %port|distance(cm)"
     export function qtruck_ultrasonic(port: qtruck_ultrasonicPort): number {
-        let trigPin: DigitalPin = DigitalPin.P1;
+        let echoPin:DigitalPin;
+        let trigPin:DigitalPin;
         switch (port)
         {
             case qtruck_ultrasonicPort.port1:
-                trigPin = DigitalPin.P1;
+                echoPin = DigitalPin.P1;
+                trigPin = DigitalPin.P2;
                 break;
             case qtruck_ultrasonicPort.port2:
-                trigPin = DigitalPin.P13;
+                echoPin = DigitalPin.P13;
+                trigPin = DigitalPin.P14;
                 break;
         }
+        pins.setPull(echoPin, PinPullMode.PullNone);
         pins.setPull(trigPin, PinPullMode.PullNone);
+
         pins.digitalWritePin(trigPin, 0);
         control.waitMicros(2);
         pins.digitalWritePin(trigPin, 1);
         control.waitMicros(10);
         pins.digitalWritePin(trigPin, 0);
-
-        let d = pins.pulseIn(trigPin, PulseValue.High, 25000);
+        control.waitMicros(5);
+        let d = pins.pulseIn(echoPin, PulseValue.High, 25000);
         let distance = d;
         // filter timeout spikes
         if (distance == 0 && distanceBak!= 0){
