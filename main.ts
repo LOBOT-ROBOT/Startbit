@@ -958,7 +958,7 @@ export function onQtruck_getAngle(servo: qtruck_Servos,body: Action) {
             distance = distanceBak;
         }
         distanceBak = d;
-        return distance * 10 /6 /58;
+        return Math.round(distance * 10 /6 /58);
   }
   
 /**
