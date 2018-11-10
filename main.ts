@@ -914,7 +914,7 @@ export function onQtruck_getAngle(servo: qtruck_Servos,body: Action) {
                 status = !pins.digitalReadPin(DigitalPin.P13);
                 break;
             case qtruck_touchKeyPort.port3:
-                if(P14_ad > 100)
+                if(P14_ad > 0xA)
                     status = false;
                 else
                     status = true;
