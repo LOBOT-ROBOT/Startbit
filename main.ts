@@ -83,9 +83,7 @@ namespace qtruck {
 
     export enum qtruck_knobPort {
         //% block="Port 1"
-        port1 = 0x01,
-        //% block="Port 3"
-        port3 = 0x03       
+        port1 = 0x01  
     }
 
     export enum qtruck_CmdType {
@@ -822,7 +820,7 @@ export function onQtruck_getAngle(servo: qtruck_Servos,body: Action) {
                 status = pins.digitalReadPin(DigitalPin.P13);
                 break;
             case qtruck_touchKeyPort.port3:
-                if(P14_ad > 100)
+                if(P14_ad > 0xA)
                     status = 1
                 else
                     status = 0;
@@ -966,18 +964,8 @@ export function onQtruck_getAngle(servo: qtruck_Servos,body: Action) {
 */
     //% weight=78 blockId=qtruck_getKnobValue blockGap=50 block="Get knob|port %port|value(0~255)"
     export function qtruck_getKnobValue(port: qtruck_knobPort): number {
-        let adValue = 0;
-        switch (port)
-        {
-            case qtruck_knobPort.port1:
-                adValue = pins.analogReadPin(AnalogPin.P1);
-                adValue = adValue * 255 / 1023;
-                break;
-
-            case qtruck_knobPort.port3:
-                adValue = P14_ad;
-                break;  
-        }
+        let adValue = pins.analogReadPin(AnalogPin.P1);
+        adValue = adValue * 255 / 1023;
         return adValue;
     }     
     
