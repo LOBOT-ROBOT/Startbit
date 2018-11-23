@@ -1164,7 +1164,7 @@ export function onQtruck_getAngle(servo: qtruck_Servos,body: Action) {
     /**
      * The distance from the ultrasonic obstacle is the standard command, which is sent to the mobile phone. The APP will indicate the distance of the ultrasonic obstacle.
      */
-    //% weight=64 blockId=convertUltrasonic block="Convert ultrasonic distance %data"
+    //% weight=64 blockId=qtruck_convertUltrasonic block="Convert ultrasonic distance %data"
     export function qtruck_convertUltrasonic(data: number): string {
         let cmdStr: string = "CMD|03|";
         cmdStr += data.toString();
