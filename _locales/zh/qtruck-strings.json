@@ -73,6 +73,7 @@
 	"qtruck.qtruck_CarRunCmdType.TURN_LEFT_SLOW|block":"慢速左转",
 	"qtruck.qtruck_CarRunCmdType.TURN_RIGHT_SLOW|block":"慢速右转",
 	"qtruck.qtruck_CarRunCmdType.COMMAND_ERRO|block":"无效的命令",
+	"qtruck.qtruck_convertUltrasonic|block":"转换超声波命令 %data",
 	"qtruck.qtruck_convertTemperature|block":"转换温度命令 %data",
 	"qtruck.qtruck_convertSound|block":"转换声音命令 %data",
 	"qtruck.qtruck_convertLight|block":"转换光线命令 %data",
