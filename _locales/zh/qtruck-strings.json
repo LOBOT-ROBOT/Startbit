@@ -124,6 +124,6 @@
 	"qtruck.qtruck_readAngle|block":"发送读|%servo|角度命令",
 	"qtruck.getServosAngle|block":"获取|%servo|角度(-120~120)",
 	"qtruck.onqtruck_getAngle|block":"当读取到|%servo|角度时执行",
-	"qtruck.setServo|block":"设置PWM舵机|编号 %index|角度(0~180) %angle|时长 %duration"
-
+	"qtruck.setServo|block":"设置PWM舵机|编号 %index|角度(0~180) %angle|时长 %duration",
+	"qtruck.qtruck_runActionGroup|block":"运行动作组|编号 %index|次数 %times"
 }
