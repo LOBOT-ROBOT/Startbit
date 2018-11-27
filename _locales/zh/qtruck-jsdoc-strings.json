@@ -38,5 +38,6 @@
 	"qtruck.qtruck_send_getMac":"发送配对请求",
 	"qtruck.onqtruck_getMac":"当收到设备ID时触发",
 	"qtruck.qtruck_getMacAddress":"获取到设备ID字符串，与蓝牙发送结合起来使用",
-	"qtruck.qtruck_readAngle":"Microbit向单片机发送查询单片机指令"
+	"qtruck.qtruck_readAngle":"Microbit向单片机发送查询单片机指令",
+	"qtruck.qtruck_runActionGroup":"让舵机控制板运行指定动作组指定次数"
 }

@@ -413,6 +413,24 @@ export function qtruck_setBusServo(port: qtruck_busServoPort,index: number, angl
 }
 
 /**
+* Set the servo controller to run a actiongroup
+*/
+//% weight=98 blockId=qtruck_runActionGroup block="Run ActionGroup|index %index|times %times"
+export function qtruck_runActionGroup(index: number, times: number) {
+
+   let buf = pins.createBuffer(7);
+   buf[0] = 0x55;
+   buf[1] = 0x55;
+   buf[2] = 0x05;
+   buf[3] = 0x06;//cmd type CMD_ACTION_GROUP_RUN
+   buf[4] = index & 0xff;
+   buf[5] = times & 0xff;
+   buf[6] = (times >> 8) & 0xff;
+
+   serial.writeBuffer(buf);
+}
+
+/**
  * Send read qtruck servos angle command
  */
 //% weight=97 blockId=qtruck_readAngle block="Send read|%servo|angle command "
