@@ -402,7 +402,7 @@ export function qtruck_setBusServo(port: qtruck_busServoPort,index: number, angl
    buf[0] = 0x55;
    buf[1] = 0x55;
    buf[2] = 0x08;
-   buf[3] = 0x03;//cmd type
+   buf[3] = 0x35;//cmd type DEC 53
    buf[4] = 0x01;
    buf[5] = duration & 0xff;
    buf[6] = (duration >> 8) & 0xff;
@@ -416,7 +416,7 @@ export function qtruck_setBusServo(port: qtruck_busServoPort,index: number, angl
 * Set the servo controller to run a actiongroup
 */
 //% weight=98 blockId=qtruck_runActionGroup block="Run ActionGroup|index %index|times %times"
-export function qtruck_runActionGroup(index: number, times: number) {
+export function qtruck_runActionGroup(index: number, times: number = 1) {
 
    let buf = pins.createBuffer(7);
    buf[0] = 0x55;
