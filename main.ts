@@ -414,6 +414,7 @@ export function qtruck_setBusServo(port: qtruck_busServoPort,index: number, angl
 
 /**
 * Set the servo controller to run a actiongroup
+* @param times Running times. eg: 1
 */
 //% weight=98 blockId=qtruck_runActionGroup block="Run ActionGroup|index %index|times %times"
 export function qtruck_runActionGroup(index: number, times: number = 1) {
