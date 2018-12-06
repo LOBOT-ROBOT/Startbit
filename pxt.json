@@ -1,7 +1,7 @@
 {
-    "name": "qtruck",
+    "name": "startbit",
     "version": "0.0.1",
-    "description": "Blocks for Lobot qtruck",
+    "description": "Blocks for Lobot startbit",
     "license": "MIT",
     "dependencies": {
         "core": "*"
@@ -9,10 +9,10 @@
     "files": [
         "README.md",
         "main.ts",
-        "QtruckRGBLight.ts",
+        "StartbitRGBLight.ts",
         "sendbuffer.asm",
-        "_locales/zh/qtruck-strings.json",
-        "_locales/zh/qtruck-jsdoc-strings.json"
+        "_locales/zh/startbit-strings.json",
+        "_locales/zh/startbit-jsdoc-strings.json"
     ],
     "testFiles": [
         "test.ts"

@@ -1,6 +1,6 @@
-# qtruck
+# startbit
 
-Blocks for lobot qtruck
+Blocks for lobot startbit
 
 ## License
 
@@ -8,10 +8,10 @@ MIT
 
 ## Supported targets
 
-* for PXT/qtruck
+* for PXT/startbit
 (The metadata above is needed for package search.)
 
 ```package
-qtruck=github:LOBOT-ROBOT/Qtruck
+startbit=github:LOBOT-ROBOT/Startbit
 ```
 
