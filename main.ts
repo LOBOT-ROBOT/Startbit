@@ -473,10 +473,31 @@ export function onStartbit_getAngle(servo: startbit_Servos,body: Action) {
             return 0xFFF;
  }   
     
+ /**
+  *  Send robot attitude to the servo controller
+  *  @param pitch eg: 0
+  *  @param roll eg: 0
+  */
+ //% weight=93 blockId=startbit_sendAttitude block="Send pitch|%pitch|and roll|%roll"
+    export function startbit_sendAttitude(pitch: number, roll: number) {
+        pitch < -90 ? -90 : pitch;
+        pitch > 90 ? 90 : pitch;
+        roll < -90 ? -90 : roll;
+        roll > 90 ? 90 : roll;
+        
+        let buf = pins.createBuffer(6);
+        buf[0] = 0x55;
+        buf[1] = 0x55;
+        buf[2] = 0x04;
+        buf[3] = 0x5A;
+        buf[4] = pitch;
+        buf[5] = roll;
+        serial.writeBuffer(buf);
+    }
 /**
 *	Set the speed of the number 1 motor and number 2 motor, range of -100~100, that can control the tank to go advance or turn of.
 */
-//% weight=94 blockId=startbit_setMotorSpeed blockGap=50 block="Set motor1 speed(-100~100)|%speed1|and motor2|speed %speed2"
+//% weight=90 blockId=startbit_setMotorSpeed blockGap=50 block="Set motor1 speed(-100~100)|%speed1|and motor2|speed %speed2"
 //% speed1.min=-100 speed1.max=100
 //% speed2.min=-100 speed2.max=100
     export function startbit_setMotorSpeed(speed1: number, speed2: number) {
