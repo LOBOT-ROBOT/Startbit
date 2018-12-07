@@ -1,7 +1,7 @@
 /*
  startbit package
 */
- //% weight=10 icon="\uf013" color=#2896ff
+//% weight=10 icon="\uf013" color=#2896ff
 namespace startbit {
 
     export enum startbit_Colors {
@@ -11,7 +11,7 @@ namespace startbit {
         Green = 0x02,
         //% block="Blue"
         Blue = 0x03,
-	    //% block="Black"
+        //% block="Black"
         Black = 0x04,
         //% block="White"
         White = 0x05
@@ -26,7 +26,7 @@ namespace startbit {
         S1_IN_S2_OUT = 0x02,
         //% blockId="S1_IN_S2_IN" block="Sensor1 and sensor2 are in black line "
         S1_IN_S2_IN = 0x03
-     }
+    }
 
     export enum startbit_colorSensorPort {
         //% block="Port 4"
@@ -37,7 +37,7 @@ namespace startbit {
         //% block="servo 1"
         Servo1 = 0x01,
         //% block="servo 2"
-        Servo2 = 0x02   
+        Servo2 = 0x02
     }
 
     export enum startbit_ultrasonicPort {
@@ -61,7 +61,7 @@ namespace startbit {
         port1 = 0x01
     }
 
-    
+
     export enum startbit_PinIOStatus {
         //% block="Low"
         Low = 0x00,
@@ -73,7 +73,7 @@ namespace startbit {
         //% block="Sensor 1"
         LFSensor_1 = 0x00,
         //% block="Sensor 2"
-        LFSensor_2 = 0x01        
+        LFSensor_2 = 0x01
     }
 
     export enum startbit_busServoPort {
@@ -83,7 +83,7 @@ namespace startbit {
 
     export enum startbit_knobPort {
         //% block="Port 1"
-        port1 = 0x01  
+        port1 = 0x01
     }
 
     export enum startbit_CmdType {
@@ -140,9 +140,9 @@ namespace startbit {
         COMMAND_ERRO
     }
 
-  /**
-   * Startbit initialization, please execute at boot time
-  */
+    /**
+     * Startbit initialization, please execute at boot time
+    */
     //% weight=100 blockId=startbit_Init block="Initialize Startbit"
     export function startbit_Init() {
         startbit_initRGBLight();
@@ -150,7 +150,7 @@ namespace startbit {
             SerialPin.P12,
             SerialPin.P8,
             BaudRate.BaudRate115200);
-         
+
         basic.forever(() => {
             getHandleCmd();
         });
@@ -177,6 +177,7 @@ namespace startbit {
     let servo2Angle: number = 0xfff;
 
     let macStr: string = "";
+    let actiongroup_finished = false;
     /**
     * Get the handle command.
     */
@@ -189,77 +190,69 @@ namespace startbit {
         let index = findIndexof(handleCmd, "$", 0);
         if (index != -1) {
             let cmd: string = handleCmd.substr(0, index);
-            if (cmd.charAt(0).compare("A") == 0 && cmd.length == 7)
-            {
-                let arg1Int: number = strToNumber(cmd.substr(1, 2));
-                let arg2Int: number = strToNumber(cmd.substr(3, 2));
-                let arg3Int: number = strToNumber(cmd.substr(5, 2));
+            if (cmd.charAt(0).compare("A") == 0) {
+                if (cmd.length == 7) {
+                    let arg1Int: number = strToNumber(cmd.substr(1, 2));
+                    let arg2Int: number = strToNumber(cmd.substr(3, 2));
+                    let arg3Int: number = strToNumber(cmd.substr(5, 2));
 
-                P14_ad = arg1Int;
+                    P14_ad = arg1Int;
 
-                if (arg3Int != -1)
-                {
-                    currentVoltage = arg3Int*10353/200;
-                }  
+                    if (arg3Int != -1) {
+                        currentVoltage = arg3Int * 10353 / 200;
+                    }
 
-                if (arg2Int != -1)
-                {
-                    volume = arg2Int;
-                }   
-            }  
-            if (cmd.charAt(0).compare("C") == 0 && cmd.length == 11)
-            {
-                if (lhRGBLightBelt != null)
-                {
-                    for (let i = 0; i < 10; i++)
-                    {
+                    if (arg2Int != -1) {
+                        volume = arg2Int;
+                    }
+                } else if (cmd.length == 5) {
+                    actiongroup_finished = true;
+                } else {
+
+                }
+            }
+            if (cmd.charAt(0).compare("C") == 0 && cmd.length == 11) {
+                if (lhRGBLightBelt != null) {
+                    for (let i = 0; i < 10; i++) {
                         let color = converOneChar(cmd.charAt(i + 1));
-                        if(color != -1)
-                             lhRGBLightBelt.setBeltPixelColor(i,color);
+                        if (color != -1)
+                            lhRGBLightBelt.setBeltPixelColor(i, color);
                     }
                     lhRGBLightBelt.show();
                 }
             }
-            if (cmd.charAt(0).compare("M") == 0 && cmd.length == 18)
-            {
-                macStr = cmd.substr(1,17);
+            if (cmd.charAt(0).compare("M") == 0 && cmd.length == 18) {
+                macStr = cmd.substr(1, 17);
                 control.raiseEvent(MESSAGE_MAC, 1);
             }
-            if (cmd.compare("WIFI_S_CONNECT") == 0)
-            {
-                connectStatus = true;    
+            if (cmd.compare("WIFI_S_CONNECT") == 0) {
+                connectStatus = true;
             }
-            if (cmd.compare("WIFI_S_DISCONNECT") == 0)
-            {
-                connectStatus = false;    
+            if (cmd.compare("WIFI_S_DISCONNECT") == 0) {
+                connectStatus = false;
             }
-            if (cmd.charAt(0).compare("S") == 0 && cmd.length == 5)
-            {
+            if (cmd.charAt(0).compare("S") == 0 && cmd.length == 5) {
                 let arg1Int: number = strToNumber(cmd.substr(1, 1));
                 let arg2Str = cmd.substr(2, 3);
-                if (arg2Str.compare("XXX") == 0)
-                {
+                if (arg2Str.compare("XXX") == 0) {
                     return;
                 }
                 let arg2Int: number = 0;
-                if (arg2Str.charAt(0).compare("F") != 0)
-                {
+                if (arg2Str.charAt(0).compare("F") != 0) {
                     arg2Int = strToNumber(arg2Str);
                 }
                 if (arg2Int > 1000)
                     arg2Int = 1000;
-                if (arg1Int == 1)
-                {
+                if (arg1Int == 1) {
                     servo1Angle = mapRGB(arg2Int, 0, 1000, 0, 240);
                     servo1Angle -= 120;
                     control.raiseEvent(MESSAGE_ANGLE, 1);
                 }
-                else if (arg1Int == 2)
-                {
+                else if (arg1Int == 2) {
                     servo2Angle = mapRGB(arg2Int, 0, 1000, 0, 240);
                     servo2Angle -= 120;
                     control.raiseEvent(MESSAGE_ANGLE, 2);
-                }  
+                }
             }
         }
         handleCmd = "";
@@ -276,55 +269,48 @@ namespace startbit {
             return 2;//未识别电平状态
     }
 
-     function findIndexof(src: string,strFind: string,startIndex: number): number
-     {
-         for (let i = startIndex; i < src.length; i++)
-         {
-             if (src.charAt(i).compare(strFind) == 0)
-             {
-                 return i;
-             }    
-         }  
-         return -1;
-     }
- 
-     function countChar(src: string, strFind: string): number {
-         let cnt: number = 0;
-         for (let i = 0; i < src.length; i++)
-         {
-             if (src.charAt(i).compare(strFind) == 0)
-             {
-                 cnt++;
-             }
-         }
-         return cnt;
+    function findIndexof(src: string, strFind: string, startIndex: number): number {
+        for (let i = startIndex; i < src.length; i++) {
+            if (src.charAt(i).compare(strFind) == 0) {
+                return i;
+            }
+        }
+        return -1;
     }
-    
+
+    function countChar(src: string, strFind: string): number {
+        let cnt: number = 0;
+        for (let i = 0; i < src.length; i++) {
+            if (src.charAt(i).compare(strFind) == 0) {
+                cnt++;
+            }
+        }
+        return cnt;
+    }
+
     function strToNumber(str: string): number {
         let num: number = 0;
-        for (let i = 0; i < str.length; i++)
-        {
+        for (let i = 0; i < str.length; i++) {
             let tmp: number = converOneChar(str.charAt(i));
             if (tmp == -1)
-                return -1;    
+                return -1;
             if (i > 0)
-                num *= 16;    
+                num *= 16;
             num += tmp;
-        }    
+        }
         return num;
     }
 
     function decStrToNumber(str: string): number {
         let num: number = 0;
-        for (let i = 0; i < str.length; i++)
-        {
+        for (let i = 0; i < str.length; i++) {
             let tmp: number = converOneChar(str.charAt(i));
             if (tmp == -1)
-                return -1;    
+                return -1;
             if (i > 0)
-                num *= 10;    
+                num *= 10;
             num += tmp;
-        }    
+        }
         return num;
     }
 
@@ -351,117 +337,127 @@ namespace startbit {
             else if (str.compare("F") == 0) {
                 return 15;
             }
-            return -1;  
+            return -1;
         }
         else
-            return -1; 
+            return -1;
     }
 
-/**
-* Set the angle of servo 1 to 8, range of 0~180 degree
-*/
-//% weight=99 blockId=setServo block="Set pwm servo|index %index|angle(0~180) %angle|duration %duration"
-//% angle.min=0 angle.max=180
-export function setServo(index: number, angle: number, duration: number) {
-    if (angle > 180 || angle < 0)
-    {
-        return; 
-    }    
-    let position = mapRGB(angle, 0, 180, 500, 2500);
-   
-   let buf = pins.createBuffer(10);
-   buf[0] = 0x55;
-   buf[1] = 0x55;
-   buf[2] = 0x08;
-   buf[3] = 0x03;//cmd type
-   buf[4] = 0x01;
-   buf[5] = duration & 0xff;
-   buf[6] = (duration >> 8) & 0xff;
-   buf[7] = index;
-   buf[8] = position & 0xff;
-   buf[9] = (position >> 8) & 0xff;
-   serial.writeBuffer(buf);
-}
+    /**
+    * Set the angle of servo 1 to 8, range of 0~180 degree
+    */
+    //% weight=99 blockId=setServo block="Set pwm servo|index %index|angle(0~180) %angle|duration %duration"
+    //% angle.min=0 angle.max=180
+    export function setServo(index: number, angle: number, duration: number) {
+        if (angle > 180 || angle < 0) {
+            return;
+        }
+        let position = mapRGB(angle, 0, 180, 500, 2500);
 
-/**
-* Set the angle of bus servo 1 to 8, range of -120~120 degree
-*/
-//% weight=98 blockId=startbit_setBusServo block="Set bus servo|port %port|index %index|angle(-120~1200) %angle|duration %duration"
-//% angle.min=-120 angle.max=120
-export function startbit_setBusServo(port: startbit_busServoPort,index: number, angle: number, duration: number) {
-    if (angle > 120 || angle < -120)
-    {
-        return; 
-    }    
-    
-    angle += 120;
+        let buf = pins.createBuffer(10);
+        buf[0] = 0x55;
+        buf[1] = 0x55;
+        buf[2] = 0x08;
+        buf[3] = 0x03;//cmd type
+        buf[4] = 0x01;
+        buf[5] = duration & 0xff;
+        buf[6] = (duration >> 8) & 0xff;
+        buf[7] = index;
+        buf[8] = position & 0xff;
+        buf[9] = (position >> 8) & 0xff;
+        serial.writeBuffer(buf);
+    }
 
-    let position = mapRGB(angle, 0, 240, 0, 1000);
-   
-   let buf = pins.createBuffer(10);
-   buf[0] = 0x55;
-   buf[1] = 0x55;
-   buf[2] = 0x08;
-   buf[3] = 0x35;//cmd type DEC 53
-   buf[4] = 0x01;
-   buf[5] = duration & 0xff;
-   buf[6] = (duration >> 8) & 0xff;
-   buf[7] = index;
-   buf[8] = position & 0xff;
-   buf[9] = (position >> 8) & 0xff;
-   serial.writeBuffer(buf);
-}
+    /**
+    * Set the angle of bus servo 1 to 8, range of -120~120 degree
+    */
+    //% weight=98 blockId=startbit_setBusServo block="Set bus servo|port %port|index %index|angle(-120~1200) %angle|duration %duration"
+    //% angle.min=-120 angle.max=120
+    export function startbit_setBusServo(port: startbit_busServoPort, index: number, angle: number, duration: number) {
+        if (angle > 120 || angle < -120) {
+            return;
+        }
 
-/**
-* Set the servo controller to run a actiongroup
-* @param times Running times. eg: 1
-*/
-//% weight=98 blockId=startbit_runActionGroup block="Run ActionGroup|index %index|times %times"
-export function startbit_runActionGroup(index: number, times: number = 1) {
+        angle += 120;
 
-   let buf = pins.createBuffer(7);
-   buf[0] = 0x55;
-   buf[1] = 0x55;
-   buf[2] = 0x05;
-   buf[3] = 0x06;//cmd type CMD_ACTION_GROUP_RUN
-   buf[4] = index & 0xff;
-   buf[5] = times & 0xff;
-   buf[6] = (times >> 8) & 0xff;
+        let position = mapRGB(angle, 0, 240, 0, 1000);
 
-   serial.writeBuffer(buf);
-}
+        let buf = pins.createBuffer(10);
+        buf[0] = 0x55;
+        buf[1] = 0x55;
+        buf[2] = 0x08;
+        buf[3] = 0x35;//cmd type DEC 53
+        buf[4] = 0x01;
+        buf[5] = duration & 0xff;
+        buf[6] = (duration >> 8) & 0xff;
+        buf[7] = index;
+        buf[8] = position & 0xff;
+        buf[9] = (position >> 8) & 0xff;
+        serial.writeBuffer(buf);
+    }
 
-/**
- * Send read startbit servos angle command
- */
-//% weight=97 blockId=startbit_readAngle block="Send read|%servo|angle command "
-export function startbit_readAngle(servo: startbit_Servos)
-{
-    let buf = pins.createBuffer(6);
-    buf[0] = 0x55;
-    buf[1] = 0x55;
-    buf[2] = 0x04;
-    buf[3] = 0x3E;//cmd type
-    buf[4] = 0x05;
-    buf[5] = servo;
-    serial.writeBuffer(buf);
-}
-   
+    /**
+    * Set the servo controller to run a actiongroup
+    * @param times Running times. eg: 1
+    */
+    //% weight=98 blockId=startbit_runActionGroup block="Run ActionGroup|index %index|times %times"
+    export function startbit_runActionGroup(index: number, times: number = 1) {
 
-/**
- * Do someting when Startbit receive angle
- * @param body code to run when event is raised
- */
- //% weight=96 blockId=onStartbit_getAngle block="On Startbit|%servo|get angle"
-export function onStartbit_getAngle(servo: startbit_Servos,body: Action) {
-    control.onEvent(MESSAGE_ANGLE, servo, body);
-}
+        let buf = pins.createBuffer(7);
+        buf[0] = 0x55;
+        buf[1] = 0x55;
+        buf[2] = 0x05;
+        buf[3] = 0x06;//cmd type CMD_ACTION_GROUP_RUN
+        buf[4] = index & 0xff;
+        buf[5] = times & 0xff;
+        buf[6] = (times >> 8) & 0xff;
+
+        actiongroup_finished = false;
+        serial.writeBuffer(buf);
+    }
+    /**
+     * Wait for Actiongroup Finishing
+     */
+    //% weight=98 blockId=startbit_actionRunover block="Action run over"
+    export function startbit_actionRunover() : boolean {
+        let ret = false;
+        if(actiongroup_finished == true){
+            ret = true;
+            actiongroup_finished = false;
+        }
+        return ret;
+    }
+
+    /**
+     * Send read startbit servos angle command
+     */
+    //% weight=96 blockId=startbit_readAngle block="Send read|%servo|angle command "
+    export function startbit_readAngle(servo: startbit_Servos) {
+        let buf = pins.createBuffer(6);
+        buf[0] = 0x55;
+        buf[1] = 0x55;
+        buf[2] = 0x04;
+        buf[3] = 0x3E;//cmd type
+        buf[4] = 0x05;
+        buf[5] = servo;
+        serial.writeBuffer(buf);
+    }
 
 
- /**
-  *  Get servos angle
-  */
- //% weight=95 blockId=getServosAngle block="Get|%servo|angle(-120~120)"
+    /**
+     * Do someting when Startbit receive angle
+     * @param body code to run when event is raised
+     */
+    //% weight=95 blockId=onStartbit_getAngle block="On Startbit|%servo|get angle"
+    export function onStartbit_getAngle(servo: startbit_Servos, body: Action) {
+        control.onEvent(MESSAGE_ANGLE, servo, body);
+    }
+
+
+    /**
+     *  Get servos angle
+     */
+    //% weight=94 blockId=getServosAngle block="Get|%servo|angle(-120~120)"
     export function getServosAngle(servo: startbit_Servos): number {
         if (servo == startbit_Servos.Servo1) {
             return servo1Angle;
@@ -471,20 +467,20 @@ export function onStartbit_getAngle(servo: startbit_Servos,body: Action) {
         }
         else
             return 0xFFF;
- }   
-    
- /**
-  *  Send robot attitude to the servo controller
-  *  @param pitch eg: 0
-  *  @param roll eg: 0
-  */
- //% weight=93 blockId=startbit_sendAttitude block="Send pitch|%pitch|and roll|%roll"
+    }
+
+    /**
+     *  Send robot attitude to the servo controller
+     *  @param pitch eg: 0
+     *  @param roll eg: 0
+     */
+    //% weight=93 blockId=startbit_sendAttitude block="Send pitch|%pitch|and roll|%roll"
     export function startbit_sendAttitude(pitch: number, roll: number) {
         pitch < -90 ? -90 : pitch;
         pitch > 90 ? 90 : pitch;
         roll < -90 ? -90 : roll;
         roll > 90 ? 90 : roll;
-        
+
         let buf = pins.createBuffer(6);
         buf[0] = 0x55;
         buf[1] = 0x55;
@@ -494,40 +490,40 @@ export function onStartbit_getAngle(servo: startbit_Servos,body: Action) {
         buf[5] = roll;
         serial.writeBuffer(buf);
     }
-/**
-*	Set the speed of the number 1 motor and number 2 motor, range of -100~100, that can control the tank to go advance or turn of.
-*/
-//% weight=90 blockId=startbit_setMotorSpeed blockGap=50 block="Set motor1 speed(-100~100)|%speed1|and motor2|speed %speed2"
-//% speed1.min=-100 speed1.max=100
-//% speed2.min=-100 speed2.max=100
+    /**
+    *	Set the speed of the number 1 motor and number 2 motor, range of -100~100, that can control the tank to go advance or turn of.
+    */
+    //% weight=90 blockId=startbit_setMotorSpeed blockGap=50 block="Set motor1 speed(-100~100)|%speed1|and motor2|speed %speed2"
+    //% speed1.min=-100 speed1.max=100
+    //% speed2.min=-100 speed2.max=100
     export function startbit_setMotorSpeed(speed1: number, speed2: number) {
         if (speed1 > 100 || speed1 < -100 || speed2 > 100 || speed2 < -100) {
             return;
         }
         speed1 = speed1 * -1;
         speed2 = speed2 * -1;
-   let buf = pins.createBuffer(6);
-   buf[0] = 0x55;
-   buf[1] = 0x55;
-   buf[2] = 0x04;
-   buf[3] = 0x32;//cmd type
-   buf[4] = speed1;
-   buf[5] = speed2;
-   serial.writeBuffer(buf);
-}
+        let buf = pins.createBuffer(6);
+        buf[0] = 0x55;
+        buf[1] = 0x55;
+        buf[2] = 0x04;
+        buf[3] = 0x32;//cmd type
+        buf[4] = speed1;
+        buf[5] = speed2;
+        serial.writeBuffer(buf);
+    }
 
-  
-/**
-* Get the volume level detected by the sound sensor, range 0 to 255
-*/
-//% weight=88 blockId=startbit_getSoundVolume block="Sound volume"
-	export function startbit_getSoundVolume(): number {	
-  	    return volume;
-    }	
 
-/**
- *  Get startbit current voltage,the unit is mV
-*/
+    /**
+    * Get the volume level detected by the sound sensor, range 0 to 255
+    */
+    //% weight=88 blockId=startbit_getSoundVolume block="Sound volume"
+    export function startbit_getSoundVolume(): number {
+        return volume;
+    }
+
+    /**
+     *  Get startbit current voltage,the unit is mV
+    */
     //% weight=87 blockGap=50 blockId=startbit_getBatVoltage block="Get startbit current voltage (mV)"
     export function startbit_getBatVoltage(): number {
         return currentVoltage;
@@ -538,26 +534,26 @@ export function onStartbit_getAngle(servo: startbit_Servos,body: Action) {
     const APDS9960_ID_2 = 0x9C;
     /* APDS-9960 register addresses */
     const APDS9960_ENABLE = 0x80;
-    const APDS9960_ATIME  = 0x81;
-    const APDS9960_WTIME  = 0x83;
-    const APDS9960_AILTL  = 0x84;
-    const APDS9960_AILTH  = 0x85;
-    const APDS9960_AIHTL  = 0x86;
-    const APDS9960_AIHTH  = 0x87;
+    const APDS9960_ATIME = 0x81;
+    const APDS9960_WTIME = 0x83;
+    const APDS9960_AILTL = 0x84;
+    const APDS9960_AILTH = 0x85;
+    const APDS9960_AIHTL = 0x86;
+    const APDS9960_AIHTH = 0x87;
     const APDS9960_PERS = 0x8C;
     const APDS9960_CONFIG1 = 0x8D;
-    const APDS9960_PPULSE  = 0x8E;
+    const APDS9960_PPULSE = 0x8E;
     const APDS9960_CONTROL = 0x8F;
     const APDS9960_CONFIG2 = 0x90;
     const APDS9960_ID = 0x92;
-    const APDS9960_CDATAL  = 0x94;
-    const APDS9960_CDATAH  = 0x95;
-    const APDS9960_RDATAL  = 0x96;
-    const APDS9960_RDATAH  = 0x97;
-    const APDS9960_GDATAL  = 0x98;
-    const APDS9960_GDATAH  = 0x99;
-    const APDS9960_BDATAL  = 0x9A;
-    const APDS9960_BDATAH  = 0x9B;
+    const APDS9960_CDATAL = 0x94;
+    const APDS9960_CDATAH = 0x95;
+    const APDS9960_RDATAL = 0x96;
+    const APDS9960_RDATAH = 0x97;
+    const APDS9960_GDATAL = 0x98;
+    const APDS9960_GDATAH = 0x99;
+    const APDS9960_BDATAL = 0x9A;
+    const APDS9960_BDATAH = 0x9B;
     const APDS9960_POFFSET_UR = 0x9D;
     const APDS9960_POFFSET_DL = 0x9E;
     const APDS9960_CONFIG3 = 0x9F;
@@ -568,7 +564,7 @@ export function onStartbit_getAngle(servo: startbit_Servos,body: Action) {
 
     /* ALS Gain (AGAIN) values */
     const AGAIN_4X = 1;
-    
+
     /* Default values */
     const DEFAULT_ATIME = 219;    // 103ms
     const DEFAULT_WTIME = 246;    // 27ms
@@ -583,7 +579,7 @@ export function onStartbit_getAngle(servo: startbit_Servos,body: Action) {
     const DEFAULT_CONFIG3 = 0;       // Enable all photodiodes, no SAI
     const DEFAULT_LDRIVE = LED_DRIVE_100MA;
     const DEFAULT_AGAIN = AGAIN_4X;
-    
+
     const OFF = 0;
     const POWER = 0;
     const AMBIENT_LIGHT = 1;
@@ -591,25 +587,25 @@ export function onStartbit_getAngle(servo: startbit_Servos,body: Action) {
 
 
     function i2cwrite(reg: number, value: number) {
-       let buf = pins.createBuffer(2);
-       buf[0] = reg;
-       buf[1] = value;
-       pins.i2cWriteBuffer(APDS9960_I2C_ADDR, buf);
+        let buf = pins.createBuffer(2);
+        buf[0] = reg;
+        buf[1] = value;
+        pins.i2cWriteBuffer(APDS9960_I2C_ADDR, buf);
     }
 
-     function i2cread(reg: number): number {
-		pins.i2cWriteNumber(APDS9960_I2C_ADDR, reg, NumberFormat.UInt8BE);
+    function i2cread(reg: number): number {
+        pins.i2cWriteNumber(APDS9960_I2C_ADDR, reg, NumberFormat.UInt8BE);
         let val = pins.i2cReadNumber(APDS9960_I2C_ADDR, NumberFormat.UInt8BE);
         return val;
     }
 
-     function InitColor(): boolean {
-         let id = i2cread(APDS9960_ID);
+    function InitColor(): boolean {
+        let id = i2cread(APDS9960_ID);
         //  serial.writeLine("id:")
         //  serial.writeNumber(id); 
         if (!(id == APDS9960_ID_1 || id == APDS9960_ID_2)) {
             return false;
-         }
+        }
         //  serial.writeLine("set mode:")
         setMode(ALL, OFF);
         i2cwrite(APDS9960_ATIME, DEFAULT_ATIME);
@@ -617,7 +613,7 @@ export function onStartbit_getAngle(servo: startbit_Servos,body: Action) {
         i2cwrite(APDS9960_PPULSE, DEFAULT_PROX_PPULSE);
         i2cwrite(APDS9960_POFFSET_UR, DEFAULT_POFFSET_UR);
         i2cwrite(APDS9960_POFFSET_DL, DEFAULT_POFFSET_DL);
-         i2cwrite(APDS9960_CONFIG1, DEFAULT_CONFIG1);
+        i2cwrite(APDS9960_CONFIG1, DEFAULT_CONFIG1);
         setLEDDrive(DEFAULT_LDRIVE);
         setAmbientLightGain(DEFAULT_AGAIN);
         setLightIntLowThreshold(DEFAULT_AILT);
@@ -625,106 +621,98 @@ export function onStartbit_getAngle(servo: startbit_Servos,body: Action) {
         i2cwrite(APDS9960_PERS, DEFAULT_PERS);
         i2cwrite(APDS9960_CONFIG2, DEFAULT_CONFIG2);
         i2cwrite(APDS9960_CONFIG3, DEFAULT_CONFIG3);
-        return true;  
+        return true;
     }
-        
-     function setMode(mode: number, enable: number) {
-         let reg_val = getMode();
-         serial.writeLine("mode:");
-         serial.writeNumber(reg_val);
-            /* Change bit(s) in ENABLE register */
-        enable = enable & 0x01;
-         if (mode >= 0 && mode <= 6)
-         {
-             if (enable > 0)
-             {
-                reg_val |= (1 << mode);
-             }
-             else
-             {
-                //reg_val &= ~(1 << mode);
-                 reg_val &= (0xff-(1 << mode)); 
-             }
-        }
-         else if(mode == ALL)
-         {
-             if (enable > 0)
-             {
-                reg_val = 0x7F;
-             }
-             else
-             {
-                reg_val = 0x00;
-             }
-        }
-        i2cwrite(APDS9960_ENABLE,reg_val);
-    }
-    
-     function getMode(): number {
-            let enable_value = i2cread(APDS9960_ENABLE);
-            return enable_value;
-        }
 
-     function setLEDDrive(drive: number) {
-        let val = i2cread(APDS9960_CONTROL);
-            /* Set bits in register to given value */
-         drive &= 0b00000011;
-         drive = drive << 6;
-         val &= 0b00111111;
-         val |= drive;
-         i2cwrite(APDS9960_CONTROL,val);
+    function setMode(mode: number, enable: number) {
+        let reg_val = getMode();
+        serial.writeLine("mode:");
+        serial.writeNumber(reg_val);
+        /* Change bit(s) in ENABLE register */
+        enable = enable & 0x01;
+        if (mode >= 0 && mode <= 6) {
+            if (enable > 0) {
+                reg_val |= (1 << mode);
+            }
+            else {
+                //reg_val &= ~(1 << mode);
+                reg_val &= (0xff - (1 << mode));
+            }
+        }
+        else if (mode == ALL) {
+            if (enable > 0) {
+                reg_val = 0x7F;
+            }
+            else {
+                reg_val = 0x00;
+            }
+        }
+        i2cwrite(APDS9960_ENABLE, reg_val);
     }
-    
-     function setLightIntLowThreshold(threshold: number) {
+
+    function getMode(): number {
+        let enable_value = i2cread(APDS9960_ENABLE);
+        return enable_value;
+    }
+
+    function setLEDDrive(drive: number) {
+        let val = i2cread(APDS9960_CONTROL);
+        /* Set bits in register to given value */
+        drive &= 0b00000011;
+        drive = drive << 6;
+        val &= 0b00111111;
+        val |= drive;
+        i2cwrite(APDS9960_CONTROL, val);
+    }
+
+    function setLightIntLowThreshold(threshold: number) {
         let val_low = threshold & 0x00FF;
         let val_high = (threshold & 0xFF00) >> 8;
         i2cwrite(APDS9960_AILTL, val_low);
-        i2cwrite(APDS9960_AILTH,val_high);
+        i2cwrite(APDS9960_AILTH, val_high);
     }
 
-     function setLightIntHighThreshold(threshold: number) {
+    function setLightIntHighThreshold(threshold: number) {
         let val_low = threshold & 0x00FF;
         let val_high = (threshold & 0xFF00) >> 8;
         i2cwrite(APDS9960_AIHTL, val_low);
         i2cwrite(APDS9960_AIHTH, val_high);
     }
 
-     function enableLightSensor(interrupts: boolean) {
+    function enableLightSensor(interrupts: boolean) {
         setAmbientLightGain(DEFAULT_AGAIN);
-        if (interrupts)
-        {
+        if (interrupts) {
             setAmbientLightIntEnable(1);
-        }   
-        else
-        {
+        }
+        else {
             setAmbientLightIntEnable(0);
         }
         enablePower();
-        setMode(AMBIENT_LIGHT,1);
+        setMode(AMBIENT_LIGHT, 1);
     }
 
-     function setAmbientLightGain(drive: number) {
+    function setAmbientLightGain(drive: number) {
         let val = i2cread(APDS9960_CONTROL);
-            /* Set bits in register to given value */
+        /* Set bits in register to given value */
         drive &= 0b00000011;
         val &= 0b11111100;
         val |= drive;
-        i2cwrite(APDS9960_CONTROL,val);
+        i2cwrite(APDS9960_CONTROL, val);
     }
 
-     function getAmbientLightGain(): number {
+    function getAmbientLightGain(): number {
         let val = i2cread(APDS9960_CONTROL);
         val &= 0b00000011;
         return val;
     }
 
-     function enablePower() {
-        setMode(POWER,1);
+    function enablePower() {
+        setMode(POWER, 1);
     }
 
-     function setAmbientLightIntEnable(enable: number) {
+    function setAmbientLightIntEnable(enable: number) {
         let val = i2cread(APDS9960_ENABLE);
-            /* Set bits in register to given value */
+        /* Set bits in register to given value */
         enable &= 0b00000001;
         enable = enable << 4;
         val &= 0b11101111;
@@ -732,16 +720,16 @@ export function onStartbit_getAngle(servo: startbit_Servos,body: Action) {
         i2cwrite(APDS9960_ENABLE, val);
     }
 
-     function readAmbientLight(): number {
+    function readAmbientLight(): number {
         let val_byte = i2cread(APDS9960_CDATAL);
         let val = val_byte;
         val_byte = i2cread(APDS9960_CDATAH);
         val = val + val_byte << 8;
         return val;
     }
-    
-     function readRedLight(): number {
-     
+
+    function readRedLight(): number {
+
         let val_byte = i2cread(APDS9960_RDATAL);
         let val = val_byte;
         val_byte = i2cread(APDS9960_RDATAH);
@@ -749,31 +737,30 @@ export function onStartbit_getAngle(servo: startbit_Servos,body: Action) {
         return val;
     }
 
-     function readGreenLight(): number {
-        
-           let val_byte = i2cread(APDS9960_GDATAL);
-           let val = val_byte;
-           val_byte = i2cread(APDS9960_GDATAH);
-           val = val + val_byte << 8;
-           return val;
-    }
-    
-     function readBlueLight(): number {
-        
-           let val_byte = i2cread(APDS9960_BDATAL);
-           let val = val_byte;
-           val_byte = i2cread(APDS9960_BDATAH);
-           val = val + val_byte << 8;
-           return val;
-       }
+    function readGreenLight(): number {
 
-/**
- * Initialize the color sensor,please execute at boot time
- */
+        let val_byte = i2cread(APDS9960_GDATAL);
+        let val = val_byte;
+        val_byte = i2cread(APDS9960_GDATAH);
+        val = val + val_byte << 8;
+        return val;
+    }
+
+    function readBlueLight(): number {
+
+        let val_byte = i2cread(APDS9960_BDATAL);
+        let val = val_byte;
+        val_byte = i2cread(APDS9960_BDATAH);
+        val = val + val_byte << 8;
+        return val;
+    }
+
+    /**
+     * Initialize the color sensor,please execute at boot time
+     */
     //% weight=86 blockId=startbit_init_colorSensor block="Initialize color sensor port at %port"
     export function startbit_init_colorSensor(port: startbit_colorSensorPort) {
-        if (i2cPortValid)
-        {
+        if (i2cPortValid) {
             InitColor();
             enableLightSensor(false);
             control.waitMicros(100);
@@ -784,73 +771,65 @@ export function onStartbit_getAngle(servo: startbit_Servos,body: Action) {
     /**
 	 *  Color sensor return the color.
 	 */
-	//% weight=85 blockId=startbit_checkCurrentColor block="Current color %color"
+    //% weight=85 blockId=startbit_checkCurrentColor block="Current color %color"
     export function startbit_checkCurrentColor(color: startbit_Colors): boolean {
-		let r = readRedLight();
-		let g = readGreenLight();
-		let b = readBlueLight();
+        let r = readRedLight();
+        let g = readGreenLight();
+        let b = readBlueLight();
         let t = startbit_Colors.Red;
-    
-		if (r > g)
-		{
-			t = startbit_Colors.Red;
-		}	
-		else
-		{
-			t = startbit_Colors.Green;
-		}	
 
-		if (t == startbit_Colors.Green && g < b)
-		{
-			t = startbit_Colors.Blue;
-		}	
-		if (t == startbit_Colors.Red && r < b)
-		{
-			t = startbit_Colors.Blue;
-         }
-         serial.writeNumber(r); 
-         serial.writeLine("->red");
-         serial.writeNumber(g); 
-         serial.writeLine("->green"); 
-         serial.writeNumber(b); 
-         serial.writeLine("->blue"); 
-        if(r < 260 && g < 260 && b < 530)
-		{
+        if (r > g) {
+            t = startbit_Colors.Red;
+        }
+        else {
+            t = startbit_Colors.Green;
+        }
+
+        if (t == startbit_Colors.Green && g < b) {
+            t = startbit_Colors.Blue;
+        }
+        if (t == startbit_Colors.Red && r < b) {
+            t = startbit_Colors.Blue;
+        }
+        serial.writeNumber(r);
+        serial.writeLine("->red");
+        serial.writeNumber(g);
+        serial.writeLine("->green");
+        serial.writeNumber(b);
+        serial.writeLine("->blue");
+        if (r < 260 && g < 260 && b < 530) {
             t = startbit_Colors.Black;
             return (color == t);
         }
-        else if (r > 3200 && g > 5000 && b > 7000)
-        {
+        else if (r > 3200 && g > 5000 && b > 7000) {
             t = startbit_Colors.White;
             return (color == t);
         }
-		if (t == startbit_Colors.Blue && b > 2000) {
-           // serial.writeLine("blue");
-            
-		}
-		else if (t == startbit_Colors.Green && g > 1200) {
-           // serial.writeLine("green");
-		}
-		else if (t == startbit_Colors.Red && r > 1200) {
-			//serial.writeLine("red");
-		}
-		else
-        {
+        if (t == startbit_Colors.Blue && b > 2000) {
+            // serial.writeLine("blue");
+
+        }
+        else if (t == startbit_Colors.Green && g > 1200) {
+            // serial.writeLine("green");
+        }
+        else if (t == startbit_Colors.Red && r > 1200) {
+            //serial.writeLine("red");
+        }
+        else {
             //serial.writeLine("none");
             return false;
-        }		
+        }
         return (color == t);
-	}
+    }
 
-/**
-* Get the obstacle avoidance sensor status,1 detect obstacle,0 no detect obstacle
-*/   
-   //% weight=84 blockId=startbit_avoidSensor block="Obstacle avoidance sensor|port %port|detect obstacle"
+    /**
+    * Get the obstacle avoidance sensor status,1 detect obstacle,0 no detect obstacle
+    */
+    //% weight=84 blockId=startbit_avoidSensor block="Obstacle avoidance sensor|port %port|detect obstacle"
     export function startbit_avoidSensor(port: startbit_touchKeyPort): boolean {
         let status = 0;
         let flag: boolean = false;
-        switch (port)
-        {
+        switch (port) {
             case startbit_touchKeyPort.port1:
                 pins.setPull(DigitalPin.P1, PinPullMode.PullUp);
                 status = pins.digitalReadPin(DigitalPin.P1);
@@ -860,12 +839,12 @@ export function onStartbit_getAngle(servo: startbit_Servos,body: Action) {
                 status = pins.digitalReadPin(DigitalPin.P13);
                 break;
             case startbit_touchKeyPort.port3:
-                if(P14_ad > 0xA)
+                if (P14_ad > 0xA)
                     status = 1
                 else
                     status = 0;
                 break;
-        }   
+        }
         if (status == 1)
             flag = false;
         else
@@ -874,15 +853,14 @@ export function onStartbit_getAngle(servo: startbit_Servos,body: Action) {
     }
 
 
-/**
-* Get the condition of the line follower sensor
-*/
+    /**
+    * Get the condition of the line follower sensor
+    */
     //% weight=82 blockId=startbit_readLineFollowerStatus block="Line follower status|port %port|%status"
     export function startbit_readLineFollowerStatus(port: startbit_lineFollowPort, status: startbit_lineFollower): boolean {
         let s1 = 0;
         let s2 = 0;
-        switch (port)
-        {
+        switch (port) {
             case startbit_lineFollowPort.port1:
                 s1 = pins.analogReadPin(AnalogPin.P1);
                 s2 = pins.analogReadPin(AnalogPin.P2);
@@ -895,18 +873,16 @@ export function onStartbit_getAngle(servo: startbit_Servos,body: Action) {
                 if (s2 < 100)
                     s2 = 0;
                 else
-                    s2 = 1;     
+                    s2 = 1;
                 break;
         }
         let s = ((1 & s1) << 1) | s2;
-        if (s == status)
-        {
+        if (s == status) {
             return true;
-        }    
-        else
-        {
+        }
+        else {
             return false;
-        }     
+        }
     }
 
     /**
@@ -916,8 +892,7 @@ export function onStartbit_getAngle(servo: startbit_Servos,body: Action) {
     export function startbit_lineSensorValue(port: startbit_lineFollowPort, sensor: startbit_LineFollowerSensor): number {
         let s1 = 0;
         let s2 = 0;
-        switch (port)
-        {
+        switch (port) {
             case startbit_lineFollowPort.port1:
                 s1 = pins.analogReadPin(AnalogPin.P1);
                 s2 = pins.analogReadPin(AnalogPin.P2);
@@ -925,24 +900,21 @@ export function onStartbit_getAngle(servo: startbit_Servos,body: Action) {
                 s2 = s2 * 255 / 1023;
                 break;
         }
-        if (sensor == startbit_LineFollowerSensor.LFSensor_1)
-        {
+        if (sensor == startbit_LineFollowerSensor.LFSensor_1) {
             return 255 - s1;
         }
-        else
-        {
-            return 255 - s2;    
+        else {
+            return 255 - s2;
         }
 
     }
-/**
-* Get the condition of the touch button,press return 1,or return 0
-*/
+    /**
+    * Get the condition of the touch button,press return 1,or return 0
+    */
     //% weight=80 blockId=startbit_touchButton block="Touch button|port %port|is pressed"    
     export function startbit_touchButton(port: startbit_touchKeyPort): boolean {
         let status: boolean = false;
-        switch (port)
-        {
+        switch (port) {
             case startbit_touchKeyPort.port1:
                 pins.setPull(DigitalPin.P1, PinPullMode.PullUp);
                 status = !pins.digitalReadPin(DigitalPin.P1);
@@ -952,25 +924,24 @@ export function onStartbit_getAngle(servo: startbit_Servos,body: Action) {
                 status = !pins.digitalReadPin(DigitalPin.P13);
                 break;
             case startbit_touchKeyPort.port3:
-                if(P14_ad > 0xA)
+                if (P14_ad > 0xA)
                     status = false;
                 else
                     status = true;
                 break;
         }
         return status;
-    } 
+    }
 
     let distanceBak = 0;
-  /**
-   * Get the distance of ultrasonic detection to the obstacle 
-   */  
-//% weight=79 blockId=startbit_ultrasonic  block="Ultrasonic|port %port|distance(cm)"
+    /**
+     * Get the distance of ultrasonic detection to the obstacle 
+     */
+    //% weight=79 blockId=startbit_ultrasonic  block="Ultrasonic|port %port|distance(cm)"
     export function startbit_ultrasonic(port: startbit_ultrasonicPort): number {
-        let echoPin:DigitalPin;
-        let trigPin:DigitalPin;
-        switch (port)
-        {
+        let echoPin: DigitalPin;
+        let trigPin: DigitalPin;
+        switch (port) {
             case startbit_ultrasonicPort.port1:
                 echoPin = DigitalPin.P2;
                 trigPin = DigitalPin.P1;
@@ -992,29 +963,29 @@ export function onStartbit_getAngle(servo: startbit_Servos,body: Action) {
         let d = pins.pulseIn(echoPin, PulseValue.High, 25000);
         let distance = d;
         // filter timeout spikes
-        if (distance == 0 && distanceBak!= 0){
+        if (distance == 0 && distanceBak != 0) {
             distance = distanceBak;
         }
         distanceBak = d;
-        return Math.round(distance * 10 /6 /58);
-  }
-  
-/**
-* Get the ad value of the knob moudule
-*/
+        return Math.round(distance * 10 / 6 / 58);
+    }
+
+    /**
+    * Get the ad value of the knob moudule
+    */
     //% weight=78 blockId=startbit_getKnobValue blockGap=50 block="Get knob|port %port|value(0~255)"
     export function startbit_getKnobValue(port: startbit_knobPort): number {
         let adValue = pins.analogReadPin(AnalogPin.P1);
         adValue = adValue * 255 / 1023;
         return adValue;
-    }     
-    
+    }
+
     /**
 	 * Initialize RGB
 	 */
-	function startbit_initRGBLight() {
-		if (!lhRGBLight) {
-			lhRGBLight = StartbitRGBLight.create(DigitalPin.P15, 6, StartbitRGBPixelMode.RGB);
+    function startbit_initRGBLight() {
+        if (!lhRGBLight) {
+            lhRGBLight = StartbitRGBLight.create(DigitalPin.P15, 6, StartbitRGBPixelMode.RGB);
         }
         startbit_clearLight();
     }
@@ -1028,23 +999,21 @@ export function onStartbit_getAngle(servo: startbit_Servos,body: Action) {
     export function startbit_setBrightness(brightness: number): void {
         lhRGBLight.setBrightness(brightness);
     }
-    
+
     /**
      * Set the color of the colored lights, after finished the setting please perform  the display of colored lights.
      */
     //% weight=76 blockId=startbit_setPixelRGB block="Set|%lightoffset|color to %rgb"
-    export function startbit_setPixelRGB(lightoffset: StartbitLights, rgb: StartbitRGBColors)
-    { 
+    export function startbit_setPixelRGB(lightoffset: StartbitLights, rgb: StartbitRGBColors) {
         lhRGBLight.setPixelColor(lightoffset, rgb);
-     }
-    
+    }
+
 
     /**
      * Set RGB Color argument
      */
     //% weight=75 blockId=startbit_setPixelRGBArgs block="Set|%lightoffset|color to %rgb"
-    export function startbit_setPixelRGBArgs(lightoffset: StartbitLights, rgb: number)
-    {
+    export function startbit_setPixelRGBArgs(lightoffset: StartbitLights, rgb: number) {
         lhRGBLight.setPixelColor(lightoffset, rgb);
     }
 
@@ -1070,8 +1039,7 @@ export function onStartbit_getAngle(servo: startbit_Servos,body: Action) {
 	 */
     //% weight=72 blockId=startbit_belt_initRGBLight block="Initialize light belt at port %port"
     export function startbit_belt_initRGBLight(port: startbit_ultrasonicPort) {
-        switch (port)
-        {
+        switch (port) {
             case startbit_ultrasonicPort.port1:
                 if (!lhRGBLightBelt) {
                     lhRGBLightBelt = StartbitRGBLight.create(DigitalPin.P1, 30, StartbitRGBPixelMode.RGB);
@@ -1091,11 +1059,10 @@ export function onStartbit_getAngle(servo: startbit_Servos,body: Action) {
      * Set the color of the colored lights, after finished the setting please perform  the display of colored lights.
      */
     //% weight=71 blockId=startbit_belt_setPixelRGB block="Set light belt|%lightoffset|color to %rgb"
-    export function startbit_belt_setPixelRGB(lightoffset: StartbitLightsBelt, rgb: StartbitRGBColors)
-    { 
+    export function startbit_belt_setPixelRGB(lightoffset: StartbitLightsBelt, rgb: StartbitRGBColors) {
         lhRGBLightBelt.setBeltPixelColor(lightoffset, rgb);
-     }
-    
+    }
+
     /**
      * Display the colored lights, and set the color of the colored lights to match the use. After setting the color of the colored lights, the color of the lights must be displayed.
      */
@@ -1112,18 +1079,18 @@ export function onStartbit_getAngle(servo: startbit_Servos,body: Action) {
         lhRGBLightBelt.clear();
     }
 
-	function mapRGB(x: number, in_min: number, in_max: number, out_min: number, out_max: number): number {
-		return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+    function mapRGB(x: number, in_min: number, in_max: number, out_min: number, out_max: number): number {
+        return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
     }
-    
-     /**
-     * Resolve the Bluetooth that phone APP send command type, the total of nine types of commands: tank display command, servo debug command, obtaining the distance of ultrasonic command, obtaining temperature command, obtain sound size rank orders, to obtain the light level command, set the color lights command, honking command, firmware version information command.
-     */
+
+    /**
+    * Resolve the Bluetooth that phone APP send command type, the total of nine types of commands: tank display command, servo debug command, obtaining the distance of ultrasonic command, obtaining temperature command, obtain sound size rank orders, to obtain the light level command, set the color lights command, honking command, firmware version information command.
+    */
     //% weight=68 blockId=startbit_analyzeBluetoothCmd block="Get bluetooth command type %str"
     export function startbit_analyzeBluetoothCmd(str: string): number {
         if (str.length > 6) {
             let cmdHead = str.substr(0, 3);
-            
+
             if (cmdHead == "CMD") {
                 let cmdTypeStr: string = str.substr(4, 2);
                 let cmdType = strToNumber(cmdTypeStr);
@@ -1149,35 +1116,29 @@ export function onStartbit_getAngle(servo: startbit_Servos,body: Action) {
     //% index.min=1 index.max=3
     export function startbit_getArgs(str: string, index: number): number {
         let cmdType = startbit_analyzeBluetoothCmd(str);
-        if (cmdType == startbit_CmdType.NO_COMMAND)
-        {
+        if (cmdType == startbit_CmdType.NO_COMMAND) {
             return startbit_CarRunCmdType.COMMAND_ERRO;
         }
         else {
             let dataIndex = 7;
             let subLegth = 2;
-            if (index == 2)
-            {
+            if (index == 2) {
                 dataIndex = 10;
                 subLegth = 2;
             }
-            else if (index == 3)
-            {
+            else if (index == 3) {
                 dataIndex = 13;
                 subLegth = 4;
-            } 
-            if (cmdType == startbit_CmdType.SERVO)
-            {
-                if (str.length < 17)
-                {
-                    return startbit_CmdType.NO_COMMAND;
-                }    
             }
-            if ((index == 1 && str.length < 10)||(index == 2 && str.length < 13)||(index == 3 && str.length < 17))
-            {
+            if (cmdType == startbit_CmdType.SERVO) {
+                if (str.length < 17) {
+                    return startbit_CmdType.NO_COMMAND;
+                }
+            }
+            if ((index == 1 && str.length < 10) || (index == 2 && str.length < 13) || (index == 3 && str.length < 17)) {
                 return 0;
-            }    
-            let strArgs = str.substr(dataIndex, subLegth);  
+            }
+            let strArgs = str.substr(dataIndex, subLegth);
             let arg = strToNumber(strArgs);
             if (arg == -1)
                 return 0;
@@ -1211,7 +1172,7 @@ export function onStartbit_getAngle(servo: startbit_Servos,body: Action) {
         cmdStr += "|$";
         return cmdStr;
     }
-    
+
     /**
      * The conversion temperature value to standard command, sent to the mobile phone, and the APP displays the current temperature.
      */
@@ -1233,7 +1194,7 @@ export function onStartbit_getAngle(servo: startbit_Servos,body: Action) {
         cmdStr += "|$";
         return cmdStr;
     }
-    
+
     /**
      * Convert the battery value to the standard command and send it to the mobile phone. The APP displays the current voltage.
      */
@@ -1249,8 +1210,7 @@ export function onStartbit_getAngle(servo: startbit_Servos,body: Action) {
      * Connect to the wifi
      */
     //% weight=55 blockId=startbit_connectWifi block="Connect to the Wifi,name|%ssid|and password %passwrd"
-    export function startbit_connectWifi(ssid: string, passwrd: string)
-    {
+    export function startbit_connectWifi(ssid: string, passwrd: string) {
         let buf = pins.createBuffer(ssid.length + passwrd.length + 10);
         buf[0] = 0x55;
         buf[1] = 0x55;
@@ -1258,17 +1218,15 @@ export function onStartbit_getAngle(servo: startbit_Servos,body: Action) {
         buf[3] = 0x3E;//cmd type
         buf[4] = 0x6;
         buf[5] = 0x22;
-        for (let i = 0; i < ssid.length; i++)
-        {
+        for (let i = 0; i < ssid.length; i++) {
             buf[6 + i] = ssid.charCodeAt(i);
-        }   
+        }
         buf[ssid.length + 6] = 0x22;
         buf[ssid.length + 7] = 0x2C;
         buf[ssid.length + 8] = 0x22;
-        for (let i = 0; i < passwrd.length; i++)
-        {
+        for (let i = 0; i < passwrd.length; i++) {
             buf[ssid.length + 9 + i] = passwrd.charCodeAt(i);
-        }   
+        }
         buf[ssid.length + passwrd.length + 9] = 0x22;
         serial.writeBuffer(buf);
     }
@@ -1277,8 +1235,7 @@ export function onStartbit_getAngle(servo: startbit_Servos,body: Action) {
      * Detect the device connect status
      */
     //% weight=54 blockId=startbit_isConnectedServer block="Device is connected to server?"
-    export function startbit_isConnectedServer(): boolean
-    {
+    export function startbit_isConnectedServer(): boolean {
         return connectStatus;
     }
 
@@ -1286,8 +1243,7 @@ export function onStartbit_getAngle(servo: startbit_Servos,body: Action) {
      * Send get mac address command
      */
     //% weight=53 blockId=startbit_send_getMac block="Send pair command"
-    export function startbit_send_getMac()
-    {
+    export function startbit_send_getMac() {
         let buf = pins.createBuffer(5);
         buf[0] = 0x55;
         buf[1] = 0x55;
@@ -1303,15 +1259,14 @@ export function onStartbit_getAngle(servo: startbit_Servos,body: Action) {
      */
     //% weight=52 blockId=onStartbit_getMac block="On startbit get device id"
     export function onStartbit_getMac(body: Action) {
-        control.onEvent(MESSAGE_MAC,1,body);
+        control.onEvent(MESSAGE_MAC, 1, body);
     }
 
     /**
      * Get device mac address
      */
     //% weight=51 blockId=startbit_getMacAddress block="Get device id"
-    export function startbit_getMacAddress(): string
-    {
+    export function startbit_getMacAddress(): string {
         return macStr + "$";
     }
 }
