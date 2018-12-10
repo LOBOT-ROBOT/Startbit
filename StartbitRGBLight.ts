@@ -1,8 +1,8 @@
 /**
- * QtruckRGBLight package
+ * StartbitRGBLight package
  */
 
-enum QtruckRGBColors {
+enum StartbitRGBColors {
     //% block=red
     Red = 1,
     //% block=orange
@@ -23,7 +23,7 @@ enum QtruckRGBColors {
     White = 9
 }
 
- enum QtruckLights {
+ enum StartbitLights {
     //% block="Light 1"
     Light1 = 0x00,
     //% block="Light 2"
@@ -40,7 +40,7 @@ enum QtruckRGBColors {
      All = 0x06
 }
 
-enum QtruckLightsBelt {
+enum StartbitLightsBelt {
         //% block="Light 1"
         Light1 = 0x00,
         //% block="Light 2"
@@ -68,7 +68,7 @@ enum QtruckLightsBelt {
 /**
  * Different modes for RGB or RGB+W RGBLight QbitRGBColors
  */
-enum QtruckRGBPixelMode {
+enum StartbitRGBPixelMode {
     //% block="RGB (GRB format)"
     RGB = 0,
     //% block="RGB+W"
@@ -80,7 +80,7 @@ enum QtruckRGBPixelMode {
 /**
  * QbitRGBLight Functions
  */
-namespace QtruckRGBLight {
+namespace StartbitRGBLight {
     //% shim=sendBufferAsm
     //% parts="QbitRGBLight"
     function sendBuffer(buf: Buffer, pin: DigitalPin) {
@@ -90,14 +90,14 @@ namespace QtruckRGBLight {
     /**
     * A LHQbitRGBLight class
     */
-    export class LHqtruckRGBLight {
+    export class LHstartbitRGBLight {
         buf: Buffer;
         pin: DigitalPin;
         // TODO: encode as bytes instead of 32bit
         brightness: number;
         start: number; // start offset in LED strip
         _length: number; // number of LEDs
-        _mode: QtruckRGBPixelMode;
+        _mode: StartbitRGBPixelMode;
 
         setBrightness(brightness: number): void {
             this.brightness = brightness & 0xff;
@@ -109,7 +109,7 @@ namespace QtruckRGBLight {
             // don't yield to avoid races on initialization
         }
 
-        setBeltPixelColor(pixeloffset: number, rgb: QtruckRGBColors): void {
+        setBeltPixelColor(pixeloffset: number, rgb: StartbitRGBColors): void {
             if (pixeloffset == 10)//全部
             {
                 for (let i = 0; i < this._length; i++)
@@ -126,7 +126,7 @@ namespace QtruckRGBLight {
             
         }
 
-        setPixelColor(pixeloffset: number, rgb: QtruckRGBColors): void {
+        setPixelColor(pixeloffset: number, rgb: StartbitRGBColors): void {
             if (pixeloffset == this._length)//全部
             {
                 for (let i = 0; i < this._length; i++)
@@ -141,51 +141,51 @@ namespace QtruckRGBLight {
             
         }
 
-        private setPixelRGB(pixeloffset: number, rgb: QtruckRGBColors): void {
+        private setPixelRGB(pixeloffset: number, rgb: StartbitRGBColors): void {
             if (pixeloffset < 0
                 || pixeloffset >= this._length)
                 return;
             let tureRgb = 0;
                 switch (rgb)
                 {
-                    case QtruckRGBColors.Red:
+                    case StartbitRGBColors.Red:
                         tureRgb = 0xFF0000;
                         break;    
     
-                    case QtruckRGBColors.Orange:
+                    case StartbitRGBColors.Orange:
                         tureRgb = 0xFFA500;    
                         break;    
     
-                    case QtruckRGBColors.Yellow:
+                    case StartbitRGBColors.Yellow:
                         tureRgb = 0xFFFF00;
                         break;    
                         
-                    case QtruckRGBColors.Green:
+                    case StartbitRGBColors.Green:
                         tureRgb = 0x00FF00;    
                         break;    
     
-                    case QtruckRGBColors.Blue:
+                    case StartbitRGBColors.Blue:
                         tureRgb = 0x0000FF;
                         break;    
                         
-                    case QtruckRGBColors.Indigo:
+                    case StartbitRGBColors.Indigo:
                         tureRgb = 0x4b0082;    
                         break;    
     
-                    case QtruckRGBColors.Violet:
+                    case StartbitRGBColors.Violet:
                         tureRgb = 0x8a2be2;
                         break;    
                         
-                    case QtruckRGBColors.Purple:
+                    case StartbitRGBColors.Purple:
                         tureRgb = 0xFF00FF;    
                         break;   
     
-                    case QtruckRGBColors.White:
+                    case StartbitRGBColors.White:
                         tureRgb = 0xFFFFFF;    
                         break;   
                 }
 
-            let stride = this._mode === QtruckRGBPixelMode.RGBW ? 4 : 3;
+            let stride = this._mode === StartbitRGBPixelMode.RGBW ? 4 : 3;
             pixeloffset = (pixeloffset + this.start) * stride;
 
             let red = unpackR(tureRgb);
@@ -202,7 +202,7 @@ namespace QtruckRGBLight {
         }
 
         private setBufferRGB(offset: number, red: number, green: number, blue: number): void {
-            if (this._mode === QtruckRGBPixelMode.RGB_RGB) {
+            if (this._mode === StartbitRGBPixelMode.RGB_RGB) {
                 this.buf[offset + 0] = red;
                 this.buf[offset + 1] = green;
             } else {
@@ -217,14 +217,14 @@ namespace QtruckRGBLight {
         }
 
         clear(): void {
-            const stride = this._mode === QtruckRGBPixelMode.RGBW ? 4 : 3;
+            const stride = this._mode === StartbitRGBPixelMode.RGBW ? 4 : 3;
             this.buf.fill(0, this.start * stride, this._length * stride);
             this.show();
         }
     }
-    export function create(pin: DigitalPin, numleds: number, mode: QtruckRGBPixelMode): LHqtruckRGBLight {
-        let light = new LHqtruckRGBLight();
-        let stride = mode === QtruckRGBPixelMode.RGBW ? 4 : 3;
+    export function create(pin: DigitalPin, numleds: number, mode: StartbitRGBPixelMode): LHstartbitRGBLight {
+        let light = new LHstartbitRGBLight();
+        let stride = mode === StartbitRGBPixelMode.RGBW ? 4 : 3;
         light.buf = pins.createBuffer(numleds * stride);
         light.start = 0;
         light._length = numleds;

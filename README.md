@@ -1,6 +1,6 @@
 # startbit
 
-Blocks for lobot Startbit
+Blocks for lobot startbit
 ## License
 
 MIT
