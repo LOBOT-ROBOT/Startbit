@@ -431,7 +431,7 @@ namespace startbit {
     /**
      * Send read startbit servos angle command
      */
-    //% weight=96 blockId=startbit_readAngle block="Send read|%servo|angle command "
+    //% weight=96 blockId=startbit_readAngle block="Send |%servo|angle command "
     export function startbit_readAngle(servo: startbit_Servos) {
         let buf = pins.createBuffer(6);
         buf[0] = 0x55;
