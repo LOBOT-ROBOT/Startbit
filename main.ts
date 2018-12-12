@@ -199,7 +199,7 @@ namespace startbit {
                     P14_ad = arg1Int;
 
                     if (arg3Int != -1) {
-                        currentVoltage = arg3Int * 10353 / 200;
+                        currentVoltage = arg3Int * 10353 / 400;
                         currentVoltage = Math.round(currentVoltage);
                     }
 
