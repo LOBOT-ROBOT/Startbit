@@ -177,7 +177,7 @@ namespace startbit {
     let servo2Angle: number = 0xfff;
 
     let macStr: string = "";
-    let actiongroup_finished = false;
+    let actiongroup_finished = true;
     /**
     * Get the handle command.
     */
@@ -420,12 +420,16 @@ namespace startbit {
      */
     //% weight=98 blockId=startbit_actionRunover block="Action run over"
     export function startbit_actionRunover() : boolean {
-        let ret = false;
+        // let ret = false;
         if(actiongroup_finished == true){
-            ret = true;
+            // ret = true;
+            actiongroup_finished = true;
+        }
+        else
+        {
             actiongroup_finished = false;
         }
-        return ret;
+        return actiongroup_finished;
     }
 
     /**
