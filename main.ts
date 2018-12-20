@@ -86,6 +86,14 @@ namespace startbit {
         port1 = 0x01
     }
 
+    export enum startbit_fanPort {
+        //% block="Port 1"
+        port1,
+        //% block="Port 2"
+        port2
+    }
+
+
     export enum startbit_CmdType {
         //% block="Invalid command"
         NO_COMMAND = 0,
@@ -519,23 +527,30 @@ namespace startbit {
     /**
     *	Set the speed of the fan, range of -100~100.
     */
-    //% weight=89 blockId=startbit_setFanSpeed blockGap=50 block="Set fan speed(-100~100)|%speed1"
+    //% weight=89 blockId=startbit_setFanSpeed blockGap=50 block="Set |%port fan speed(-100~100)|%speed1"
     //% speed1.min=-100 speed1.max=100
-    export function startbit_setFanSpeed(speed1: number) {
+    export function startbit_setFanSpeed(port: startbit_fanPort, speed1: number) {
         if (speed1 > 100 || speed1 < -100) {
             return;
         }
+        let pin1 = AnalogPin.P1;
+        let pin2 = AnalogPin.P2;
+
+        if (port == startbit_fanPort.port2) {
+            pin1 = AnalogPin.P13;
+            pin2 = AnalogPin.P14;
+        }
         if (speed1 < 0) {
-            pins.analogWritePin(AnalogPin.P14, 0);
-            pins.analogWritePin(AnalogPin.P13, pins.map(-speed1, 0, 100, 0, 1023));
+            pins.analogWritePin(pin2, 0);
+            pins.analogWritePin(pin1, pins.map(-speed1, 0, 100, 0, 1023));
         }
         else if (speed1 > 0) {
-            pins.analogWritePin(AnalogPin.P13, 0);
-            pins.analogWritePin(AnalogPin.P14, pins.map(speed1, 0, 100, 0, 1023));
+            pins.analogWritePin(pin1, 0);
+            pins.analogWritePin(pin2, pins.map(speed1, 0, 100, 0, 1023));
         }
         else {
-            pins.digitalWritePin(DigitalPin.P14, 0);
-            pins.digitalWritePin(DigitalPin.P13, 0);
+            pins.analogWritePin(pin2, 0);
+            pins.analogWritePin(pin1, 0);
         }
 
     }
