@@ -420,14 +420,13 @@ namespace startbit {
      * Wait for Actiongroup Finishing
      */
     //% weight=98 blockId=startbit_actionRunover block="Action run over"
-    export function startbit_actionRunover() : boolean {
+    export function startbit_actionRunover(): boolean {
         // let ret = false;
-        if(actiongroup_finished == true){
+        if (actiongroup_finished == true) {
             // ret = true;
             actiongroup_finished = true;
         }
-        else
-        {
+        else {
             actiongroup_finished = false;
         }
         return actiongroup_finished;
@@ -517,6 +516,29 @@ namespace startbit {
         serial.writeBuffer(buf);
     }
 
+    /**
+    *	Set the speed of the fan, range of -100~100.
+    */
+    //% weight=89 blockId=startbit_setFanSpeed blockGap=50 block="Set fan speed(-100~100)|%speed1"
+    //% speed1.min=-100 speed1.max=100
+    export function startbit_setFanSpeed(speed1: number) {
+        if (speed1 > 100 || speed1 < -100) {
+            return;
+        }
+        if (speed1 < 0) {
+            pins.digitalWritePin(DigitalPin.14, 0);
+            pins.analogWritePin(AnalogPin.16, pins.map(0 - speed1, 1, 100, 1023));
+        }
+        else if (speed1 > 0) {
+            pins.digitalWritePin(DigitalPin.16, 0);
+            pins.analogWritePin(AnalogPin.14, pins.map(speed1, 1, 100, 1023));
+        }
+        else {
+            pins.digitalWritePin(DigitalPin.14, 0);
+            pins.digitalWritePin(DigitalPin.16, 0);
+        }
+
+    }
 
     /**
     * Get the volume level detected by the sound sensor, range 0 to 255
