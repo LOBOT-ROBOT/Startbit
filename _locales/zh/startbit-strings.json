@@ -128,5 +128,5 @@
 	"startbit.startbit_runActionGroup|block":"运行动作组|编号 %index|次数 %times",
 	"startbit.startbit_sendAttitude|block":"发送姿态 旋转|%pitch| 横滚|%roll",
 	"startbit.startbit_actionRunover|block":"动作组运行完成",
-	"startbit.startbit_setFanSpeed":"设置风扇速度(-100~100) |%speed1"
+	"startbit.startbit_setFanSpeed|block":"设置风扇速度(-100~100) |%speed1"
 }
