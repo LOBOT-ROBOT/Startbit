@@ -526,16 +526,16 @@ namespace startbit {
             return;
         }
         if (speed1 < 0) {
-            pins.digitalWritePin(DigitalPin.14, 0);
-            pins.analogWritePin(AnalogPin.16, pins.map(0 - speed1, 1, 100, 1023));
+            pins.digitalWritePin(DigitalPin.P14, 0);
+            pins.analogWritePin(AnalogPin.P16, pins.map(0 - speed1, 1, 100, 1023));
         }
         else if (speed1 > 0) {
-            pins.digitalWritePin(DigitalPin.16, 0);
-            pins.analogWritePin(AnalogPin.14, pins.map(speed1, 1, 100, 1023));
+            pins.digitalWritePin(DigitalPin.P16, 0);
+            pins.analogWritePin(AnalogPin.P14, pins.map(speed1, 1, 100, 1023));
         }
         else {
-            pins.digitalWritePin(DigitalPin.14, 0);
-            pins.digitalWritePin(DigitalPin.16, 0);
+            pins.digitalWritePin(DigitalPin.P14, 0);
+            pins.digitalWritePin(DigitalPin.P16, 0);
         }
 
     }
