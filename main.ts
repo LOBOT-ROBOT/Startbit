@@ -378,31 +378,34 @@ namespace startbit {
     }
 
     /**
-    * Set the angle of bus servo 1 to 8, range of -120~120 degree
+    * Set the angle of bus servo 1 to 12, range of -120~120 degree
     */
-    //% weight=98 blockId=startbit_setBusServo block="Set bus servo|port %port|index %index|angle(-120~1200) %angle|duration %duration"
+    //% weight=98 blockId=startbit_setBusServo block="Set bus servo|port %port|index %index|angle(-120~120) %angle|duration %duration"
     //% angle.min=-120 angle.max=120
-    export function startbit_setBusServo(port: startbit_busServoPort, index: number, angle: number, duration: number) {
-        if (angle > 120 || angle < -120) {
+    //% index.defl= [1]
+    export function startbit_setBusServos(port: startbit_busServoPort, index: number[], angle: number[], duration: number) {
+        for (let i = 0; i < angle.length; i++) {
+	    if (angle[i] > 120 || angle[i] < -120) {
             return;
-        }
-
-        angle += 120;
-
-        let position = mapRGB(angle, 0, 240, 0, 1000);
-
-        let buf = pins.createBuffer(10);
+	    }
+	    angle[i] += 120;
+            angle[i] = mapRGB(angle[i], 0, 240, 0, 1000);
+	}
+	    
+        let buf = pins.createBuffer(3*index.length+7);
         buf[0] = 0x55;
         buf[1] = 0x55;
-        buf[2] = 0x08;
-        buf[3] = 0x35;//cmd type DEC 53
-        buf[4] = 0x01;
+        buf[2] = (index.length*3 + 5) & 0xff;
+        buf[3] = 0x35;//cmd type DEC 54
+        buf[4] = (index.length) & 0xff;
         buf[5] = duration & 0xff;
         buf[6] = (duration >> 8) & 0xff;
-        buf[7] = index;
-        buf[8] = position & 0xff;
-        buf[9] = (position >> 8) & 0xff;
-        serial.writeBuffer(buf);
+	for (let i = 0; i < index.length; i++) {
+	    buf[7 + i*3] = index[i];
+	    buf[8 + i*3] = angle[i] & 0xff;
+	    buf[9 + i*3] = (angle[i] >> 8) & 0xff;
+	}
+        serial.writeBuffer(buf);    
     }
 
     /**
