@@ -441,6 +441,22 @@ namespace startbit {
     }
 
     /**
+    * Stop running actiongroup
+    */
+    //% weight=98 blockId=startbit_stopnActionGroup block="Stop ActionGroup"
+    export function startbit_stopActionGroup() {
+
+        let buf = pins.createBuffer(7);
+        buf[0] = 0x55;
+        buf[1] = 0x55;
+        buf[2] = 0x02;
+        buf[3] = 0x07;//cmd type CMD_ACTION_GROUP_STOP
+	    
+	actiongroup_finished = false;
+        serial.writeBuffer(buf);
+    }
+	
+    /**
      * Send read startbit servos angle command
      */
     //% weight=96 blockId=startbit_readAngle block="Send |%servo|angle command "
