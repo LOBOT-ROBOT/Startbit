@@ -40,6 +40,7 @@
 	"startbit.startbit_getMacAddress":"获取到设备ID字符串，与蓝牙发送结合起来使用",
 	"startbit.startbit_readAngle":"Microbit向单片机发送查询单片机指令",
 	"startbit.startbit_runActionGroup":"让舵机控制板运行指定动作组指定次数",
+	"startbit.startbit_stopActionGroup":"让舵机控制板停止当前运行的动作组",
 	"startbit.startbit_sendAttitude":"向舵机控制板发送Microbit的姿态",
 	"startbit.startbit_setFanSpeed":"设置风扇的速度"
 }
