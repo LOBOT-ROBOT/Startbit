@@ -126,6 +126,7 @@
 	"startbit.onstartbit_getAngle|block":"当读取到|%servo|角度时执行",
 	"startbit.setServo|block":"设置PWM舵机|编号 %index|角度(0~180) %angle|时长 %duration",
 	"startbit.startbit_runActionGroup|block":"运行动作组|编号 %index|次数 %times",
+	"startbit.startbit_stopActionGroup|block":"停止当前动作组",
 	"startbit.startbit_sendAttitude|block":"发送姿态 旋转|%pitch| 横滚|%roll",
 	"startbit.startbit_actionRunover|block":"动作组运行完成",
 	"startbit.startbit_setFanSpeed|block":"设置 |%port 风扇速度(-100~100) |%speed1",
