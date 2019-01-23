@@ -50,6 +50,7 @@
 	"startbit.startbit_getRunCarType|block":"车辆行进命令类型 %type",
 	"startbit.startbit_CmdType.NO_COMMAND|block":"无效的命令",
 	"startbit.startbit_CmdType.CAR_RUN|block":"车辆行进命令",
+	"startbit.startbit_CmdType.ROBOT_RUN|block":"机器人控制命令",
 	"startbit.startbit_CmdType.SERVO|block":"舵机控制命令",
 	"startbit.startbit_CmdType.ULTRASONIC|block":"超声波距离查询命令",
 	"startbit.startbit_CmdType.TEMPERATURE|block":"温度查询命令",
