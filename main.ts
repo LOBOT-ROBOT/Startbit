@@ -99,6 +99,8 @@ namespace startbit {
         NO_COMMAND = 0,
         //% block="car run"
         CAR_RUN = 1,
+	//% block="robot run"   
+	ROBOT_RUN = 1,
         //% block="Servo"
         SERVO = 2,
         //% block="Ultrasonic distance"
