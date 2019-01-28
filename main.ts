@@ -85,6 +85,16 @@ namespace startbit {
         //% block="Port 1"
         port1 = 0x01
     }
+	
+    export enum startbit_photosensitivePort {
+        //% block="Port 1"
+        port1 = 0x01	    
+    }
+	
+    export enum startbit_photosensitiveSensor {
+        //% block="Port 1"
+        port1 = 0x00	    
+    }
 
     export enum startbit_fanPort {
         //% block="Port 1"
@@ -1077,7 +1087,37 @@ namespace startbit {
         adValue = adValue * 255 / 1023;
         return adValue;
     }
+	
+    /**
+    * Get the ad value of the photosensitive moudule
+    */
+    //% weight=78 blockId=startbit_getPhotosensitiveValue blockGap=50 block="Get Photosensitive|port %port|value(0~255)"
+    export function startbit_getPhotosensitiveValue(port: startbit_PhotosensitivePort): number {
+        let adValue = pins.analogReadPin(AnalogPin.P1);
+        adValue = adValue * 255 / 1023;
+        return adValue;
+    }
 
+    /**
+    * Get the Photosensitive sensor status,1 detect bright,0 no detect bright
+    */
+    //% weight=78 blockId=startbit_photosensitiveSensor block="Photosensitive sensor|port %port|detect bright"
+    export function startbit_photosensitiveSensor(port: startbit_PhotosensitiveSensor): boolean {
+        let status = 0;
+        let flag: boolean = false;
+        switch (port) {
+            case startbit_PhotosensitiveSensor.port1:
+                pins.setPull(DigitalPin.P1, PinPullMode.PullUp);
+                status = pins.digitalReadPin(DigitalPin.P1);
+                break;
+        }
+        if (status == 1)
+            flag = false;
+        else
+            flag = true;
+        return flag;
+    }
+	
     /**
 	 * Initialize RGB
 	 */
