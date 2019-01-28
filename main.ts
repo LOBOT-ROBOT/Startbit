@@ -654,10 +654,10 @@ namespace startbit {
         return currentVoltage;
     }
 	
-/**
+    /**
      * TM1640 LED display
      */
-    export class TM1640LEDs {
+    export class startbit_TM1640LEDs {
         buf: Buffer;
         clk: DigitalPin;
         dio: DigitalPin;
@@ -867,8 +867,8 @@ namespace startbit {
      * @param count the count of the LED, eg: 4
      */
     //% weight=77 blockGap=8
-    //% blockId="TM1640_create" block="%port|intensity %intensity|LED count %count"
-    export function create(port: startbit_digitaltubePort, intensity: number, count: number): TM1640LEDs {
+    //% blockId="startbit_TM1640create" block="%port|intensity %intensity|LED count %count"
+    export function startbit_TM1640create(port: startbit_digitaltubePort, intensity: number, count: number): startbit_TM1640LEDs {
         let digitaltube = new TM1640LEDs();
         switch (port) {
             case startbit_digitaltubePort.port1:
