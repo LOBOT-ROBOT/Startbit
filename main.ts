@@ -869,7 +869,7 @@ namespace startbit {
     //% weight=77 blockGap=8
     //% blockId="startbit_TM1640create" block="%port|intensity %intensity|LED count %count"
     export function startbit_TM1640create(port: startbit_digitaltubePort, intensity: number, count: number): startbit_TM1640LEDs {
-        let digitaltube = new TM1640LEDs();
+        let digitaltube = new startbit_TM1640LEDs();
         switch (port) {
             case startbit_digitaltubePort.port1:
                 digitaltube.clk = DigitalPin.P2;
