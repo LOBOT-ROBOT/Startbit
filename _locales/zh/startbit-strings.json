@@ -125,7 +125,7 @@
 	"startbit.startbit_readAngle|block":"发送读|%servo|角度命令",
 	"startbit.getServosAngle|block":"获取|%servo|角度(-120~120)",
 	"startbit.onstartbit_getAngle|block":"当读取到|%servo|角度时执行",
-	"startbit.setServo|block":"设置PWM舵机|编号 %index|角度(0~180) %angle|时长 %duration",
+	"startbit.setServo|block":"设置PWM舵机|转动范围 %range|编号 %index|角度 %angle|时长 %duration",
 	"startbit.startbit_runActionGroup|block":"运行动作组|编号 %index|次数 %times",
 	"startbit.startbit_stopActionGroup|block":"停止当前动作组",
 	"startbit.startbit_sendAttitude|block":"发送姿态 旋转|%pitch| 横滚|%roll",
