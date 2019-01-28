@@ -1106,7 +1106,7 @@ namespace startbit {
         let status = 0;
         let flag: boolean = false;
         switch (port) {
-            case startbit_PhotosensitiveSensor.port1:
+            case startbit_photosensitiveSensor.port1:
                 pins.setPull(DigitalPin.P1, PinPullMode.PullUp);
                 status = pins.digitalReadPin(DigitalPin.P1);
                 break;
