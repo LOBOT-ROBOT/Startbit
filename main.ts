@@ -1091,7 +1091,7 @@ namespace startbit {
     /**
     * Get the ad value of the photosensitive moudule
     */
-    //% weight=78 blockId=startbit_getPhotosensitiveValue blockGap=50 block="Get Photosensitive|port %port|value(0~255)"
+    //% weight=78 blockId=startbit_getphotosensitiveValue blockGap=50 block="Get Photosensitive|port %port|value(0~255)"
     export function startbit_getphotosensitiveValue(port: startbit_photosensitivePort): number {
         let adValue = pins.analogReadPin(AnalogPin.P1);
         adValue = adValue * 255 / 1023;
