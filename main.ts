@@ -86,12 +86,12 @@ namespace startbit {
         port1 = 0x01
     }
 	
-    export enum startbit_PhotosensitivePort {
+    export enum startbit_photosensitivePort {
         //% block="Port 1"
         port1 = 0x01	    
     }
 	
-    export enum startbit_PhotosensitiveSensor {
+    export enum startbit_photosensitiveSensor {
         //% block="Port 1"
         port1 = 0x00	    
     }
@@ -1092,7 +1092,7 @@ namespace startbit {
     * Get the ad value of the photosensitive moudule
     */
     //% weight=78 blockId=startbit_getPhotosensitiveValue blockGap=50 block="Get Photosensitive|port %port|value(0~255)"
-    export function startbit_getPhotosensitiveValue(port: startbit_PhotosensitivePort): number {
+    export function startbit_getphotosensitiveValue(port: startbit_photosensitivePort): number {
         let adValue = pins.analogReadPin(AnalogPin.P1);
         adValue = adValue * 255 / 1023;
         return adValue;
@@ -1102,7 +1102,7 @@ namespace startbit {
     * Get the Photosensitive sensor status,1 detect bright,0 no detect bright
     */
     //% weight=78 blockId=startbit_photosensitiveSensor block="Photosensitive sensor|port %port|detect bright"
-    export function startbit_photosensitiveSensor(port: startbit_PhotosensitiveSensor): boolean {
+    export function startbit_photosensitiveSensor(port: startbit_photosensitiveSensor): boolean {
         let status = 0;
         let flag: boolean = false;
         switch (port) {
