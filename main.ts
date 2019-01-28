@@ -408,7 +408,7 @@ namespace startbit {
     /**
     * Set the angle of bus servo 1 to 12, range of -120~120 degree
     */
-    //% weight=97 blockId=startbit_setBusServo block="Set bus servo|port %port|index %index|angle(-120~120) %angle|duration %duration"
+    //% weight=98 blockId=startbit_setBusServo block="Set bus servo|port %port|index %index|angle(-120~120) %angle|duration %duration"
     //% angle.min=-120 angle.max=120
     //% index.defl= [1]
     export function startbit_setBusServo(port: startbit_busServoPort, index: number[], angle: number[], duration: number) {
@@ -471,7 +471,7 @@ namespace startbit {
     * Set the servo controller to run a actiongroup
     * @param times Running times. eg: 1
     */
-    //% weight=98 blockId=startbit_runActionGroup block="Run ActionGroup|index %index|times %times"
+    //% weight=97 blockId=startbit_runActionGroup block="Run ActionGroup|index %index|times %times"
     export function startbit_runActionGroup(index: number, times: number = 1) {
 
         let buf = pins.createBuffer(7);
@@ -486,26 +486,11 @@ namespace startbit {
         actiongroup_finished = false;
         serial.writeBuffer(buf);
     }
-    /**
-     * Wait for Actiongroup Finishing
-     */
-    //% weight=98 blockId=startbit_actionRunover block="Action run over"
-    export function startbit_actionRunover(): boolean {
-        // let ret = false;
-        if (actiongroup_finished == true) {
-            // ret = true;
-            actiongroup_finished = true;
-        }
-        else {
-            actiongroup_finished = false;
-        }
-        return actiongroup_finished;
-    }
-
+	
     /**
     * Stop running actiongroup
     */
-    //% weight=98 blockId=startbit_stopnActionGroup block="Stop ActionGroup"
+    //% weight=96 blockId=startbit_stopnActionGroup block="Stop ActionGroup"
     export function startbit_stopActionGroup() {
 
         let buf = pins.createBuffer(7);
@@ -519,9 +504,26 @@ namespace startbit {
     }
 	
     /**
+     * Wait for Actiongroup Finishing
+     */
+    //% weight=95 blockId=startbit_actionRunover block="Action run over"
+    export function startbit_actionRunover(): boolean {
+        // let ret = false;
+        if (actiongroup_finished == true) {
+            // ret = true;
+            actiongroup_finished = true;
+        }
+        else {
+            actiongroup_finished = false;
+        }
+        return actiongroup_finished;
+    }
+
+	
+    /**
      * Send read startbit servos angle command
      */
-    //% weight=96 blockId=startbit_readAngle block="Send |%servo|angle command "
+    //% weight=94 blockId=startbit_readAngle block="Send |%servo|angle command "
     export function startbit_readAngle(servo: startbit_Servos) {
         let buf = pins.createBuffer(6);
         buf[0] = 0x55;
@@ -538,7 +540,7 @@ namespace startbit {
      * Do someting when Startbit receive angle
      * @param body code to run when event is raised
      */
-    //% weight=95 blockId=onStartbit_getAngle block="On Startbit|%servo|get angle"
+    //% weight=93 blockId=onStartbit_getAngle block="On Startbit|%servo|get angle"
     export function onStartbit_getAngle(servo: startbit_Servos, body: Action) {
         control.onEvent(MESSAGE_ANGLE, servo, body);
     }
@@ -547,7 +549,7 @@ namespace startbit {
     /**
      *  Get servos angle
      */
-    //% weight=94 blockId=getServosAngle block="Get|%servo|angle(-120~120)"
+    //% weight=92 blockId=getServosAngle blockGap=50 block="Get|%servo|angle(-120~120)"
     export function getServosAngle(servo: startbit_Servos): number {
         if (servo == startbit_Servos.Servo1) {
             return servo1Angle;
@@ -558,13 +560,14 @@ namespace startbit {
         else
             return 0xFFF;
     }
-
+    
     /**
      *  Send robot attitude to the servo controller
      *  @param pitch eg: 0
      *  @param roll eg: 0
      */
-    //% weight=93 blockId=startbit_sendAttitude block="Send pitch|%pitch|and roll|%roll"
+    //% weight=91 blockId=startbit_sendAttitude block="Send pitch|%pitch|and roll|%roll"
+   /*
     export function startbit_sendAttitude(pitch: number, roll: number) {
         pitch < -90 ? -90 : pitch;
         pitch > 90 ? 90 : pitch;
@@ -580,10 +583,12 @@ namespace startbit {
         buf[5] = roll;
         serial.writeBuffer(buf);
     }
+    */
+	
     /**
     *	Set the speed of the number 1 motor and number 2 motor, range of -100~100, that can control the tank to go advance or turn of.
     */
-    //% weight=90 blockId=startbit_setMotorSpeed blockGap=50 block="Set motor1 speed(-100~100)|%speed1|and motor2|speed %speed2"
+    //% weight=91 blockId=startbit_setMotorSpeed  block="Set motor1 speed(-100~100)|%speed1|and motor2|speed %speed2"
     //% speed1.min=-100 speed1.max=100
     //% speed2.min=-100 speed2.max=100
     export function startbit_setMotorSpeed(speed1: number, speed2: number) {
@@ -605,7 +610,7 @@ namespace startbit {
     /**
     *	Set the speed of the fan, range of -100~100.
     */
-    //% weight=89 blockId=startbit_setFanSpeed blockGap=50 block="Set |%port fan speed(-100~100)|%speed1"
+    //% weight=90 blockId=startbit_setFanSpeed  block="Set |%port fan speed(-100~100)|%speed1"
     //% speed1.min=-100 speed1.max=100
     export function startbit_setFanSpeed(port: startbit_fanPort, speed1: number) {
         if (speed1 > 100 || speed1 < -100) {
@@ -636,7 +641,7 @@ namespace startbit {
     /**
     * Get the volume level detected by the sound sensor, range 0 to 255
     */
-    //% weight=88 blockId=startbit_getSoundVolume block="Sound volume"
+    //% weight=89 blockId=startbit_getSoundVolume block="Sound volume"
     export function startbit_getSoundVolume(): number {
         return volume;
     }
@@ -644,7 +649,7 @@ namespace startbit {
     /**
      *  Get startbit current voltage,the unit is mV
     */
-    //% weight=87 blockGap=50 blockId=startbit_getBatVoltage block="Get startbit current voltage (mV)"
+    //% weight=88 blockGap=50 blockId=startbit_getBatVoltage block="Get startbit current voltage (mV)"
     export function startbit_getBatVoltage(): number {
         return currentVoltage;
     }
@@ -725,7 +730,7 @@ namespace startbit {
          * @param val the brightness of the TM1640, eg: 7
          */
         //% blockId="TM1640_set_intensity" block="%digitaltube|set intensity %val"
-        //% weight=74 blockGap=8
+        //% weight=72 blockGap=8
         //% parts="TM1640"
         intensity(val: number = 7) {
             if (val < 1) {
@@ -757,7 +762,7 @@ namespace startbit {
          * @param bit the position of the LED, eg: 0
          */
         //% blockId="TM1640_showbit" block="%digitaltube|show digit %num |at %bit"
-        //% weight=76 blockGap=8
+        //% weight=75 blockGap=8
         //% parts="TM1640"
         showbit(num: number = 5, bit: number = 0) {
             this.buf[bit % this.count] = _SEGMENTS[num % 16]
@@ -789,7 +794,7 @@ namespace startbit {
           * @param num is a hex number, eg: 0
           */
         //% blockId="TM1640_showhex" block="%digitaltube|show hex number %num"
-        //% weight=76 blockGap=8
+        //% weight=74 blockGap=8
         //% parts="TM1640"
         showHex(num: number) {
             if (num < 0) {
@@ -809,7 +814,7 @@ namespace startbit {
          * @param show is show/hide dp, eg: true
          */
         //% blockId="TM1640_showDP" block="%digitaltube|DotPoint at %bit|show %show"
-        //% weight=76 blockGap=8
+        //% weight=73 blockGap=8
         //% parts="TM1640"
         showDP(bit: number = 1, show: boolean = true) {
             bit = bit % this.count
@@ -821,7 +826,7 @@ namespace startbit {
          * clear LED. 
          */
         //% blockId="TM1640_clear" block="clear %digitaltube"
-        //% weight=75 blockGap=8
+        //% weight=69 blockGap=8
         //% parts="TM1640"
         clear() {
             for (let i = 0; i < this.count; i++) {
@@ -834,7 +839,7 @@ namespace startbit {
          * turn on LED. 
          */
         //% blockId="TM1640_on" block="turn on %digitaltube"
-        //% weight=75 blockGap=8
+        //% weight=70 blockGap=8
         //% parts="TM1640"
         on() {
             this._ON = 8;
@@ -846,7 +851,7 @@ namespace startbit {
          * turn off LED. 
          */
         //% blockId="TM1640_off" block="turn off %digitaltube"
-        //% weight=75 blockGap=8
+        //% weight=71 blockGap=8
         //% parts="TM1640"
         off() {
             this._ON = 0;
@@ -1112,7 +1117,7 @@ namespace startbit {
     /**
      * Initialize the color sensor,please execute at boot time
      */
-    //% weight=86 blockId=startbit_init_colorSensor block="Initialize color sensor port at %port"
+    //% weight=87 blockId=startbit_init_colorSensor block="Initialize color sensor port at %port"
     export function startbit_init_colorSensor(port: startbit_colorSensorPort) {
         if (i2cPortValid) {
             InitColor();
@@ -1125,7 +1130,7 @@ namespace startbit {
     /**
 	 *  Color sensor return the color.
 	 */
-    //% weight=85 blockId=startbit_checkCurrentColor block="Current color %color"
+    //% weight=86 blockId=startbit_checkCurrentColor block="Current color %color"
     export function startbit_checkCurrentColor(color: startbit_Colors): boolean {
         let r = readRedLight();
         let g = readGreenLight();
@@ -1179,7 +1184,7 @@ namespace startbit {
     /**
     * Get the obstacle avoidance sensor status,1 detect obstacle,0 no detect obstacle
     */
-    //% weight=84 blockId=startbit_avoidSensor block="Obstacle avoidance sensor|port %port|detect obstacle"
+    //% weight=85 blockId=startbit_avoidSensor block="Obstacle avoidance sensor|port %port|detect obstacle"
     export function startbit_avoidSensor(port: startbit_touchKeyPort): boolean {
         let status = 0;
         let flag: boolean = false;
@@ -1210,7 +1215,7 @@ namespace startbit {
     /**
     * Get the condition of the line follower sensor
     */
-    //% weight=82 blockId=startbit_readLineFollowerStatus block="Line follower status|port %port|%status"
+    //% weight=84 blockId=startbit_readLineFollowerStatus block="Line follower status|port %port|%status"
     export function startbit_readLineFollowerStatus(port: startbit_lineFollowPort, status: startbit_lineFollower): boolean {
         let s1 = 0;
         let s2 = 0;
@@ -1242,7 +1247,7 @@ namespace startbit {
     /**
      * Get the line follower sensor port ad value
      */
-    //% weight=81 blockId=startbit_lineSensorValue block="Get line follower sensor|port %port|%sensor|ad value"
+    //% weight=83 blockId=startbit_lineSensorValue block="Get line follower sensor|port %port|%sensor|ad value"
     export function startbit_lineSensorValue(port: startbit_lineFollowPort, sensor: startbit_LineFollowerSensor): number {
         let s1 = 0;
         let s2 = 0;
@@ -1265,7 +1270,7 @@ namespace startbit {
     /**
     * Get the condition of the touch button,press return 1,or return 0
     */
-    //% weight=80 blockId=startbit_touchButton block="Touch button|port %port|is pressed"    
+    //% weight=82 blockId=startbit_touchButton block="Touch button|port %port|is pressed"    
     export function startbit_touchButton(port: startbit_touchKeyPort): boolean {
         let status: boolean = false;
         switch (port) {
@@ -1291,7 +1296,7 @@ namespace startbit {
     /**
      * Get the distance of ultrasonic detection to the obstacle 
      */
-    //% weight=79 blockId=startbit_ultrasonic  block="Ultrasonic|port %port|distance(cm)"
+    //% weight=81 blockId=startbit_ultrasonic  block="Ultrasonic|port %port|distance(cm)"
     export function startbit_ultrasonic(port: startbit_ultrasonicPort): number {
         let echoPin: DigitalPin;
         let trigPin: DigitalPin;
@@ -1327,7 +1332,7 @@ namespace startbit {
     /**
     * Get the ad value of the knob moudule
     */
-    //% weight=77 blockId=startbit_getKnobValue blockGap=50 block="Get knob|port %port|value(0~255)"
+    //% weight=80 blockId=startbit_getKnobValue  block="Get knob|port %port|value(0~255)"
     export function startbit_getKnobValue(port: startbit_knobPort): number {
         let adValue = pins.analogReadPin(AnalogPin.P1);
         adValue = adValue * 255 / 1023;
@@ -1337,7 +1342,7 @@ namespace startbit {
     /**
     * Get the ad value of the photosensitive moudule
     */
-    //% weight=78 blockId=startbit_getphotosensitiveValue blockGap=50 block="Get Photosensitive|port %port|value(0~255)"
+    //% weight=79 blockId=startbit_getphotosensitiveValue  block="Get Photosensitive|port %port|value(0~255)"
     export function startbit_getphotosensitiveValue(port: startbit_photosensitivePort): number {
         let adValue = pins.analogReadPin(AnalogPin.P1);
         adValue = adValue * 255 / 1023;
@@ -1347,7 +1352,7 @@ namespace startbit {
     /**
     * Get the Photosensitive sensor status,1 detect bright,0 no detect bright
     */
-    //% weight=78 blockId=startbit_photosensitiveSensor block="Photosensitive sensor|port %port|detect bright"
+    //% weight=78 blockId=startbit_photosensitiveSensor blockGap=50 block="Photosensitive sensor|port %port|detect bright"
     export function startbit_photosensitiveSensor(port: startbit_PhotosensitiveSensor): boolean {
         let status = 0;
         let flag: boolean = false;
@@ -1379,7 +1384,7 @@ namespace startbit {
          * @param brightness a measure of LED brightness in 0-255. eg: 255
     */
     //% blockId="startbit_setBrightness" block="set brightness %brightness"
-    //% weight=76
+    //% weight=68
     export function startbit_setBrightness(brightness: number): void {
         lhRGBLight.setBrightness(brightness);
     }
@@ -1387,7 +1392,7 @@ namespace startbit {
     /**
      * Set the color of the colored lights, after finished the setting please perform  the display of colored lights.
      */
-    //% weight=76 blockId=startbit_setPixelRGB block="Set|%lightoffset|color to %rgb"
+    //% weight=67 blockId=startbit_setPixelRGB block="Set|%lightoffset|color to %rgb"
     export function startbit_setPixelRGB(lightoffset: StartbitLights, rgb: StartbitRGBColors) {
         lhRGBLight.setPixelColor(lightoffset, rgb);
     }
@@ -1396,7 +1401,7 @@ namespace startbit {
     /**
      * Set RGB Color argument
      */
-    //% weight=75 blockId=startbit_setPixelRGBArgs block="Set|%lightoffset|color to %rgb"
+    //% weight=66 blockId=startbit_setPixelRGBArgs block="Set|%lightoffset|color to %rgb"
     export function startbit_setPixelRGBArgs(lightoffset: StartbitLights, rgb: number) {
         lhRGBLight.setPixelColor(lightoffset, rgb);
     }
@@ -1405,7 +1410,7 @@ namespace startbit {
     /**
      * Display the colored lights, and set the color of the colored lights to match the use. After setting the color of the colored lights, the color of the lights must be displayed.
      */
-    //% weight=74 blockId=startbit_showLight block="Show light"
+    //% weight=65 blockId=startbit_showLight block="Show light"
     export function startbit_showLight() {
         lhRGBLight.show();
     }
@@ -1413,7 +1418,7 @@ namespace startbit {
     /**
      * Clear the color of the colored lights and turn off the lights.
      */
-    //% weight=73 blockGap=50 blockId=startbit_clearLight block="Clear light"
+    //% weight=64 blockGap=50 blockId=startbit_clearLight block="Clear light"
     export function startbit_clearLight() {
         lhRGBLight.clear();
     }
@@ -1421,7 +1426,7 @@ namespace startbit {
     /**
 	 * Initialize Light belt
 	 */
-    //% weight=72 blockId=startbit_belt_initRGBLight block="Initialize light belt at port %port"
+    //% weight=63 blockId=startbit_belt_initRGBLight block="Initialize light belt at port %port"
     export function startbit_belt_initRGBLight(port: startbit_ultrasonicPort) {
         switch (port) {
             case startbit_ultrasonicPort.port1:
@@ -1442,7 +1447,7 @@ namespace startbit {
     /**
      * Set the color of the colored lights, after finished the setting please perform  the display of colored lights.
      */
-    //% weight=71 blockId=startbit_belt_setPixelRGB block="Set light belt|%lightoffset|color to %rgb"
+    //% weight=62 blockId=startbit_belt_setPixelRGB block="Set light belt|%lightoffset|color to %rgb"
     export function startbit_belt_setPixelRGB(lightoffset: StartbitLightsBelt, rgb: StartbitRGBColors) {
         lhRGBLightBelt.setBeltPixelColor(lightoffset, rgb);
     }
@@ -1450,7 +1455,7 @@ namespace startbit {
     /**
      * Display the colored lights, and set the color of the colored lights to match the use. After setting the color of the colored lights, the color of the lights must be displayed.
      */
-    //% weight=70 blockId=startbit_belt_showLight block="Show light belt"
+    //% weight=61 blockId=startbit_belt_showLight block="Show light belt"
     export function startbit_belt_showLight() {
         lhRGBLightBelt.show();
     }
@@ -1458,7 +1463,7 @@ namespace startbit {
     /**
      * Clear the color of the colored lights and turn off the lights.
      */
-    //% weight=69 blockGap=50 blockId=startbit_belt_clearLight block="Clear light belt"
+    //% weight=60 blockGap=50 blockId=startbit_belt_clearLight block="Clear light belt"
     export function startbit_belt_clearLight() {
         lhRGBLightBelt.clear();
     }
@@ -1470,7 +1475,7 @@ namespace startbit {
     /**
     * Resolve the Bluetooth that phone APP send command type, the total of nine types of commands: tank display command, servo debug command, obtaining the distance of ultrasonic command, obtaining temperature command, obtain sound size rank orders, to obtain the light level command, set the color lights command, honking command, firmware version information command.
     */
-    //% weight=68 blockId=startbit_analyzeBluetoothCmd block="Get bluetooth command type %str"
+    //% weight=59 blockId=startbit_analyzeBluetoothCmd block="Get bluetooth command type %str"
     export function startbit_analyzeBluetoothCmd(str: string): number {
         if (str.length > 6) {
             let cmdHead = str.substr(0, 3);
@@ -1496,7 +1501,7 @@ namespace startbit {
     /**
      * Resolve the parameters that the phone APP send the command,there are 3 parameters of servo debug command,the other command has just one parameter.
      */
-    //% weight=66  blockId=startbit_cgetArgs block="Get bluetooth command|%str|argument at %index"
+    //% weight=58  blockId=startbit_cgetArgs block="Get bluetooth command|%str|argument at %index"
     //% index.min=1 index.max=3
     export function startbit_getArgs(str: string, index: number): number {
         let cmdType = startbit_analyzeBluetoothCmd(str);
@@ -1533,7 +1538,7 @@ namespace startbit {
     /**
      * Returns the enumeration of the command type, which can be compared with this module after obtaining the bluetooth command type sent by the mobile phone APP.
      */
-    //% weight=64 blockId=startbit_getBluetoothCmdtype block="Bluetooth command type %type"
+    //% weight=57 blockId=startbit_getBluetoothCmdtype block="Bluetooth command type %type"
     export function startbit_getBluetoothCmdtype(type: startbit_CmdType): number {
         return type;
     }
@@ -1541,7 +1546,7 @@ namespace startbit {
     /**
      * The command type of the tank is stop, go ahead, back, turn left, turn right, slow down, turn left slowly, turn right slowly.
      */
-    //% weight=62 blockId=startbit_getRunCarType block="Car run type %type"
+    //% weight=56 blockId=startbit_getRunCarType block="Car run type %type"
     export function startbit_getRunCarType(type: startbit_CarRunCmdType): number {
         return type;
     }
@@ -1549,7 +1554,7 @@ namespace startbit {
     /**
      * The distance from the ultrasonic obstacle is the standard command, which is sent to the mobile phone. The APP will indicate the distance of the ultrasonic obstacle.
      */
-    //% weight=61 blockId=startbit_convertUltrasonic block="Convert ultrasonic distance %data"
+    //% weight=55 blockId=startbit_convertUltrasonic block="Convert ultrasonic distance %data"
     export function startbit_convertUltrasonic(data: number): string {
         let cmdStr: string = "CMD|03|";
         cmdStr += data.toString();
@@ -1560,7 +1565,7 @@ namespace startbit {
     /**
      * The conversion temperature value to standard command, sent to the mobile phone, and the APP displays the current temperature.
      */
-    //% weight=60 blockId=startbit_convertTemperature block="Convert temperature %data"
+    //% weight=54 blockId=startbit_convertTemperature block="Convert temperature %data"
     export function startbit_convertTemperature(data: number): string {
         let cmdStr: string = "CMD|04|";
         cmdStr += data.toString();
@@ -1571,7 +1576,7 @@ namespace startbit {
     /**
      * Convert the light value to the standard command and send it to the mobile phone. The APP displays the current light level (0~255).
      */
-    //% weight=58 blockId=startbit_convertLight block="Convert light %data"
+    //% weight=53 blockId=startbit_convertLight block="Convert light %data"
     export function startbit_convertLight(data: number): string {
         let cmdStr: string = "CMD|06|";
         cmdStr += data.toString();
@@ -1582,7 +1587,7 @@ namespace startbit {
     /**
      * Convert the battery value to the standard command and send it to the mobile phone. The APP displays the current voltage.
      */
-    //% weight=56 blockId=startbit_convertBattery blockGap=50 block="Convert battery %data"
+    //% weight=52 blockId=startbit_convertBattery blockGap=50 block="Convert battery %data"
     export function startbit_convertBattery(data: number): string {
         let cmdStr: string = "CMD|07|";
         cmdStr += data.toString();
@@ -1593,7 +1598,7 @@ namespace startbit {
     /**
      * Connect to the wifi
      */
-    //% weight=55 blockId=startbit_connectWifi block="Connect to the Wifi,name|%ssid|and password %passwrd"
+    //% weight=51 blockId=startbit_connectWifi block="Connect to the Wifi,name|%ssid|and password %passwrd"
     export function startbit_connectWifi(ssid: string, passwrd: string) {
         let buf = pins.createBuffer(ssid.length + passwrd.length + 10);
         buf[0] = 0x55;
@@ -1618,7 +1623,7 @@ namespace startbit {
     /**
      * Detect the device connect status
      */
-    //% weight=54 blockId=startbit_isConnectedServer block="Device is connected to server?"
+    //% weight=50 blockId=startbit_isConnectedServer block="Device is connected to server?"
     export function startbit_isConnectedServer(): boolean {
         return connectStatus;
     }
@@ -1626,7 +1631,7 @@ namespace startbit {
     /**
      * Send get mac address command
      */
-    //% weight=53 blockId=startbit_send_getMac block="Send pair command"
+    //% weight=49 blockId=startbit_send_getMac block="Send pair command"
     export function startbit_send_getMac() {
         let buf = pins.createBuffer(5);
         buf[0] = 0x55;
@@ -1641,7 +1646,7 @@ namespace startbit {
      * Do someting when Startbit receive mac adress
      * @param body code to run when event is raised
      */
-    //% weight=52 blockId=onStartbit_getMac block="On startbit get device id"
+    //% weight=48 blockId=onStartbit_getMac block="On startbit get device id"
     export function onStartbit_getMac(body: Action) {
         control.onEvent(MESSAGE_MAC, 1, body);
     }
@@ -1649,7 +1654,7 @@ namespace startbit {
     /**
      * Get device mac address
      */
-    //% weight=51 blockId=startbit_getMacAddress block="Get device id"
+    //% weight=47 blockId=startbit_getMacAddress block="Get device id"
     export function startbit_getMacAddress(): string {
         return macStr + "$";
     }
