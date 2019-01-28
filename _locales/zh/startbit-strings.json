@@ -138,5 +138,4 @@
 	"startbit.startbit_fanPort.port1|block":"接口1",
 	"startbit.startbit_fanPort.port2|block":"接口2"
 	"startbit.startbit_TM1640create|block":"|%port|亮度 %intensity|位数 %count",
-	"startbit.startbit_TM1640LEDs.intensity|block":"%digitaltube|设置亮度 %val",
 }
