@@ -386,7 +386,7 @@ namespace startbit {
     /**
     * Set the angle of bus servo 1 to 12, range of -120~120 degree
     */
-    //% weight=98 blockId=startbit_setBusServo block="Set bus servo|port %port|index %index|angle(-120~120) %angle|duration %duration"
+    //% weight=97 blockId=startbit_setBusServo block="Set bus servo|port %port|index %index|angle(-120~120) %angle|duration %duration"
     //% angle.min=-120 angle.max=120
     //% index.defl= [1]
     export function startbit_setBusServo(port: startbit_busServoPort, index: number[], angle: number[], duration: number) {
