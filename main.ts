@@ -91,7 +91,7 @@ namespace startbit {
         port1 = 0x01	    
     }
 	
-    export enum startbit_photosensitiveSensor {
+    export enum startbit_PhotosensitiveSensor {
         //% block="Port 1"
         port1 = 0x00	    
     }
@@ -1102,11 +1102,11 @@ namespace startbit {
     * Get the Photosensitive sensor status,1 detect bright,0 no detect bright
     */
     //% weight=78 blockId=startbit_photosensitiveSensor block="Photosensitive sensor|port %port|detect bright"
-    export function startbit_photosensitiveSensor(port: startbit_photosensitiveSensor): boolean {
+    export function startbit_photosensitiveSensor(port: startbit_PhotosensitiveSensor): boolean {
         let status = 0;
         let flag: boolean = false;
         switch (port) {
-            case startbit_photosensitiveSensor.port1:
+            case startbit_PhotosensitiveSensor.port1:
                 pins.setPull(DigitalPin.P1, PinPullMode.PullUp);
                 status = pins.digitalReadPin(DigitalPin.P1);
                 break;
