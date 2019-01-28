@@ -86,12 +86,12 @@ namespace startbit {
         port1 = 0x01
     }
 	
-    export enum startbit_photosensitivePort {
+    export enum startbit_PhotosensitivePort {
         //% block="Port 1"
         port1 = 0x01	    
     }
 	
-    export enum startbit_photosensitiveSensor {
+    export enum startbit_PhotosensitiveSensor {
         //% block="Port 1"
         port1 = 0x00	    
     }
@@ -1081,7 +1081,7 @@ namespace startbit {
     /**
     * Get the ad value of the knob moudule
     */
-    //% weight=78 blockId=startbit_getKnobValue blockGap=50 block="Get knob|port %port|value(0~255)"
+    //% weight=77 blockId=startbit_getKnobValue blockGap=50 block="Get knob|port %port|value(0~255)"
     export function startbit_getKnobValue(port: startbit_knobPort): number {
         let adValue = pins.analogReadPin(AnalogPin.P1);
         adValue = adValue * 255 / 1023;
@@ -1133,7 +1133,7 @@ namespace startbit {
          * @param brightness a measure of LED brightness in 0-255. eg: 255
     */
     //% blockId="startbit_setBrightness" block="set brightness %brightness"
-    //% weight=77
+    //% weight=76
     export function startbit_setBrightness(brightness: number): void {
         lhRGBLight.setBrightness(brightness);
     }
