@@ -137,4 +137,15 @@
 	"startbit.startbit_setFanSpeed|block":"设置 |%port 风扇速度(-100~100) |%speed1",
 	"startbit.startbit_fanPort.port1|block":"接口1",
 	"startbit.startbit_fanPort.port2|block":"接口2"
+	"startbit.startbit_digitaltube|block":"设置数码管|%port|亮度 %intensity|显示位数 %count",
+	"startbit.startbit_showNumber|block":"数码管显示数字| %num",
+	"startbit.startbit_startbit_showbitr|block":"数码管显示个位数字| %num|位置 %bit",
+	"startbit.startbit_showhex|block":"数码管显示十六进制数| %num",
+	"startbit.startbit_showDP|block":"数码管在位置| %bit|显示小数点 %show",
+	"startbit.startbit_intensity|block":"设置数码管显示亮度| %val",
+	"startbit.startbit_off|block":"关闭数码管",
+	"startbit.startbit_on|block":"显示数码管",
+	"startbit.startbit_clear|block":"清除数码管显示",
+	"startbit.startbit_digitaltubePort.port1|block":"接口1",
+	"startbit.startbit_digitaltubePort.port2|block":"接口2"
 }
