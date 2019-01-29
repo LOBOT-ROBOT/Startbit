@@ -136,7 +136,7 @@
 	"startbit.startbit_actionRunover|block":"动作组运行完成",
 	"startbit.startbit_setFanSpeed|block":"设置 |%port 风扇速度(-100~100) |%speed1",
 	"startbit.startbit_fanPort.port1|block":"接口1",
-	"startbit.startbit_fanPort.port2|block":"接口2"
+	"startbit.startbit_fanPort.port2|block":"接口2"，
 	"startbit.startbit_digitaltube|block":"设置数码管|%port|亮度 %intensity|显示位数 %count",
 	"startbit.startbit_showNumber|block":"数码管显示数字| %num",
 	"startbit.startbit_startbit_showbitr|block":"数码管显示个位数字| %num|位置 %bit",
