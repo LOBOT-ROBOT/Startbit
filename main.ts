@@ -211,6 +211,8 @@ namespace startbit {
 
     let macStr: string = "";
     let actiongroup_finished = true;
+    
+    let Digitaltube:startbit_TM1640LEDs
     let TM1640_CMD1 = 0x40;
     let TM1640_CMD2 = 0xC0;
     let TM1640_CMD3 = 0x80;
