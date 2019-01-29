@@ -33,8 +33,6 @@
 	"startbit.startbit_ultrasonic":"获得超声波模块测试到的障碍物的距离",
 	"startbit.startbit_getKnobValue":"获取旋钮的ad值",
 	"startbit.startbit_lineSensorValue":"获取巡线传感器的ad值",
-	"startbit.startbit_getphotosensitiveValue":"获取光敏传感器的ad值",
-	"startbit.startbit_photosensitiveSensor":"获得光敏传感器的状态，返回1表示检测到光亮，返回0表示没有检测到光亮",
 	"startbit.startbit_connectWifi":"配置startbit的Wifi模块连接到网络",
 	"startbit.startbit_isConnectedWifi":"检测startbit的Wifi模块是否连接成功",
 	"startbit.startbit_send_getMac":"发送配对请求",
@@ -44,5 +42,7 @@
 	"startbit.startbit_runActionGroup":"让舵机控制板运行指定动作组指定次数",
 	"startbit.startbit_stopActionGroup":"让舵机控制板停止当前运行的动作组",
 	"startbit.startbit_sendAttitude":"向舵机控制板发送Microbit的姿态",
-	"startbit.startbit_setFanSpeed":"设置风扇的速度",
+	"startbit.startbit_setFanSpeed":"设置风扇的速度"
+	"startbit.startbit_getphotosensitiveValue":"获取光敏传感器的ad值",
+	"startbit.startbit_photosensitiveSensor":"获得光敏传感器的状态，返回1表示检测到光亮，返回0表示没有检测到光亮",
 }
