@@ -850,7 +850,7 @@ namespace startbit {
      * show a number. 
      * @param num is a number, eg: 0
      */
-    //% blockId="TM1640_shownum" block="digitaltube show numbe| %num"
+    //% blockId="TM1640_shownum" block="digitaltube show number| %num"
     //% weight=76 blockGap=8
     export function startbit_showNumber(num: number)  {
         Digitaltube.showNumber(num);
