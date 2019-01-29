@@ -1374,7 +1374,7 @@ namespace startbit {
     export function startbit_getphotosensitiveValue(port: startbit_photosensitivePort): number {
         let adValue = pins.analogReadPin(AnalogPin.P1);
         adValue = adValue * 255 / 1023;
-        return adValue;
+        return 255 - adValue;
     }
 
     /**
