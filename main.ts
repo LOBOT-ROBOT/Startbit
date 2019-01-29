@@ -919,7 +919,7 @@ namespace startbit {
     /**
      * clear LED. 
      */
-    //% blockId="startbit_clear" block="clear digitaltube"
+    //% blockId="startbit_clear" blockGap=50 block="clear digitaltube"
     //% weight=69 blockGap=8
     export function startbit_clear() {
         Digitaltube.clear();
