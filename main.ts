@@ -850,7 +850,7 @@ namespace startbit {
      * show a number. 
      * @param num is a number, eg: 0
      */
-    //% blockId="TM1640_shownum" block="digitaltube show number| %num"
+    //% blockId="startbit_showNumber" block="digitaltube show number| %num"
     //% weight=76 blockGap=8
     export function startbit_showNumber(num: number)  {
         Digitaltube.showNumber(num);
@@ -861,7 +861,7 @@ namespace startbit {
      * @param num number will show, eg: 5
      * @param bit the position of the LED, eg: 0
      */
-    //% blockId="TM1640_showbit" block="digitaltube show digit| %num|at %bit"
+    //% blockId="startbit_showbit" block="digitaltube show digit| %num|at %bit"
     //% weight=75 blockGap=8
     export function startbit_showbit(num: number = 5, bit: number = 0) {
         Digitaltube.showbit(num, bit);
@@ -871,7 +871,7 @@ namespace startbit {
      * show a hex number. 
      * @param num is a hex number, eg: 0
      */
-    //% blockId="TM1640_showhex" block="digitaltube show hex number| %num"
+    //% blockId="startbit_showhex" block="digitaltube show hex number| %num"
     //% weight=74 blockGap=8
     export function startbit_showhex(num: number) {
         Digitaltube.showHex(num);
@@ -882,7 +882,7 @@ namespace startbit {
      * @param bit is the position, eg: 1
      * @param show is show/hide dp, eg: true
      */
-    //% blockId="TM1640_showDP" block="digitaltube DotPoint at| %bit|show %show"
+    //% blockId="startbit_showDP" block="digitaltube DotPoint at| %bit|show %show"
     //% weight=73 blockGap=8
     export function startbit_showDP(bit: number = 1, show: boolean = true) {
         Digitaltube.showDP(bit, show);
@@ -892,7 +892,7 @@ namespace startbit {
      * set TM1640 intensity, range is [0-8], 0 is off.
      * @param val the brightness of the TM1640, eg: 7
      */
-    //% blockId="TM1640_set_intensity" block=" digitaltube set intensity %val"
+    //% blockId="startbit_intensity" block=" digitaltube set intensity %val"
     //% weight=72 blockGap=8
     export function startbit_intensity(val: number = 7) {
         Digitaltube.intensity(val);
@@ -901,7 +901,7 @@ namespace startbit {
     /**
      * turn off LED. 
      */
-    //% blockId="TM1640_off" block="turn off digitaltube"
+    //% blockId="startbit_off" block="turn off digitaltube"
     //% weight=71 blockGap=8
     export function startbit_off() {
         Digitaltube.off();
@@ -910,7 +910,7 @@ namespace startbit {
     /**
      * turn on LED. 
      */
-    //% blockId="TM1640_on" block="turn on digitaltube"
+    //% blockId="startbit_on" block="turn on digitaltube"
     //% weight=70 blockGap=8
     export function startbit_on() {
         Digitaltube.on();
