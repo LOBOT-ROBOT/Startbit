@@ -44,14 +44,14 @@
 	"startbit.startbit_runActionGroup":"让舵机控制板运行指定动作组指定次数",
 	"startbit.startbit_stopActionGroup":"让舵机控制板停止当前运行的动作组",
 	"startbit.startbit_sendAttitude":"向舵机控制板发送Microbit的姿态",
-	"startbit.startbit_setFanSpeed":"设置风扇的速度"
-	"startbit.startbit_digitaltube":"设置数码管接口, 显示亮度以及显示位数(1-4)"
-	"startbit.startbit_showNumber":"显示一个整数, 可以是负数"
-	"startbit.startbit_showbit":"在指定位置显示一个数字, 数字的范围是 0-15"
-	"startbit.startbit_showhex":"以十六进制显示数字"
-	"startbit.startbit_showDP":"显示或隐藏小数点, 位置(0-3), true时显示, false时隐藏"
-	"startbit.startbit_intensity":"设置显示亮度(0-8)"
-	"startbit.startbit_off":"关闭显示功能(不会影响显示内容)"
-	"startbit.startbit_on":"开启显示"
-	"startbit.startbit_clear":"清除显示"
+	"startbit.startbit_setFanSpeed":"设置风扇的速度",
+	"startbit.startbit_digitaltube":"设置数码管接口, 显示亮度以及显示位数(1-4)",
+	"startbit.startbit_showNumber":"显示一个整数, 可以是负数",
+	"startbit.startbit_showbit":"在指定位置显示一个数字, 数字的范围是 0-15",
+	"startbit.startbit_showhex":"以十六进制显示数字",
+	"startbit.startbit_showDP":"显示或隐藏小数点, 位置(0-3), true时显示, false时隐藏",
+	"startbit.startbit_intensity":"设置显示亮度(0-8)",
+	"startbit.startbit_off":"关闭显示功能(不会影响显示内容)",
+	"startbit.startbit_on":"开启显示",
+	"startbit.startbit_clear":"清除显示",
 }
