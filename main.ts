@@ -1386,8 +1386,8 @@ namespace startbit {
         let flag: boolean = false;
         switch (port) {
             case startbit_PhotosensitiveSensor.port1:
-                pins.setPull(DigitalPin.P1, PinPullMode.PullUp);
-                status = pins.digitalReadPin(DigitalPin.P1);
+                pins.setPull(DigitalPin.P2, PinPullMode.PullUp);
+                status = pins.digitalReadPin(DigitalPin.P2);
                 break;
         }
         if (status == 1)
