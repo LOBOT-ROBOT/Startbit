@@ -65,6 +65,7 @@
 	"startbit.startbit_CmdType.RGB_BELT|block":"控制灯带",
 	"startbit.startbit_CmdType.WIFI_MODE|block":"Wifi模式",
 	"startbit.startbit_CmdType.GET_MAC|block":"配对请求",
+	"startbit.startbit_CmdType.GET_HAND_CMD|block":"uHand:bit命令",
 	"startbit.startbit_CarRunCmdType.STOP|block":"停止",
 	"startbit.startbit_CarRunCmdType.GO_AHEAD|block":"前进",
 	"startbit.startbit_CarRunCmdType.GO_BACK|block":"后退",
@@ -147,5 +148,6 @@
 	"startbit.startbit_on|block":"开启数码管显示",
 	"startbit.startbit_clear|block":"清除数码管显示",
 	"startbit.startbit_digitaltubePort.port1|block":"接口1",
-	"startbit.startbit_digitaltubePort.port2|block":"接口2"
+	"startbit.startbit_digitaltubePort.port2|block":"接口2",
+	"startbit.startbit_convertHandCmd|block":"转换uHand:bit指令 %data"
 }

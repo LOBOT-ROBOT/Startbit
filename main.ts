@@ -149,8 +149,10 @@ namespace startbit {
         //% block="WIFI mode"
         WIFI_MODE = 13,
         //% block="Get mac"
-        GET_MAC = 14
-    }
+        GET_MAC = 14,
+        //% block="Get hand cmd"
+        GET_HAND_CMD = 15
+     }
 
     export enum startbit_CarRunCmdType {
         //% block="Stop"
@@ -389,24 +391,24 @@ namespace startbit {
     */
     //% weight=99 blockId=setServo block="Set pwm servo range|range %range|index %index|angle %angle|duration %duration"
     //% angle.min=0 angle.max=270
-    export function setServo(range:startbit_servorange, index: number = 1, angle: number, duration: number = 300) {
-	    
-        let position = mapRGB(angle, 0, range, 500, 2500);
-
-        let buf = pins.createBuffer(10);
+    export function setServo(range:startbit_servorange, index: number[], angle: number[], duration: number) {
+        let buf = pins.createBuffer(index.length *3 + 7);
         buf[0] = 0x55;
         buf[1] = 0x55;
-        buf[2] = 0x08;
+        buf[2] = index.length * 3 + 5;
         buf[3] = 0x03;//cmd type
-        buf[4] = 0x01;
+        buf[4] = index.length;
         buf[5] = duration & 0xff;
         buf[6] = (duration >> 8) & 0xff;
-        buf[7] = index;
-        buf[8] = position & 0xff;
-        buf[9] = (position >> 8) & 0xff;
+        for(let i = 0;i < index.length;i++)
+        {
+            let position = mapRGB(angle[i], 0, range, 500, 2500)
+            buf[7 + 3 * i] = index[i];
+            buf[8 + 3 * i] = position & 0xff;
+            buf[9 + 3 * i] = (position >> 8) & 0xff;
+        }
         serial.writeBuffer(buf);
     }
-
     /**
     * Set the angle of bus servo 1 to 12, range of -120~120 degree
     */
@@ -542,7 +544,7 @@ namespace startbit {
      * Do someting when Startbit receive angle
      * @param body code to run when event is raised
      */
-    //% weight=93 blockId=onStartbit_getAngle block="On Startbit|%servo|get angle"
+    //% weight=93 blockId=onStartbit_getAngle block="on Startbit|%servo|get angle"
     export function onStartbit_getAngle(servo: startbit_Servos, body: Action) {
         control.onEvent(MESSAGE_ANGLE, servo, body);
     }
@@ -1511,7 +1513,7 @@ namespace startbit {
             if (cmdHead == "CMD") {
                 let cmdTypeStr: string = str.substr(4, 2);
                 let cmdType = strToNumber(cmdTypeStr);
-                if (cmdType > startbit_CmdType.GET_MAC || cmdType < 0) {
+                if (cmdType > startbit_CmdType.GET_HAND_CMD || cmdType < 0) {
                     return startbit_CmdType.NO_COMMAND;
                 }
                 else {
@@ -1624,9 +1626,20 @@ namespace startbit {
     }
 
     /**
+     * Convert the hand cmd to phone app
+     */
+    //% weight=51 blockId=startbit_convertHandCmd blockGap=50 block="Convert uHand:bit %data"
+    export function startbit_convertHandCmd(data: number): string {
+        let cmdStr: string = "CMD|15|";
+        cmdStr += data.toString();
+        cmdStr += "|$";
+        return cmdStr;
+    }
+
+    /**
      * Connect to the wifi
      */
-    //% weight=51 blockId=startbit_connectWifi block="Connect to the Wifi,name|%ssid|and password %passwrd"
+    //% weight=50 blockId=startbit_connectWifi block="Connect to the Wifi,name|%ssid|and password %passwrd"
     export function startbit_connectWifi(ssid: string, passwrd: string) {
         let buf = pins.createBuffer(ssid.length + passwrd.length + 10);
         buf[0] = 0x55;
@@ -1651,7 +1664,7 @@ namespace startbit {
     /**
      * Detect the device connect status
      */
-    //% weight=50 blockId=startbit_isConnectedServer block="Device is connected to server?"
+    //% weight=49 blockId=startbit_isConnectedServer block="Device is connected to server?"
     export function startbit_isConnectedServer(): boolean {
         return connectStatus;
     }
@@ -1659,7 +1672,7 @@ namespace startbit {
     /**
      * Send get mac address command
      */
-    //% weight=49 blockId=startbit_send_getMac block="Send pair command"
+    //% weight=48 blockId=startbit_send_getMac block="Send pair command"
     export function startbit_send_getMac() {
         let buf = pins.createBuffer(5);
         buf[0] = 0x55;
@@ -1674,7 +1687,7 @@ namespace startbit {
      * Do someting when Startbit receive mac adress
      * @param body code to run when event is raised
      */
-    //% weight=48 blockId=onStartbit_getMac block="On startbit get device id"
+    //% weight=47 blockId=onStartbit_getMac block="on startbit get device id"
     export function onStartbit_getMac(body: Action) {
         control.onEvent(MESSAGE_MAC, 1, body);
     }
@@ -1682,7 +1695,7 @@ namespace startbit {
     /**
      * Get device mac address
      */
-    //% weight=47 blockId=startbit_getMacAddress block="Get device id"
+    //% weight=46 blockId=startbit_getMacAddress block="Get device id"
     export function startbit_getMacAddress(): string {
         return macStr + "$";
     }
