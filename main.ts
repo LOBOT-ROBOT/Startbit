@@ -391,6 +391,7 @@ namespace startbit {
     */
     //% weight=99 blockId=setServo block="Set pwm servo range|range %range|index %index|angle %angle|duration %duration"
     //% angle.min=0 angle.max=270
+    //% inlineInputMode=inline
     export function setServo(range:startbit_servorange, index: number[], angle: number[], duration: number) {
         let buf = pins.createBuffer(index.length *3 + 7);
         buf[0] = 0x55;
