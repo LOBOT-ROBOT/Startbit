@@ -1163,52 +1163,60 @@ namespace startbit {
 	 */
     //% weight=86 blockId=startbit_checkCurrentColor block="Current color %color"
     export function startbit_checkCurrentColor(color: startbit_Colors): boolean {
-        let r = readRedLight();
-        let g = readGreenLight();
-        let b = readBlueLight();
-        let t = startbit_Colors.Red;
+let r = readRedLight();
+		let g = readGreenLight();
+		let b = readBlueLight();
+        let t = qdee_Colors.Red;
+    
+		if (r > g)
+		{
+			t = qdee_Colors.Red;
+		}	
+		else
+		{
+			t = qdee_Colors.Green;
+		}	
 
-        if (r > g) {
-            t = startbit_Colors.Red;
-        }
-        else {
-            t = startbit_Colors.Green;
-        }
-
-        if (t == startbit_Colors.Green && g < b) {
-            t = startbit_Colors.Blue;
-        }
-        if (t == startbit_Colors.Red && r < b) {
-            t = startbit_Colors.Blue;
-        }
-        serial.writeNumber(r);
-        serial.writeLine("->red");
-        serial.writeNumber(g);
-        serial.writeLine("->green");
-        serial.writeNumber(b);
-        serial.writeLine("->blue");
-        if (r < 260 && g < 260 && b < 530) {
-            t = startbit_Colors.Black;
+		if (t == qdee_Colors.Green && g < b - 100)
+		{
+			t = qdee_Colors.Blue;
+		}	
+		if (t == qdee_Colors.Red && r < b)
+		{
+			t = qdee_Colors.Blue;
+         }
+         serial.writeNumber(r); 
+         serial.writeLine("->red");
+         serial.writeNumber(g); 
+         serial.writeLine("->green"); 
+         serial.writeNumber(b); 
+         serial.writeLine("->blue"); 
+        if(r < 260 && g < 260 && b < 530)
+		{
+            t = qdee_Colors.Black;
             return (color == t);
         }
-        else if (r > 3200 && g > 5000 && b > 7000) {
-            t = startbit_Colors.White;
+        else if (r > 10000 && g > 16000 && b > 22000)
+        {
+	    if(g * 2 > b)
+            	t = qdee_Colors.White;
             return (color == t);
         }
-        if (t == startbit_Colors.Blue && b > 2000) {
-            // serial.writeLine("blue");
-
-        }
-        else if (t == startbit_Colors.Green && g > 1200) {
-            // serial.writeLine("green");
-        }
-        else if (t == startbit_Colors.Red && r > 1200) {
-            //serial.writeLine("red");
-        }
-        else {
+		if (t == qdee_Colors.Blue && b > 5000) {
+           // serial.writeLine("blue");
+            
+		}
+		else if (t == qdee_Colors.Green && g > 3500) {
+           // serial.writeLine("green");
+		}
+		else if (t == qdee_Colors.Red && r > 3500) {
+			//serial.writeLine("red");
+		}
+		else
+        {
             //serial.writeLine("none");
             return false;
-        }
+        }		
         return (color == t);
     }
 
