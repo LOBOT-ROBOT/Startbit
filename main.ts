@@ -1166,24 +1166,24 @@ namespace startbit {
 let r = readRedLight();
 		let g = readGreenLight();
 		let b = readBlueLight();
-        let t = qdee_Colors.Red;
+        let t = startbit_Colors.Red;
     
 		if (r > g)
 		{
-			t = qdee_Colors.Red;
+			t = startbit_Colors.Red;
 		}	
 		else
 		{
-			t = qdee_Colors.Green;
+			t = startbit_Colors.Green;
 		}	
 
-		if (t == qdee_Colors.Green && g < b - 100)
+		if (t == startbit_Colors.Green && g < b - 100)
 		{
-			t = qdee_Colors.Blue;
+			t = startbit_Colors.Blue;
 		}	
-		if (t == qdee_Colors.Red && r < b)
+		if (t == startbit_Colors.Red && r < b)
 		{
-			t = qdee_Colors.Blue;
+			t = startbit_Colors.Blue;
          }
          serial.writeNumber(r); 
          serial.writeLine("->red");
@@ -1193,23 +1193,23 @@ let r = readRedLight();
          serial.writeLine("->blue"); 
         if(r < 260 && g < 260 && b < 530)
 		{
-            t = qdee_Colors.Black;
+            t = startbit_Colors.Black;
             return (color == t);
         }
         else if (r > 10000 && g > 16000 && b > 22000)
         {
 	    if(g * 2 > b)
-            	t = qdee_Colors.White;
+            	t = startbit_Colors.White;
             return (color == t);
         }
-		if (t == qdee_Colors.Blue && b > 5000) {
+		if (t == startbit_Colors.Blue && b > 5000) {
            // serial.writeLine("blue");
             
 		}
-		else if (t == qdee_Colors.Green && g > 3500) {
+		else if (t == startbit_Colors.Green && g > 3500) {
            // serial.writeLine("green");
 		}
-		else if (t == qdee_Colors.Red && r > 3500) {
+		else if (t == startbit_Colors.Red && r > 3500) {
 			//serial.writeLine("red");
 		}
 		else
