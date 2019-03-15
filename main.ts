@@ -14,7 +14,9 @@ namespace startbit {
         //% block="Black"
         Black = 0x04,
         //% block="White"
-        White = 0x05
+        White = 0x05,
+        //% block="None"
+        None = 0x06
     }
 
     export enum startbit_lineFollower {
@@ -936,6 +938,7 @@ namespace startbit {
     const APDS9960_CONTROL = 0x8F;
     const APDS9960_CONFIG2 = 0x90;
     const APDS9960_ID = 0x92;
+    const APDS9960_STATUS = 0x93;
     const APDS9960_CDATAL = 0x94;
     const APDS9960_CDATAH = 0x95;
     const APDS9960_RDATAL = 0x96;
@@ -947,6 +950,8 @@ namespace startbit {
     const APDS9960_POFFSET_UR = 0x9D;
     const APDS9960_POFFSET_DL = 0x9E;
     const APDS9960_CONFIG3 = 0x9F;
+    const APDS9960_GCONF4 = 0xAB;
+    const APDS9960_AICLEAR = 0xE7;
 
 
     /* LED Drive values */
@@ -975,6 +980,9 @@ namespace startbit {
     const AMBIENT_LIGHT = 1;
     const ALL = 7;
 
+    const red_wb = 2130;
+    const green_wb = 3500;
+    const blue_wb = 4620;
 
     function i2cwrite(reg: number, value: number) {
         let buf = pins.createBuffer(2);
@@ -988,6 +996,7 @@ namespace startbit {
         let val = pins.i2cReadNumber(APDS9960_I2C_ADDR, NumberFormat.UInt8BE);
         return val;
     }
+
 
     function InitColor(): boolean {
         let id = i2cread(APDS9960_ID);
@@ -1014,10 +1023,58 @@ namespace startbit {
         return true;
     }
 
+    function setLEDDrive(drive: number) {
+        let val = i2cread(APDS9960_CONTROL);
+        /* Set bits in register to given value */
+        drive &= 0b00000011;
+        drive = drive << 6;
+        val &= 0b00111111;
+        val |= drive;
+        i2cwrite(APDS9960_CONTROL, val);
+    }
+
+    function setLightIntLowThreshold(threshold: number) {
+        let val_low = threshold & 0x00FF;
+        let val_high = (threshold & 0xFF00) >> 8;
+        i2cwrite(APDS9960_AILTL, val_low);
+        i2cwrite(APDS9960_AILTH, val_high);
+    }
+
+    function setLightIntHighThreshold(threshold: number) {
+        let val_low = threshold & 0x00FF;
+        let val_high = (threshold & 0xFF00) >> 8;
+        i2cwrite(APDS9960_AIHTL, val_low);
+        i2cwrite(APDS9960_AIHTH, val_high);
+    }
+
+
+    function rgb2hue(r: number, g: number, b: number): number {
+        let max = Math.max(r, Math.max(g, b))
+        let min = Math.min(r, Math.min(g, b))
+        let c = max - min;
+        let hue = 0;
+        let segment = 0;
+        let shift = 0;
+        if (c == 0)
+            return 0;
+        if ((r > g) && (r > b)) {
+            segment = (60.0 * (g - b)) / c;
+            if (segment < 0)
+                hue = segment + 360;
+        }
+        else if ((g > b) && (g > r)) {
+            segment = (60.0 * (b - r)) / c;
+            hue = segment + 120;
+        }
+        else if ((b > g) && (b > r)) {
+            segment = (60.0 * (r - g)) / c;
+            hue = segment + 240;
+        }
+        return hue;
+    }
+
     function setMode(mode: number, enable: number) {
         let reg_val = getMode();
-        serial.writeLine("mode:");
-        serial.writeNumber(reg_val);
         /* Change bit(s) in ENABLE register */
         enable = enable & 0x01;
         if (mode >= 0 && mode <= 6) {
@@ -1043,30 +1100,6 @@ namespace startbit {
     function getMode(): number {
         let enable_value = i2cread(APDS9960_ENABLE);
         return enable_value;
-    }
-
-    function setLEDDrive(drive: number) {
-        let val = i2cread(APDS9960_CONTROL);
-        /* Set bits in register to given value */
-        drive &= 0b00000011;
-        drive = drive << 6;
-        val &= 0b00111111;
-        val |= drive;
-        i2cwrite(APDS9960_CONTROL, val);
-    }
-
-    function setLightIntLowThreshold(threshold: number) {
-        let val_low = threshold & 0x00FF;
-        let val_high = (threshold & 0xFF00) >> 8;
-        i2cwrite(APDS9960_AILTL, val_low);
-        i2cwrite(APDS9960_AILTH, val_high);
-    }
-
-    function setLightIntHighThreshold(threshold: number) {
-        let val_low = threshold & 0x00FF;
-        let val_high = (threshold & 0xFF00) >> 8;
-        i2cwrite(APDS9960_AIHTL, val_low);
-        i2cwrite(APDS9960_AIHTH, val_high);
     }
 
     function enableLightSensor(interrupts: boolean) {
@@ -1111,51 +1144,21 @@ namespace startbit {
     }
 
     function readAmbientLight(): number {
-        let val_byte = i2cread(APDS9960_CDATAL);
-        let val = val_byte;
-        val_byte = i2cread(APDS9960_CDATAH);
-        val = val + val_byte << 8;
+        let val = i2cread(APDS9960_CDATAL);
+        let val_byte = i2cread(APDS9960_CDATAH);
+        val = val + val_byte * 256;
         return val;
     }
 
-    function readRedLight(): number {
-
-        let val_byte = i2cread(APDS9960_RDATAL);
-        let val = val_byte;
-        val_byte = i2cread(APDS9960_RDATAH);
-        val = val + val_byte << 8;
-        return val;
-    }
-
-    function readGreenLight(): number {
-
-        let val_byte = i2cread(APDS9960_GDATAL);
-        let val = val_byte;
-        val_byte = i2cread(APDS9960_GDATAH);
-        val = val + val_byte << 8;
-        return val;
-    }
-
-    function readBlueLight(): number {
-
-        let val_byte = i2cread(APDS9960_BDATAL);
-        let val = val_byte;
-        val_byte = i2cread(APDS9960_BDATAH);
-        val = val + val_byte << 8;
-        return val;
-    }
 
     /**
      * Initialize the color sensor,please execute at boot time
      */
     //% weight=87 blockId=startbit_init_colorSensor block="Initialize color sensor port at %port"
     export function startbit_init_colorSensor(port: startbit_colorSensorPort) {
-        if (i2cPortValid) {
-            InitColor();
-            enableLightSensor(false);
-            control.waitMicros(100);
-        }
-        i2cPortValid = false;
+        InitColor();
+        enableLightSensor(true);
+        control.waitMicros(100);
     }
 
     /**
@@ -1163,60 +1166,56 @@ namespace startbit {
 	 */
     //% weight=86 blockId=startbit_checkCurrentColor block="Current color %color"
     export function startbit_checkCurrentColor(color: startbit_Colors): boolean {
-let r = readRedLight();
-		let g = readGreenLight();
-		let b = readBlueLight();
-        let t = startbit_Colors.Red;
-    
-		if (r > g)
-		{
-			t = startbit_Colors.Red;
-		}	
-		else
-		{
-			t = startbit_Colors.Green;
-		}	
+        let c = i2cread(APDS9960_CDATAL) + i2cread(APDS9960_CDATAH) * 256;
+        let r = i2cread(APDS9960_RDATAL) + i2cread(APDS9960_RDATAH) * 256;
+        let g = i2cread(APDS9960_GDATAL) + i2cread(APDS9960_GDATAH) * 256;
+        let b = i2cread(APDS9960_BDATAL) + i2cread(APDS9960_BDATAH) * 256;
 
-		if (t == startbit_Colors.Green && g < b - 100)
-		{
-			t = startbit_Colors.Blue;
-		}	
-		if (t == startbit_Colors.Red && r < b)
-		{
-			t = startbit_Colors.Blue;
-         }
-         serial.writeNumber(r); 
-         serial.writeLine("->red");
-         serial.writeNumber(g); 
-         serial.writeLine("->green"); 
-         serial.writeNumber(b); 
-         serial.writeLine("->blue"); 
-        if(r < 260 && g < 260 && b < 530)
-		{
+        // serial.writeNumber(c);
+        // serial.writeLine("->ccc");
+        // serial.writeNumber(r);
+        // serial.writeLine("->red");
+        // serial.writeNumber(g);
+        // serial.writeLine("->green");
+        // serial.writeNumber(b);
+        // serial.writeLine("->blue");
+
+        if (r > red_wb)
+            r = red_wb;
+        if (g > green_wb)
+            g = green_wb;
+        if (b > blue_wb)
+            b = blue_wb;
+
+        r = Math.round(mapRGB(r, 0, red_wb, 0, 255));
+        g = Math.round(mapRGB(g, 0, green_wb, 0, 255));
+        b = Math.round(mapRGB(b, 0, blue_wb, 0, 255));
+        // serial.writeNumber(r);
+        // serial.writeLine("->rred");
+        // serial.writeNumber(g);
+        // serial.writeLine("->ggreen");
+        // serial.writeNumber(b);
+        // serial.writeLine("->bblue");
+         let hsv = rgb2hue(r, g, b);
+        // serial.writeNumber(hsv);
+        // serial.writeLine("->hsv");
+        let t = startbit_Colors.None;
+        if (c > 2200 && r > 65 && g > 65 && b > 65) {
+            t = startbit_Colors.White;
+        }
+        else if (c > 800) {
+            if (hsv < 8 || hsv > 350)
+                t = startbit_Colors.Red;
+            else if (hsv > 60 && hsv < 170) {
+                t = startbit_Colors.Green;
+            }
+            else if (hsv > 210 && hsv < 230) {
+                t = startbit_Colors.Blue;
+            }
+        }
+        else if (c > 200 && r > 10 && g > 7 && b > 7 && r < 16.5 && g < 15 && b < 14) {
             t = startbit_Colors.Black;
-            return (color == t);
         }
-        else if (r > 10000 && g > 16000 && b > 22000)
-        {
-	    if(g * 2 > b)
-            	t = startbit_Colors.White;
-            return (color == t);
-        }
-		if (t == startbit_Colors.Blue && b > 5000) {
-           // serial.writeLine("blue");
-            
-		}
-		else if (t == startbit_Colors.Green && g > 3500) {
-           // serial.writeLine("green");
-		}
-		else if (t == startbit_Colors.Red && r > 3500) {
-			//serial.writeLine("red");
-		}
-		else
-        {
-            //serial.writeLine("none");
-            return false;
-        }		
         return (color == t);
     }
 
