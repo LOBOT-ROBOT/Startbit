@@ -33,6 +33,7 @@
 	"startbit.startbit_Colors.Blue|block":"蓝色",
 	"startbit.startbit_Colors.White|block":"白色",
 	"startbit.startbit_Colors.Black|block":"黑色",
+	"startbit.startbit_Colors.None|block":"未识别",
 	"startbit.startbit_PinIOStatusPinIOStatus.Low|block":"高电平",
 	"startbit.startbit_PinIOStatus.Hight|block":"低电平",
 	"StartbitRGBColors.Red|block":"红色",
