@@ -1002,9 +1002,9 @@ namespace startbit {
         let id = i2cread(APDS9960_ID);
         //  serial.writeLine("id:")
         //  serial.writeNumber(id); 
-        if (!(id == APDS9960_ID_1 || id == APDS9960_ID_2)) {
-            return false;
-        }
+        // if (!(id == APDS9960_ID_1 || id == APDS9960_ID_2)) {
+        //     return false;
+        // }
         //  serial.writeLine("set mode:")
         setMode(ALL, OFF);
         i2cwrite(APDS9960_ATIME, DEFAULT_ATIME);
