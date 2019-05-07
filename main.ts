@@ -391,7 +391,7 @@ namespace startbit {
     /**
     * Set the angle of servo 1 to 8, range of 0~270 degree
     */
-    //% weight=99 blockId=setServo block="Set pwm servo range|range %range|index %index|angle %angle|duration %duration"
+    //% weight=99 blockId=setServo block="Set pwm servo range|range %range|index(array type) %index|angle(array type) %angle|duration %duration"
     //% angle.min=0 angle.max=270
     //% inlineInputMode=inline
     export function setServo(range:startbit_servorange, index: number[], angle: number[], duration: number) {
@@ -415,7 +415,7 @@ namespace startbit {
     /**
     * Set the angle of bus servo 1 to 12, range of -120~120 degree
     */
-    //% weight=98 blockId=startbit_setBusServo block="Set bus servo|port %port|index %index|angle(-120~120) %angle|duration %duration"
+    //% weight=98 blockId=startbit_setBusServo block="Set bus servo|port %port|index(array type) %index|angle(array type)(-120~120) %angle|duration %duration"
     //% angle.min=-120 angle.max=120
     //% index.defl= [1]
     export function startbit_setBusServo(port: startbit_busServoPort, index: number[], angle: number[], duration: number) {

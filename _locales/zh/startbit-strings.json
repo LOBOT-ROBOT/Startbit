@@ -1,6 +1,6 @@
 {
 	"startbit.startbit_Init|block": "初始化Startbit",
-	"startbit.startbit_setBusServo|block": "设置总线舵机|%port|编号 %index|角度(-120~120) %angle|运行时间 %duration",
+	"startbit.startbit_setBusServo|block": "设置总线舵机|%port|编号(数组类型) %index|角度(数组类型)(-120~120) %angle|运行时间 %duration",
 	"startbit.startbit_setMotorSpeed|block": "设置电机1速度(-100~100)|%speed1|和电机2|速度 %speed2",
 	"startbit.startbit_getSoundVolume|block": "音量值",
 	"startbit.startbit_getBatVoltage|block":"电量值(mV)",
@@ -131,7 +131,7 @@
 	"startbit.startbit_readAngle|block":"发送读|%servo|角度命令",
 	"startbit.getServosAngle|block":"获取|%servo|角度(-120~120)",
 	"startbit.onstartbit_getAngle|block":"当读取到|%servo|角度时执行",
-	"startbit.setServo|block":"设置PWM舵机|转动范围 %range|编号 %index|角度 %angle|时长 %duration",
+	"startbit.setServo|block":"设置PWM舵机|转动范围 %range|编号(数组类型) %index|角度(数组类型) %angle|时长 %duration",
 	"startbit.startbit_runActionGroup|block":"运行动作组|编号 %index|次数 %times",
 	"startbit.startbit_stopActionGroup|block":"停止当前动作组",
 	"startbit.startbit_sendAttitude|block":"发送姿态 旋转|%pitch| 横滚|%roll",
