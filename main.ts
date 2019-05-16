@@ -391,10 +391,34 @@ namespace startbit {
     /**
     * Set the angle of servo 1 to 8, range of 0~270 degree
     */
-    //% weight=99 blockId=setServo block="Set pwm servo range|range %range|index(array type) %index|angle(array type) %angle|duration %duration"
+    //% weight=99 blockId=setServo block="Set pwm servo range|range %range|index %index|angle %angle|duration %duration"
+    //% angle.min=0 angle.max=270
+    export function setServo(range:startbit_servorange, index: number = 1, angle: number, duration: number = 300) {
+	    
+        let position = mapRGB(angle, 0, range, 500, 2500);
+
+        let buf = pins.createBuffer(10);
+        buf[0] = 0x55;
+        buf[1] = 0x55;
+        buf[2] = 0x08;
+        buf[3] = 0x03;//cmd type
+        buf[4] = 0x01;
+        buf[5] = duration & 0xff;
+        buf[6] = (duration >> 8) & 0xff;
+        buf[7] = index;
+        buf[8] = position & 0xff;
+        buf[9] = (position >> 8) & 0xff;
+        serial.writeBuffer(buf);
+    }
+
+
+    /**
+    * Set the angle of servo 1 to 8, range of 0~270 degree
+    */
+    //% weight=98 blockId=setArrayServo block="Set pwm servo range|range %range|index(array type) %index|angle(array type) %angle|duration %duration"
     //% angle.min=0 angle.max=270
     //% inlineInputMode=inline
-    export function setServo(range:startbit_servorange, index: number[], angle: number[], duration: number) {
+    export function setArrayServo(range:startbit_servorange, index: number[], angle: number[], duration: number) {
         let buf = pins.createBuffer(index.length *3 + 7);
         buf[0] = 0x55;
         buf[1] = 0x55;
@@ -415,7 +439,7 @@ namespace startbit {
     /**
     * Set the angle of bus servo 1 to 12, range of -120~120 degree
     */
-    //% weight=98 blockId=startbit_setBusServo block="Set bus servo|port %port|index(array type) %index|angle(array type)(-120~120) %angle|duration %duration"
+    //% weight=97 blockId=startbit_setBusServo block="Set bus servo|port %port|index(array type) %index|angle(array type)(-120~120) %angle|duration %duration"
     //% angle.min=-120 angle.max=120
     //% index.defl= [1]
     export function startbit_setBusServo(port: startbit_busServoPort, index: number[], angle: number[], duration: number) {
@@ -478,7 +502,7 @@ namespace startbit {
     * Set the servo controller to run a actiongroup
     * @param times Running times. eg: 1
     */
-    //% weight=97 blockId=startbit_runActionGroup block="Run ActionGroup|index %index|times %times"
+    //% weight=96 blockId=startbit_runActionGroup block="Run ActionGroup|index %index|times %times"
     export function startbit_runActionGroup(index: number, times: number = 1) {
 
         let buf = pins.createBuffer(7);
@@ -497,7 +521,7 @@ namespace startbit {
     /**
     * Stop running actiongroup
     */
-    //% weight=96 blockId=startbit_stopnActionGroup block="Stop ActionGroup"
+    //% weight=95 blockId=startbit_stopnActionGroup block="Stop ActionGroup"
     export function startbit_stopActionGroup() {
 
         let buf = pins.createBuffer(7);
@@ -513,7 +537,7 @@ namespace startbit {
     /**
      * Wait for Actiongroup Finishing
      */
-    //% weight=95 blockId=startbit_actionRunover block="Action run over"
+    //% weight=94 blockId=startbit_actionRunover block="Action run over"
     export function startbit_actionRunover(): boolean {
         // let ret = false;
         if (actiongroup_finished == true) {
@@ -530,7 +554,7 @@ namespace startbit {
     /**
      * Send read startbit servos angle command
      */
-    //% weight=94 blockId=startbit_readAngle block="Send |%servo|angle command "
+    //% weight=92 blockId=startbit_readAngle block="Send |%servo|angle command "
     export function startbit_readAngle(servo: startbit_Servos) {
         let buf = pins.createBuffer(6);
         buf[0] = 0x55;
@@ -547,7 +571,7 @@ namespace startbit {
      * Do someting when Startbit receive angle
      * @param body code to run when event is raised
      */
-    //% weight=93 blockId=onStartbit_getAngle block="on Startbit|%servo|get angle"
+    //% weight=90 blockId=onStartbit_getAngle block="on Startbit|%servo|get angle"
     export function onStartbit_getAngle(servo: startbit_Servos, body: Action) {
         control.onEvent(MESSAGE_ANGLE, servo, body);
     }
@@ -556,7 +580,7 @@ namespace startbit {
     /**
      *  Get servos angle
      */
-    //% weight=92 blockId=getServosAngle blockGap=50 block="Get|%servo|angle(-120~120)"
+    //% weight=88 blockId=getServosAngle blockGap=50 block="Get|%servo|angle(-120~120)"
     export function getServosAngle(servo: startbit_Servos): number {
         if (servo == startbit_Servos.Servo1) {
             return servo1Angle;
@@ -595,7 +619,7 @@ namespace startbit {
     /**
     *	Set the speed of the number 1 motor and number 2 motor, range of -100~100, that can control the tank to go advance or turn of.
     */
-    //% weight=91 blockId=startbit_setMotorSpeed  block="Set motor1 speed(-100~100)|%speed1|and motor2|speed %speed2"
+    //% weight=86 blockId=startbit_setMotorSpeed  block="Set motor1 speed(-100~100)|%speed1|and motor2|speed %speed2"
     //% speed1.min=-100 speed1.max=100
     //% speed2.min=-100 speed2.max=100
     export function startbit_setMotorSpeed(speed1: number, speed2: number) {
@@ -617,7 +641,7 @@ namespace startbit {
     /**
     *	Set the speed of the fan, range of -100~100.
     */
-    //% weight=90 blockId=startbit_setFanSpeed  block="Set |%port fan speed(-100~100)|%speed1"
+    //% weight=84 blockId=startbit_setFanSpeed  block="Set |%port fan speed(-100~100)|%speed1"
     //% speed1.min=-100 speed1.max=100
     export function startbit_setFanSpeed(port: startbit_fanPort, speed1: number) {
         if (speed1 > 100 || speed1 < -100) {
@@ -648,7 +672,7 @@ namespace startbit {
     /**
     * Get the volume level detected by the sound sensor, range 0 to 255
     */
-    //% weight=89 blockId=startbit_getSoundVolume block="Sound volume"
+    //% weight=82 blockId=startbit_getSoundVolume block="Sound volume"
     export function startbit_getSoundVolume(): number {
         return volume;
     }
@@ -656,7 +680,7 @@ namespace startbit {
     /**
      *  Get startbit current voltage,the unit is mV
     */
-    //% weight=88 blockGap=50 blockId=startbit_getBatVoltage block="Get startbit current voltage (mV)"
+    //% weight=80 blockGap=50 blockId=startbit_getBatVoltage block="Get startbit current voltage (mV)"
     export function startbit_getBatVoltage(): number {
         return currentVoltage;
     }
