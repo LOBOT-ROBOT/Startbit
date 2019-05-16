@@ -393,6 +393,7 @@ namespace startbit {
     */
     //% weight=99 blockId=setServo block="Set pwm servo range|range %range|index %index|angle %angle|duration %duration"
     //% angle.min=0 angle.max=270
+    //% inlineInputMode=inline
     export function setServo(range:startbit_servorange, index: number = 1, angle: number, duration: number = 300) {
 	    
         let position = mapRGB(angle, 0, range, 500, 2500);
