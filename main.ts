@@ -569,6 +569,7 @@ namespace startbit {
             pin1 = AnalogPin.P13;
             pin2 = AnalogPin.P14;
         }
+        speed1 = Math.round(speed1 * 0.4);
         if (speed1 < 0) {
             pins.analogWritePin(pin2, 0);
             pins.analogWritePin(pin1, pins.map(-speed1, 0, 100, 0, 1023));
