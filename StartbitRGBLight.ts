@@ -61,6 +61,16 @@ enum StartbitLightsBelt {
         Light9 = 0x08,
         //% block="Light 10"
         Light10 = 0x09,
+        //% block="Light 11"
+        Light11 = 0x0A,
+        //% block="Light 12"
+        Light12 = 0x0B,
+        //% block="Light 13"
+        Light13 = 0x0C,
+        //% block="Light 14"
+        Light14 = 0x0D,
+        //% block="Light 15"
+        Light15 = 0x0E,
         //% block="All"
         All = 0x0A
 }
