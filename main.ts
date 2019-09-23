@@ -261,7 +261,7 @@ namespace startbit {
                     for (let i = 0; i < 10; i++) {
                         let color = converOneChar(cmd.charAt(i + 1));
                         if (color != -1)
-                            lhRGBLightBelt.setBeltPixelColor(i, color);
+                            lhRGBLightBelt.setPixelColor(i, color);
                     }
                     lhRGBLightBelt.show();
                 }
@@ -1409,12 +1409,12 @@ namespace startbit {
         switch (port) {
             case startbit_ultrasonicPort.port1:
                 if (!lhRGBLightBelt) {
-                    lhRGBLightBelt = StartbitRGBLight.create(DigitalPin.P1, 30, StartbitRGBPixelMode.RGB);
+                    lhRGBLightBelt = StartbitRGBLight.create(DigitalPin.P1, 15, StartbitRGBPixelMode.RGB);
                 }
                 break;
             case startbit_ultrasonicPort.port2:
                 if (!lhRGBLightBelt) {
-                    lhRGBLightBelt = StartbitRGBLight.create(DigitalPin.P13, 30, StartbitRGBPixelMode.RGB);
+                    lhRGBLightBelt = StartbitRGBLight.create(DigitalPin.P13, 15, StartbitRGBPixelMode.RGB);
                 }
                 break;
         }
@@ -1427,7 +1427,7 @@ namespace startbit {
      */
     //% weight=62 blockId=startbit_belt_setPixelRGB block="Set light belt|%lightoffset|color to %rgb"
     export function startbit_belt_setPixelRGB(lightoffset: StartbitLightsBelt, rgb: StartbitRGBColors) {
-        lhRGBLightBelt.setBeltPixelColor(lightoffset, rgb);
+        lhRGBLightBelt.setPixelColor(lightoffset, rgb);
     }
 
     /**
