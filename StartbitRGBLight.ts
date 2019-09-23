@@ -72,7 +72,7 @@ enum StartbitLightsBelt {
         //% block="Light 15"
         Light15 = 0x0E,
         //% block="All"
-        All = 0x0A
+        All = 0x0F
 }
 
 /**
@@ -120,7 +120,7 @@ namespace StartbitRGBLight {
         }
 
         setBeltPixelColor(pixeloffset: number, rgb: StartbitRGBColors): void {
-            if (pixeloffset == 10)//全部
+            if (pixeloffset == 15)//全部
             {
                 for (let i = 0; i < this._length; i++)
                 {
