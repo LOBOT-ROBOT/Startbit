@@ -54,4 +54,13 @@
 	"startbit.startbit_off":"关闭显示功能(不会影响显示内容)",
 	"startbit.startbit_on":"开启显示",
 	"startbit.startbit_clear":"清除显示"
+	"startbit.startbit_ASRSETMODE":"设置识别模式：1循环识别模式；2口令模式；3按键模式。设置的识别模式可以掉电保存",
+	"startbit.startbit_ASRREAD":"获取识别结果",
+	"startbit.startbit_ASRAddWords":"添加词条，添加的词条可以掉电保存",
+	"startbit.startbit_ASRWORDSERASE":"擦除所有设置的词条",
+	"startbit.startbit_line_followers":"判断巡线传感器的状态",	
+	"startbit.startbit_MP3_BUTTON":"播放，暂停，上一首，下一首，",
+	"startbit.startbit_MP3_VOL":"调整播放音量，需要在播放前设置，范围0-30",
+	"startbit.startbit_MP3_SINGLE_LOOP":"开启或者关闭单曲循环，需要在播放后设置",
+	"startbit.startbit_MP3_PLAY_NUM":"播放指定序号的歌曲，歌曲需要放在sd卡里，名称为MP3的文件夹里，并且歌曲名称以4位数字开头，如0001，0100，1000"	
 }
