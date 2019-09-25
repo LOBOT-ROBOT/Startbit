@@ -53,7 +53,7 @@
 	"startbit.startbit_intensity":"设置显示亮度(0-8)",
 	"startbit.startbit_off":"关闭显示功能(不会影响显示内容)",
 	"startbit.startbit_on":"开启显示",
-	"startbit.startbit_clear":"清除显示"
+	"startbit.startbit_clear":"清除显示",
 	"startbit.startbit_ASRSETMODE":"设置识别模式：1循环识别模式；2口令模式；3按键模式。设置的识别模式可以掉电保存",
 	"startbit.startbit_ASRREAD":"获取识别结果",
 	"startbit.startbit_ASRAddWords":"添加词条，添加的词条可以掉电保存",
