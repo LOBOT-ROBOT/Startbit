@@ -1492,7 +1492,8 @@ namespace startbit {
     /**
     * Resolve the Bluetooth that phone APP send command type, the total of nine types of commands: tank display command, servo debug command, obtaining the distance of ultrasonic command, obtaining temperature command, obtain sound size rank orders, to obtain the light level command, set the color lights command, honking command, firmware version information command.
     */
-    //% weight=59 blockId=startbit_analyzeBluetoothCmd block="Get bluetooth command type %str"
+    //% weight=99 blockId=startbit_analyzeBluetoothCmd block="Get bluetooth command type %str"
+    //% subcategory=Bluetooth
     export function startbit_analyzeBluetoothCmd(str: string): number {
         if (str.length > 6) {
             let cmdHead = str.substr(0, 3);
@@ -1518,8 +1519,9 @@ namespace startbit {
     /**
      * Resolve the parameters that the phone APP send the command,there are 3 parameters of servo debug command,the other command has just one parameter.
      */
-    //% weight=58  blockId=startbit_cgetArgs block="Get bluetooth command|%str|argument at %index"
+    //% weight=98  blockId=startbit_cgetArgs block="Get bluetooth command|%str|argument at %index"
     //% index.min=1 index.max=3
+    //% subcategory=Bluetooth
     export function startbit_getArgs(str: string, index: number): number {
         let cmdType = startbit_analyzeBluetoothCmd(str);
         if (cmdType == startbit_CmdType.NO_COMMAND) {
@@ -1555,7 +1557,8 @@ namespace startbit {
     /**
      * Returns the enumeration of the command type, which can be compared with this module after obtaining the bluetooth command type sent by the mobile phone APP.
      */
-    //% weight=57 blockId=startbit_getBluetoothCmdtype block="Bluetooth command type %type"
+    //% weight=97 blockId=startbit_getBluetoothCmdtype block="Bluetooth command type %type"
+    //% subcategory=Bluetooth
     export function startbit_getBluetoothCmdtype(type: startbit_CmdType): number {
         return type;
     }
@@ -1563,7 +1566,8 @@ namespace startbit {
     /**
      * The command type of the tank is stop, go ahead, back, turn left, turn right, slow down, turn left slowly, turn right slowly.
      */
-    //% weight=56 blockId=startbit_getRunCarType block="Car run type %type"
+    //% weight=96 blockId=startbit_getRunCarType block="Car run type %type"
+    //% subcategory=Bluetooth
     export function startbit_getRunCarType(type: startbit_CarRunCmdType): number {
         return type;
     }
@@ -1571,7 +1575,8 @@ namespace startbit {
     /**
      * The distance from the ultrasonic obstacle is the standard command, which is sent to the mobile phone. The APP will indicate the distance of the ultrasonic obstacle.
      */
-    //% weight=55 blockId=startbit_convertUltrasonic block="Convert ultrasonic distance %data"
+    //% weight=95 blockId=startbit_convertUltrasonic block="Convert ultrasonic distance %data"
+    //% subcategory=Bluetooth
     export function startbit_convertUltrasonic(data: number): string {
         let cmdStr: string = "CMD|03|";
         cmdStr += data.toString();
@@ -1582,7 +1587,8 @@ namespace startbit {
     /**
      * The conversion temperature value to standard command, sent to the mobile phone, and the APP displays the current temperature.
      */
-    //% weight=54 blockId=startbit_convertTemperature block="Convert temperature %data"
+    //% weight=94 blockId=startbit_convertTemperature block="Convert temperature %data"
+    //% subcategory=Bluetooth
     export function startbit_convertTemperature(data: number): string {
         let cmdStr: string = "CMD|04|";
         cmdStr += data.toString();
@@ -1593,7 +1599,8 @@ namespace startbit {
     /**
      * Convert the light value to the standard command and send it to the mobile phone. The APP displays the current light level (0~255).
      */
-    //% weight=53 blockId=startbit_convertLight block="Convert light %data"
+    //% weight=93 blockId=startbit_convertLight block="Convert light %data"
+    //% subcategory=Bluetooth
     export function startbit_convertLight(data: number): string {
         let cmdStr: string = "CMD|06|";
         cmdStr += data.toString();
@@ -1604,7 +1611,8 @@ namespace startbit {
     /**
      * Convert the battery value to the standard command and send it to the mobile phone. The APP displays the current voltage.
      */
-    //% weight=52 blockId=startbit_convertBattery blockGap=50 block="Convert battery %data"
+    //% weight=92 blockId=startbit_convertBattery blockGap=50 block="Convert battery %data"
+    //% subcategory=Bluetooth
     export function startbit_convertBattery(data: number): string {
         let cmdStr: string = "CMD|07|";
         cmdStr += data.toString();
@@ -1626,7 +1634,8 @@ namespace startbit {
     /**
      * Connect to the wifi
      */
-    //% weight=50 blockId=startbit_connectWifi block="Connect to the Wifi,name|%ssid|and password %passwrd"
+    //% weight=100 blockId=startbit_connectWifi block="Connect to the Wifi,name|%ssid|and password %passwrd"
+    //% subcategory=WiFi
     export function startbit_connectWifi(ssid: string, passwrd: string) {
         let buf = pins.createBuffer(ssid.length + passwrd.length + 10);
         buf[0] = 0x55;
@@ -1651,7 +1660,8 @@ namespace startbit {
     /**
      * Detect the device connect status
      */
-    //% weight=49 blockId=startbit_isConnectedServer block="Device is connected to server?"
+    //% weight=98 blockId=startbit_isConnectedServer block="Device is connected to server?"
+    //% subcategory=WiFi
     export function startbit_isConnectedServer(): boolean {
         return connectStatus;
     }
@@ -1659,7 +1669,8 @@ namespace startbit {
     /**
      * Send get mac address command
      */
-    //% weight=48 blockId=startbit_send_getMac block="Send pair command"
+    //% weight=99 blockId=startbit_send_getMac block="Send pair command"
+    //% subcategory=WiFi
     export function startbit_send_getMac() {
         let buf = pins.createBuffer(5);
         buf[0] = 0x55;
@@ -1682,7 +1693,8 @@ namespace startbit {
     /**
      * Get device mac address
      */
-    //% weight=46 blockId=startbit_getMacAddress block="Get device id"
+    //% weight=100 blockId=startbit_getMacAddress block="Get device id"
+    //% subcategory=Bluetooth
     export function startbit_getMacAddress(): string {
         return macStr + "$";
     }
