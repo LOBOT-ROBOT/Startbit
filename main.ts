@@ -597,7 +597,8 @@ namespace startbit {
     /**
     * Get the volume level detected by the sound sensor, range 0 to 255
     */
-    //% weight=82 blockId=startbit_getSoundVolume block="Sound volume"
+    //% weight=94 blockId=startbit_getSoundVolume block="Sound volume"
+    //% subcategory=Sensor
     export function startbit_getSoundVolume(): number {
         return volume;
     }
@@ -605,7 +606,8 @@ namespace startbit {
     /**
      *  Get startbit current voltage,the unit is mV
     */
-    //% weight=80 blockGap=50 blockId=startbit_getBatVoltage block="Get startbit current voltage (mV)"
+    //% weight=93 blockGap=50 blockId=startbit_getBatVoltage block="Get startbit current voltage (mV)"
+    //% subcategory=Sensor
     export function startbit_getBatVoltage(): number {
         return currentVoltage;
     }
@@ -1123,7 +1125,8 @@ namespace startbit {
     /**
 	 *  Color sensor return the color.
 	 */
-    //% weight=86 blockId=startbit_checkCurrentColor block="Current color %color"
+    //% weight=100 blockId=startbit_checkCurrentColor block="Current color %color"
+    //% subcategory=Sensor
     export function startbit_checkCurrentColor(color: startbit_Colors): boolean {
         let c = i2cread(APDS9960_CDATAL) + i2cread(APDS9960_CDATAH) * 256;
         let r = i2cread(APDS9960_RDATAL) + i2cread(APDS9960_RDATAH) * 256;
@@ -1181,7 +1184,8 @@ namespace startbit {
     /**
     * Get the obstacle avoidance sensor status,1 detect obstacle,0 no detect obstacle
     */
-    //% weight=85 blockId=startbit_avoidSensor block="Obstacle avoidance sensor|port %port|detect obstacle"
+    //% weight=97 blockId=startbit_avoidSensor block="Obstacle avoidance sensor|port %port|detect obstacle"
+    //% subcategory=Sensor
     export function startbit_avoidSensor(port: startbit_touchKeyPort): boolean {
         let status = 0;
         let flag: boolean = false;
@@ -1212,7 +1216,8 @@ namespace startbit {
     /**
     * Get the condition of the line follower sensor
     */
-    //% weight=84 blockId=startbit_readLineFollowerStatus block="Line follower status|port %port|%status"
+    //% weight=95 blockId=startbit_readLineFollowerStatus block="Line follower status|port %port|%status"
+    //% subcategory=Sensor
     export function startbit_readLineFollowerStatus(port: startbit_lineFollowPort, status: startbit_lineFollower): boolean {
         let s1 = 0;
         let s2 = 0;
@@ -1244,7 +1249,8 @@ namespace startbit {
     /**
      * Get the line follower sensor port ad value
      */
-    //% weight=83 blockId=startbit_lineSensorValue block="Get line follower sensor|port %port|%sensor|ad value"
+    //% weight=89 blockId=startbit_lineSensorValue block="Get line follower sensor|port %port|%sensor|ad value"
+    //% subcategory=Sensor
     export function startbit_lineSensorValue(port: startbit_lineFollowPort, sensor: startbit_LineFollowerSensor): number {
         let s1 = 0;
         let s2 = 0;
@@ -1267,7 +1273,8 @@ namespace startbit {
     /**
     * Get the condition of the touch button,press return 1,or return 0
     */
-    //% weight=82 blockId=startbit_touchButton block="Touch button|port %port|is pressed"    
+    //% weight=99 blockId=startbit_touchButton block="Touch button|port %port|is pressed"    
+    //% subcategory=Sensor
     export function startbit_touchButton(port: startbit_touchKeyPort): boolean {
         let status: boolean = false;
         switch (port) {
@@ -1293,7 +1300,8 @@ namespace startbit {
     /**
      * Get the distance of ultrasonic detection to the obstacle 
      */
-    //% weight=81 blockId=startbit_ultrasonic  block="Ultrasonic|port %port|distance(cm)"
+    //% weight=90 blockId=startbit_ultrasonic  block="Ultrasonic|port %port|distance(cm)"
+    //% subcategory=Sensor
     export function startbit_ultrasonic(port: startbit_ultrasonicPort): number {
         let echoPin: DigitalPin;
         let trigPin: DigitalPin;
@@ -1329,7 +1337,8 @@ namespace startbit {
     /**
     * Get the ad value of the knob moudule
     */
-    //% weight=80 blockId=startbit_getKnobValue  block="Get knob|port %port|value(0~255)"
+    //% weight=92 blockId=startbit_getKnobValue  block="Get knob|port %port|value(0~255)"
+    //% subcategory=Sensor
     export function startbit_getKnobValue(port: startbit_knobPort): number {
         let adValue = pins.analogReadPin(AnalogPin.P1);
         adValue = adValue * 255 / 1023;
@@ -1339,7 +1348,8 @@ namespace startbit {
     /**
     * Get the ad value of the photosensitive moudule
     */
-    //% weight=79 blockId=startbit_getphotosensitiveValue  block="Get Photosensitive|port %port|value(0~255)"
+    //% weight=91 blockId=startbit_getphotosensitiveValue  block="Get Photosensitive|port %port|value(0~255)"
+    //% subcategory=Sensor
     export function startbit_getphotosensitiveValue(port: startbit_photosensitivePort): number {
         let adValue = pins.analogReadPin(AnalogPin.P1);
         adValue = adValue * 255 / 1023;
@@ -1349,7 +1359,8 @@ namespace startbit {
     /**
     * Get the Photosensitive sensor status,1 detect bright,0 no detect bright
     */
-    //% weight=78 blockId=startbit_photosensitiveSensor blockGap=50 block="Photosensitive sensor|port %port|detect bright"
+    //% weight=98 blockId=startbit_photosensitiveSensor blockGap=50 block="Photosensitive sensor|port %port|detect bright"
+    //% subcategory=Sensor
     export function startbit_photosensitiveSensor(port: startbit_PhotosensitiveSensor): boolean {
         let status = 0;
         let flag: boolean = false;
@@ -1737,7 +1748,8 @@ namespace startbit {
         WireWriteDataArray(ASR_I2C_ADDR, ASR_MODE_ADDR, mode);
     }
 
-    //% weight=44 blockId=startbit_ASRREAD block="Read Data"
+    //% weight=84 blockId=startbit_ASRREAD block="Read Data"
+    //% subcategory=Sensor
     export function startbit_ASRREAD(): number {
         let val = WireReadDataArray(ASR_I2C_ADDR, ASR_RESULT_ADDR, 1);
         return val;
@@ -1747,7 +1759,8 @@ namespace startbit {
      * @param idNum is a number, eg: 1
      * @param words is text, eg: "ni hao"
      */
-    //% weight=43 blockId=startbit_ASRAddWords block="Add idNum|%idNum words|%words"
+    //% weight=83 blockId=startbit_ASRAddWords block="Add idNum|%idNum words|%words"
+    //% subcategory=Sensor
     export function startbit_ASRAddWords(idNum: number, words: string) {
         let buf = pins.createBuffer(words.length + 2);
         buf[0] = ASR_ADD_WORDS_ADDR;
@@ -1759,7 +1772,8 @@ namespace startbit {
         basic.pause(20);
     }
 
-    //% weight=42 blockId=startbit_ASRWORDSERASE block="Erase Data"
+    //% weight=82 blockId=startbit_ASRWORDSERASE block="Erase Data"
+    //% subcategory=Sensor
     export function startbit_ASRWORDSERASE() {
         WireWriteDataArray(ASR_I2C_ADDR, ASR_WORDS_ERASE_ADDR, null);
 	basic.pause(60);
@@ -1793,7 +1807,8 @@ namespace startbit {
         OFF = MP3_SINGLE_LOOP_OFF_ADDR
     }
 
-    //% weight=41 blockId=startbit_MP3_BUTTON block="MP3 |%button music"
+    //% weight=87 blockId=startbit_MP3_BUTTON block="MP3 |%button music"
+    //% subcategory=Sensor
     export function startbit_MP3_BUTTON(button: startbit_mp3button) {
         WireWriteDataArray(MP3_I2C_ADDR, button, null);
         basic.pause(20);
@@ -1802,14 +1817,16 @@ namespace startbit {
     /**
      * @param value is a number, eg: 20
      */
-    //% weight=40 blockId=startbit_MP3_VOL block="MP3 VOL |%value"
+    //% weight=88 blockId=startbit_MP3_VOL block="MP3 VOL |%value"
+    //% subcategory=Sensor
     export function startbit_MP3_VOL(value: number) {
         WireWriteDataArray(MP3_I2C_ADDR, MP3_VOL_VALUE_ADDR, value);
         basic.pause(20);
     }
 
 
-    //% weight=39 blockId=startbit_MP3_SINGLE_LOOP block="MP3 SINGLE LOOP |%state"
+    //% weight=85 blockId=startbit_MP3_SINGLE_LOOP block="MP3 SINGLE LOOP |%state"
+    //% subcategory=Sensor
     export function startbit_MP3_SINGLE_LOOP(state: startbit_mp3Loop) {
         WireWriteDataArray(MP3_I2C_ADDR, state, null);
         basic.pause(20);
@@ -1818,7 +1835,8 @@ namespace startbit {
     /**
      * @param num is a number, eg: 1
      */
-    //% weight=38 blockId=startbit_MP3_PLAY_NUM block="MP3 PLAY NUM|%num"
+    //% weight=86 blockId=startbit_MP3_PLAY_NUM block="MP3 PLAY NUM|%num"
+    //% subcategory=Sensor
     export function startbit_MP3_PLAY_NUM(num: number) {
         WireWriteDataArray(MP3_I2C_ADDR, MP3_PLAY_NUM_ADDR, num);
         basic.pause(20);
@@ -1844,8 +1862,9 @@ namespace startbit {
 
     const LINE_FOLLOWER_I2C_ADDR = 0x78   
     
-    //% weight=83 blockId=startbit_line_followers block="Line follower %lineFollowerSensor in %LineColor ?"
+    //% weight=96 blockId=startbit_line_followers block="Line follower %lineFollowerSensor in %LineColor ?"
     //% inlineInputMode=inline
+    //% subcategory=Sensor
     export function startbit_line_followers(lineFollowerSensor: startbit_LineFollowerSensors, LineColor: startbit_LineColor): boolean {
         pins.i2cWriteNumber(LINE_FOLLOWER_I2C_ADDR, 1, NumberFormat.UInt8BE);	    
 	let data = pins.i2cReadNumber(LINE_FOLLOWER_I2C_ADDR, NumberFormat.UInt8BE);
