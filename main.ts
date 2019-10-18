@@ -181,6 +181,7 @@ namespace startbit {
      * Startbit initialization, please execute at boot time
     */
     //% weight=100 blockId=startbit_Init block="Initialize Startbit"
+    //% subcategory=Init
     export function startbit_Init() {
         startbit_initRGBLight();
         serial.redirect(
@@ -391,9 +392,10 @@ namespace startbit {
     /**
     * Set the angle of servo 1 to 8, range of 0~270 degree
     */
-    //% weight=99 blockId=setServo block="Set pwm servo range|range %range|index %index|angle %angle|duration %duration"
+    //% weight=100 blockId=setServo block="Set pwm servo range|range %range|index %index|angle %angle|duration %duration"
     //% angle.min=0 angle.max=270
     //% inlineInputMode=inline
+    //% subcategory=Servo
     export function setServo(range:startbit_servorange, index: number = 1, angle: number, duration: number = 300) {
 	    
         let position = mapRGB(angle, 0, range, 500, 2500);
@@ -417,7 +419,8 @@ namespace startbit {
     * Set the servo controller to run a actiongroup
     * @param times Running times. eg: 1
     */
-    //% weight=96 blockId=startbit_runActionGroup block="Run ActionGroup|index %index|times %times"
+    //% weight=94 blockId=startbit_runActionGroup block="Run ActionGroup|index %index|times %times"
+    //% subcategory=Servo
     export function startbit_runActionGroup(index: number, times: number = 1) {
 
         let buf = pins.createBuffer(7);
@@ -436,7 +439,8 @@ namespace startbit {
     /**
     * Stop running actiongroup
     */
-    //% weight=95 blockId=startbit_stopnActionGroup block="Stop ActionGroup"
+    //% weight=92 blockId=startbit_stopnActionGroup block="Stop ActionGroup"
+    //% subcategory=Servo
     export function startbit_stopActionGroup() {
 
         let buf = pins.createBuffer(7);
@@ -452,7 +456,8 @@ namespace startbit {
     /**
      * Wait for Actiongroup Finishing
      */
-    //% weight=94 blockId=startbit_actionRunover block="Action run over"
+    //% weight=93 blockId=startbit_actionRunover block="Action run over"
+    //% subcategory=Servo
     export function startbit_actionRunover(): boolean {
         // let ret = false;
         if (actiongroup_finished == true) {
@@ -469,7 +474,8 @@ namespace startbit {
     /**
      * Send read startbit servos angle command
      */
-    //% weight=92 blockId=startbit_readAngle block="Send |%servo|angle command "
+    //% weight=99 blockId=startbit_readAngle block="Send |%servo|angle command "
+    //% subcategory=Servo
     export function startbit_readAngle(servo: startbit_Servos) {
         let buf = pins.createBuffer(6);
         buf[0] = 0x55;
@@ -486,7 +492,8 @@ namespace startbit {
      * Do someting when Startbit receive angle
      * @param body code to run when event is raised
      */
-    //% weight=90 blockId=onStartbit_getAngle block="on Startbit|%servo|get angle"
+    //% weight=97 blockId=onStartbit_getAngle block="on Startbit|%servo|get angle"
+    //% subcategory=Servo
     export function onStartbit_getAngle(servo: startbit_Servos, body: Action) {
         control.onEvent(MESSAGE_ANGLE, servo, body);
     }
@@ -495,7 +502,8 @@ namespace startbit {
     /**
      *  Get servos angle
      */
-    //% weight=88 blockId=getServosAngle blockGap=50 block="Get|%servo|angle(-120~120)"
+    //% weight=98 blockId=getServosAngle blockGap=50 block="Get|%servo|angle(-120~120)"
+    //% subcategory=Servo
     export function getServosAngle(servo: startbit_Servos): number {
         if (servo == startbit_Servos.Servo1) {
             return servo1Angle;
@@ -534,9 +542,10 @@ namespace startbit {
     /**
     *	Set the speed of the number 1 motor and number 2 motor, range of -100~100, that can control the tank to go advance or turn of.
     */
-    //% weight=86 blockId=startbit_setMotorSpeed  block="Set motor1 speed(-100~100)|%speed1|and motor2|speed %speed2"
+    //% weight=96 blockId=startbit_setMotorSpeed  block="Set motor1 speed(-100~100)|%speed1|and motor2|speed %speed2"
     //% speed1.min=-100 speed1.max=100
     //% speed2.min=-100 speed2.max=100
+    //% subcategory=Servo
     export function startbit_setMotorSpeed(speed1: number, speed2: number) {
         if (speed1 > 100 || speed1 < -100 || speed2 > 100 || speed2 < -100) {
             return;
@@ -556,8 +565,9 @@ namespace startbit {
     /**
     *	Set the speed of the fan, range of -100~100.
     */
-    //% weight=84 blockId=startbit_setFanSpeed  block="Set |%port fan speed(-100~100)|%speed1"
+    //% weight=95 blockId=startbit_setFanSpeed  block="Set |%port fan speed(-100~100)|%speed1"
     //% speed1.min=-100 speed1.max=100
+    //% subcategory=Servo
     export function startbit_setFanSpeed(port: startbit_fanPort, speed1: number) {
         if (speed1 > 100 || speed1 < -100) {
             return;
@@ -757,7 +767,7 @@ namespace startbit {
      * @param dio the DIO pin for TM1640, eg: DigitalPin.P2
      * @param intensity the brightness of the LED, eg: 7
      * @param count the count of the LED, eg: 4
-     */
+     */   
     function startbit_TM1640create(port: startbit_digitaltubePort, intensity: number, count: number): startbit_TM1640LEDs {
         let digitaltube = new startbit_TM1640LEDs();
         switch (port) {
@@ -784,7 +794,8 @@ namespace startbit {
      * @param intensity the brightness of the LED, eg: 7
      * @param count the count of the LED, eg: 4
      */
-    //% weight=77 blockId=startbit_digitaltube block="digitaltube|%port|intensity %intensity|LED count %count"
+    //% weight=96 blockId=startbit_digitaltube block="digitaltube|%port|intensity %intensity|LED count %count"
+    //% subcategory=Init
     export function startbit_digitaltube(port: startbit_digitaltubePort, intensity: number, count: number) {
         Digitaltube = startbit_TM1640create(port, intensity, count);
     }
@@ -1093,7 +1104,8 @@ namespace startbit {
     /**
      * Initialize the color sensor,please execute at boot time
      */
-    //% weight=87 blockId=startbit_init_colorSensor block="Initialize color sensor port at %port"
+    //% weight=98 blockId=startbit_init_colorSensor block="Initialize color sensor port at %port"
+    //% subcategory=Init
     export function startbit_init_colorSensor(port: startbit_colorSensorPort) {
         InitColor();
         enableLightSensor(true);
@@ -1403,7 +1415,8 @@ namespace startbit {
     /**
 	 * Initialize Light belt
 	 */
-    //% weight=63 blockId=startbit_belt_initRGBLight block="Initialize light belt at port %port"
+    //% weight=99 blockId=startbit_belt_initRGBLight block="Initialize light belt at port %port"
+    //% subcategory=Init
     export function startbit_belt_initRGBLight(port: startbit_ultrasonicPort) {
         switch (port) {
             case startbit_ultrasonicPort.port1:
@@ -1702,7 +1715,8 @@ namespace startbit {
         return buf[0];
     }
 
-    //% weight=45 blockId=startbit_ASRSETMODE block="Set to |%mode mode"
+    //% weight=96 blockId=startbit_ASRSETMODE block="Set to |%mode mode"
+    //% subcategory=Init
     export function startbit_ASRSETMODE(mode: ASRMode) {
         WireWriteDataArray(ASR_I2C_ADDR, ASR_MODE_ADDR, mode);
     }
