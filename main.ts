@@ -492,7 +492,7 @@ namespace startbit {
      * Do someting when Startbit receive angle
      * @param body code to run when event is raised
      */
-    //% weight=97 blockId=onStartbit_getAngle block="on Startbit|%servo|get angle"
+    //% weight=97 blockId=onStartbit_getAngle blockGap=50 block="on Startbit|%servo|get angle"
     //% subcategory=Servo
     export function onStartbit_getAngle(servo: startbit_Servos, body: Action) {
         control.onEvent(MESSAGE_ANGLE, servo, body);
@@ -502,7 +502,7 @@ namespace startbit {
     /**
      *  Get servos angle
      */
-    //% weight=98 blockId=getServosAngle blockGap=50 block="Get|%servo|angle(-120~120)"
+    //% weight=98 blockId=getServosAngle block="Get|%servo|angle(-120~120)"
     //% subcategory=Servo
     export function getServosAngle(servo: startbit_Servos): number {
         if (servo == startbit_Servos.Servo1) {
@@ -565,7 +565,7 @@ namespace startbit {
     /**
     *	Set the speed of the fan, range of -100~100.
     */
-    //% weight=95 blockId=startbit_setFanSpeed  block="Set |%port fan speed(-100~100)|%speed1"
+    //% weight=95 blockId=startbit_setFanSpeed  blockGap=50 block="Set |%port fan speed(-100~100)|%speed1"
     //% speed1.min=-100 speed1.max=100
     //% subcategory=Servo
     export function startbit_setFanSpeed(port: startbit_fanPort, speed1: number) {
@@ -1216,7 +1216,7 @@ namespace startbit {
     /**
     * Get the condition of the line follower sensor
     */
-    //% weight=95 blockId=startbit_readLineFollowerStatus block="Line follower status|port %port|%status"
+    //% weight=95 blockId=startbit_readLineFollowerStatus blockGap=50 block="Line follower status|port %port|%status"
     //% subcategory=Sensor
     export function startbit_readLineFollowerStatus(port: startbit_lineFollowPort, status: startbit_lineFollower): boolean {
         let s1 = 0;
@@ -1249,7 +1249,7 @@ namespace startbit {
     /**
      * Get the line follower sensor port ad value
      */
-    //% weight=89 blockId=startbit_lineSensorValue block="Get line follower sensor|port %port|%sensor|ad value"
+    //% weight=89 blockId=startbit_lineSensorValue blockGap=50 block="Get line follower sensor|port %port|%sensor|ad value"
     //% subcategory=Sensor
     export function startbit_lineSensorValue(port: startbit_lineFollowPort, sensor: startbit_LineFollowerSensor): number {
         let s1 = 0;
@@ -1359,7 +1359,7 @@ namespace startbit {
     /**
     * Get the Photosensitive sensor status,1 detect bright,0 no detect bright
     */
-    //% weight=98 blockId=startbit_photosensitiveSensor blockGap=50 block="Photosensitive sensor|port %port|detect bright"
+    //% weight=98 blockId=startbit_photosensitiveSensor block="Photosensitive sensor|port %port|detect bright"
     //% subcategory=Sensor
     export function startbit_photosensitiveSensor(port: startbit_PhotosensitiveSensor): boolean {
         let status = 0;
@@ -1838,7 +1838,7 @@ namespace startbit {
     }
 
 
-    //% weight=85 blockId=startbit_MP3_SINGLE_LOOP block="MP3 SINGLE LOOP |%state"
+    //% weight=85 blockId=startbit_MP3_SINGLE_LOOP blockGap=50 block="MP3 SINGLE LOOP |%state"
     //% subcategory=Sensor
     export function startbit_MP3_SINGLE_LOOP(state: startbit_mp3Loop) {
         WireWriteDataArray(MP3_I2C_ADDR, state, null);
