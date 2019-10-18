@@ -804,7 +804,8 @@ namespace startbit {
      * show a number. 
      * @param num is a number, eg: 0
      */
-    //% weight=76 blockId=startbit_showNumber block="digitaltube show number| %num"
+    //% weight=91 blockId=startbit_showNumber block="digitaltube show number| %num"
+    //% subcategory=LED
     export function startbit_showNumber(num: number)  {
         Digitaltube.showNumber(num);
     }
@@ -814,7 +815,8 @@ namespace startbit {
      * @param num number will show, eg: 5
      * @param bit the position of the LED, eg: 0
      */
-    //% weight=75 blockId=startbit_showbit block="digitaltube show digit| %num|at %bit"
+    //% weight=89 blockId=startbit_showbit block="digitaltube show digit| %num|at %bit"
+    //% subcategory=LED
     export function startbit_showbit(num: number = 5, bit: number = 0) {
         Digitaltube.showbit(num, bit);
     }
@@ -823,7 +825,8 @@ namespace startbit {
      * show a hex number. 
      * @param num is a hex number, eg: 0
      */
-    //% weight=74 blockId=startbit_showhex block="digitaltube show hex number| %num"
+    //% weight=90 blockId=startbit_showhex block="digitaltube show hex number| %num"
+    //% subcategory=LED
     export function startbit_showhex(num: number) {
         Digitaltube.showHex(num);
     }
@@ -833,7 +836,8 @@ namespace startbit {
      * @param bit is the position, eg: 1
      * @param show is show/hide dp, eg: true
      */
-    //% weight=73 blockId=startbit_showDP block="digitaltube DotPoint at| %bit|show %show"
+    //% weight=88 blockId=startbit_showDP block="digitaltube DotPoint at| %bit|show %show"
+    //% subcategory=LED
     export function startbit_showDP(bit: number = 1, show: boolean = true) {
         Digitaltube.showDP(bit, show);
     } 
@@ -842,7 +846,8 @@ namespace startbit {
      * set TM1640 intensity, range is [0-8], 0 is off.
      * @param val the brightness of the TM1640, eg: 7
      */
-    //% weight=72 blockId=startbit_intensity block=" digitaltube set intensity %val"
+    //% weight=92 blockId=startbit_intensity block=" digitaltube set intensity %val"
+    //% subcategory=LED
     export function startbit_intensity(val: number = 7) {
         Digitaltube.intensity(val);
     } 
@@ -850,7 +855,8 @@ namespace startbit {
     /**
      * turn off LED. 
      */
-    //% weight=71 blockId=startbit_off block="turn off digitaltube"
+    //% weight=86 blockId=startbit_off block="turn off digitaltube"
+    //% subcategory=LED
     export function startbit_off() {
         Digitaltube.off();
     }
@@ -858,7 +864,8 @@ namespace startbit {
     /**
      * turn on LED. 
      */
-    //% weight=70 blockId=startbit_on block="turn on digitaltube"
+    //% weight=87 blockId=startbit_on block="turn on digitaltube"
+    //% subcategory=LED
     export function startbit_on() {
         Digitaltube.on();
     }
@@ -866,7 +873,8 @@ namespace startbit {
     /**
      * clear LED. 
      */
-    //%weight=69 blockId=startbit_clear blockGap=50 block="clear digitaltube"
+    //%weight=85 blockId=startbit_clear blockGap=50 block="clear digitaltube"
+    //% subcategory=LED
     export function startbit_clear() {
         Digitaltube.clear();
     }  
@@ -1373,7 +1381,8 @@ namespace startbit {
          * @param brightness a measure of LED brightness in 0-255. eg: 255
     */
     //% blockId="startbit_setBrightness" block="set brightness %brightness"
-    //% weight=68
+    //% weight=100
+    //% subcategory=LED
     export function startbit_setBrightness(brightness: number): void {
         lhRGBLight.setBrightness(brightness);
     }
@@ -1381,7 +1390,8 @@ namespace startbit {
     /**
      * Set the color of the colored lights, after finished the setting please perform  the display of colored lights.
      */
-    //% weight=67 blockId=startbit_setPixelRGB block="Set|%lightoffset|color to %rgb"
+    //% weight=98 blockId=startbit_setPixelRGB block="Set|%lightoffset|color to %rgb"
+    //% subcategory=LED
     export function startbit_setPixelRGB(lightoffset: StartbitLights, rgb: StartbitRGBColors) {
         lhRGBLight.setPixelColor(lightoffset, rgb);
     }
@@ -1390,7 +1400,8 @@ namespace startbit {
     /**
      * Set RGB Color argument
      */
-    //% weight=66 blockId=startbit_setPixelRGBArgs block="Set|%lightoffset|color to %rgb"
+    //% weight=99 blockId=startbit_setPixelRGBArgs block="Set|%lightoffset|color to %rgb"
+    //% subcategory=LED
     export function startbit_setPixelRGBArgs(lightoffset: StartbitLights, rgb: number) {
         lhRGBLight.setPixelColor(lightoffset, rgb);
     }
@@ -1399,7 +1410,8 @@ namespace startbit {
     /**
      * Display the colored lights, and set the color of the colored lights to match the use. After setting the color of the colored lights, the color of the lights must be displayed.
      */
-    //% weight=65 blockId=startbit_showLight block="Show light"
+    //% weight=97 blockId=startbit_showLight block="Show light"
+    //% subcategory=LED
     export function startbit_showLight() {
         lhRGBLight.show();
     }
@@ -1407,7 +1419,8 @@ namespace startbit {
     /**
      * Clear the color of the colored lights and turn off the lights.
      */
-    //% weight=64 blockGap=50 blockId=startbit_clearLight block="Clear light"
+    //% weight=96 blockGap=50 blockId=startbit_clearLight block="Clear light"
+    //% subcategory=LED
     export function startbit_clearLight() {
         lhRGBLight.clear();
     }
@@ -1437,7 +1450,8 @@ namespace startbit {
     /**
      * Set the color of the colored lights, after finished the setting please perform  the display of colored lights.
      */
-    //% weight=62 blockId=startbit_belt_setPixelRGB block="Set light belt|%lightoffset|color to %rgb"
+    //% weight=95 blockId=startbit_belt_setPixelRGB block="Set light belt|%lightoffset|color to %rgb"
+    //% subcategory=LED
     export function startbit_belt_setPixelRGB(lightoffset: StartbitLightsBelt, rgb: StartbitRGBColors) {
         lhRGBLightBelt.setPixelColor(lightoffset, rgb);
     }
@@ -1445,7 +1459,8 @@ namespace startbit {
     /**
      * Display the colored lights, and set the color of the colored lights to match the use. After setting the color of the colored lights, the color of the lights must be displayed.
      */
-    //% weight=61 blockId=startbit_belt_showLight block="Show light belt"
+    //% weight=94 blockId=startbit_belt_showLight block="Show light belt"
+    //% subcategory=LED
     export function startbit_belt_showLight() {
         lhRGBLightBelt.show();
     }
@@ -1453,7 +1468,8 @@ namespace startbit {
     /**
      * Clear the color of the colored lights and turn off the lights.
      */
-    //% weight=60 blockGap=50 blockId=startbit_belt_clearLight block="Clear light belt"
+    //% weight=93 blockGap=50 blockId=startbit_belt_clearLight block="Clear light belt"
+    //% subcategory=LED
     export function startbit_belt_clearLight() {
         lhRGBLightBelt.clear();
     }
