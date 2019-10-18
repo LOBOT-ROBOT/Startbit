@@ -181,7 +181,6 @@ namespace startbit {
      * Startbit initialization, please execute at boot time
     */
     //% weight=100 blockId=startbit_Init block="Initialize Startbit"
-    //% subcategory=Init
     export function startbit_Init() {
         startbit_initRGBLight();
         serial.redirect(
@@ -797,7 +796,6 @@ namespace startbit {
      * @param count the count of the LED, eg: 4
      */
     //% weight=96 blockId=startbit_digitaltube block="digitaltube|%port|intensity %intensity|LED count %count"
-    //% subcategory=Init
     export function startbit_digitaltube(port: startbit_digitaltubePort, intensity: number, count: number) {
         Digitaltube = startbit_TM1640create(port, intensity, count);
     }
@@ -1115,7 +1113,6 @@ namespace startbit {
      * Initialize the color sensor,please execute at boot time
      */
     //% weight=98 blockId=startbit_init_colorSensor block="Initialize color sensor port at %port"
-    //% subcategory=Init
     export function startbit_init_colorSensor(port: startbit_colorSensorPort) {
         InitColor();
         enableLightSensor(true);
@@ -1440,7 +1437,6 @@ namespace startbit {
 	 * Initialize Light belt
 	 */
     //% weight=99 blockId=startbit_belt_initRGBLight block="Initialize light belt at port %port"
-    //% subcategory=Init
     export function startbit_belt_initRGBLight(port: startbit_ultrasonicPort) {
         switch (port) {
             case startbit_ultrasonicPort.port1:
@@ -1756,7 +1752,6 @@ namespace startbit {
     }
 
     //% weight=96 blockId=startbit_ASRSETMODE block="Set to |%mode mode"
-    //% subcategory=Init
     export function startbit_ASRSETMODE(mode: ASRMode) {
         WireWriteDataArray(ASR_I2C_ADDR, ASR_MODE_ADDR, mode);
     }
