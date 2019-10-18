@@ -1685,7 +1685,8 @@ namespace startbit {
      * Do someting when Startbit receive mac adress
      * @param body code to run when event is raised
      */
-    //% weight=47 blockId=onStartbit_getMac block="on startbit get device id"
+    //% weight=91 blockId=onStartbit_getMac block="on startbit get device id"
+    //% subcategory=Bluetooth
     export function onStartbit_getMac(body: Action) {
         control.onEvent(MESSAGE_MAC, 1, body);
     }
