@@ -1628,66 +1628,6 @@ namespace startbit {
     }
 
     /**
-     * Connect to the wifi
-     */
-    //% weight=100 blockId=startbit_connectWifi block="Connect to the Wifi,name|%ssid|and password %passwrd"
-    //% subcategory=WiFi
-    export function startbit_connectWifi(ssid: string, passwrd: string) {
-        let buf = pins.createBuffer(ssid.length + passwrd.length + 10);
-        buf[0] = 0x55;
-        buf[1] = 0x55;
-        buf[2] = (ssid.length + passwrd.length + 8) & 0xff;
-        buf[3] = 0x3E;//cmd type
-        buf[4] = 0x6;
-        buf[5] = 0x22;
-        for (let i = 0; i < ssid.length; i++) {
-            buf[6 + i] = ssid.charCodeAt(i);
-        }
-        buf[ssid.length + 6] = 0x22;
-        buf[ssid.length + 7] = 0x2C;
-        buf[ssid.length + 8] = 0x22;
-        for (let i = 0; i < passwrd.length; i++) {
-            buf[ssid.length + 9 + i] = passwrd.charCodeAt(i);
-        }
-        buf[ssid.length + passwrd.length + 9] = 0x22;
-        serial.writeBuffer(buf);
-    }
-
-    /**
-     * Detect the device connect status
-     */
-    //% weight=98 blockId=startbit_isConnectedServer block="Device is connected to server?"
-    //% subcategory=WiFi
-    export function startbit_isConnectedServer(): boolean {
-        return connectStatus;
-    }
-
-    /**
-     * Send get mac address command
-     */
-    //% weight=99 blockId=startbit_send_getMac block="Send pair command"
-    //% subcategory=WiFi
-    export function startbit_send_getMac() {
-        let buf = pins.createBuffer(5);
-        buf[0] = 0x55;
-        buf[1] = 0x55;
-        buf[2] = 0x03;
-        buf[3] = 0x3E;//cmd type
-        buf[4] = 0x08;
-        serial.writeBuffer(buf);
-    }
-
-    /**
-     * Do someting when Startbit receive mac adress
-     * @param body code to run when event is raised
-     */
-    //% weight=91 blockId=onStartbit_getMac block="on startbit get device id"
-    //% subcategory=Bluetooth
-    export function onStartbit_getMac(body: Action) {
-        control.onEvent(MESSAGE_MAC, 1, body);
-    }
-
-    /**
      * Get device mac address
      */
     //% weight=100 blockId=startbit_getMacAddress block="Get device id"
