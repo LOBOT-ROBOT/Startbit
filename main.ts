@@ -1224,11 +1224,11 @@ namespace startbit {
                 s2 = pins.analogReadPin(AnalogPin.P2);
                 s1 = s1 * 255 / 1023;
                 s2 = s2 * 255 / 1023;
-                if (s1 < 100)
+                if (s1 < 200)
                     s1 = 0;
                 else
                     s1 = 1;
-                if (s2 < 100)
+                if (s2 < 200)
                     s2 = 0;
                 else
                     s2 = 1;
