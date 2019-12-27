@@ -1717,7 +1717,7 @@ namespace startbit {
             buf[2 + i] = words.charCodeAt(i);
         }
         pins.i2cWriteBuffer(ASR_I2C_ADDR, buf);
-        basic.pause(20);
+        basic.pause(50);
     }
 
     //% weight=82 blockId=startbit_ASRWORDSERASE block="Erase Data"
