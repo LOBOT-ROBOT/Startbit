@@ -1,6 +1,6 @@
 # startbit
 
-Blocks for LOBOT startbit
+Blocks for Hiwonder startbit
 ## License
 
 MIT
