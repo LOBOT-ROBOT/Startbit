@@ -1,7 +1,7 @@
 {
     "name": "startbit",
     "version": "0.0.1",
-    "description": "Blocks for Lobot startbit",
+    "description": "Blocks for Hiwonder startbit",
     "license": "MIT",
     "dependencies": {
         "core": "*"
