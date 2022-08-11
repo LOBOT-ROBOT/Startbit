@@ -188,6 +188,14 @@ namespace startbit {
             SerialPin.P8,
             BaudRate.BaudRate115200);
 
+    }
+
+    /**
+     * Startbit CMD initialization
+    */
+    //% weight=99 blockId=startbit_Init_cmd block="Initialize Startbit CMD"
+    export function startbit_Init_cmd() {
+       
         basic.forever(() => {
             getHandleCmd();
         });
