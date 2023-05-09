@@ -395,7 +395,7 @@ namespace startbit {
     //% angle.min=0 angle.max=270
     //% inlineInputMode=inline
     //% subcategory=Servo
-    export function setServo(range:startbit_servorange, index: number = 1, angle: number, duration: number = 300) {
+    export function setPWMServo(range:startbit_servorange, index: number = 1, angle: number, duration: number = 300) {
 	    
         let position = mapRGB(angle, 0, range, 500, 2500);
 
@@ -410,6 +410,31 @@ namespace startbit {
         buf[7] = index;
         buf[8] = position & 0xff;
         buf[9] = (position >> 8) & 0xff;
+        serial.writeBuffer(buf);
+    }
+
+    /**
+    * Set the angle of servo 1 to 8, range of 0~270 degree
+    */
+    //% weight=99 blockId=setServo block="Set pwm servo range|range %range|index %index|angle %angle|duration %duration"
+    //% angle.min=0 angle.max=270
+    //% subcategory=Servo
+    export function setServo(range:startbit_servorange, index: number[], angle: number[], duration: number) {
+        let buf = pins.createBuffer(index.length *3 + 7);
+        buf[0] = 0x55;
+        buf[1] = 0x55;
+        buf[2] = index.length * 3 + 5;
+        buf[3] = 0x03;//cmd type
+        buf[4] = index.length;
+        buf[5] = duration & 0xff;
+        buf[6] = (duration >> 8) & 0xff;
+        for(let i = 0;i < index.length;i++)
+        {
+            let position = mapRGB(angle[i], 0, range, 500, 2500)
+            buf[7 + 3 * i] = index[i];
+            buf[8 + 3 * i] = position & 0xff;
+            buf[9 + 3 * i] = (position >> 8) & 0xff;
+        }
         serial.writeBuffer(buf);
     }
 

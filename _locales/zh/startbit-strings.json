@@ -147,6 +147,7 @@
 	"startbit.getServosAngle|block":"获取|%servo|角度(-120~120)",
 	"startbit.onstartbit_getAngle|block":"当读取到|%servo|角度时执行",
 	"startbit.setServo|block":"设置PWM舵机|转动范围 %range|编号 %index|角度 %angle|时长 %duration",
+	"startbit.setPWMServo|block":"设置PWM舵机|转动范围 %range|编号 %index|角度 %angle|时长 %duration",
 	"startbit.setArrayServo|block":"设置PWM舵机|转动范围 %range|编号(数组类型) %index|角度(数组类型) %angle|时长 %duration",
 	"startbit.startbit_runActionGroup|block":"运行动作组|编号 %index|次数 %times",
 	"startbit.startbit_stopActionGroup|block":"停止当前动作组",
