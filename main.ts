@@ -391,7 +391,7 @@ namespace startbit {
     /**
     * Set the angle of servo 1 to 8, range of 0~270 degree
     */
-    //% weight=100 blockId=setServo block="Set pwm servo range|range %range|index %index|angle %angle|duration %duration"
+    //% weight=100 blockId=setPWMServo block="Set pwm servo range|range %range|index %index|angle %angle|duration %duration"
     //% angle.min=0 angle.max=270
     //% inlineInputMode=inline
     //% subcategory=Servo
