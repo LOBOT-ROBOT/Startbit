@@ -4,6 +4,7 @@
 	"startbit.startbit_setMotorSpeed|block": "设置电机1速度(-100~100)|%speed1|和电机2|速度 %speed2",
 	"startbit.startbit_getSoundVolume|block": "音量值",
 	"startbit.startbit_getBatVoltage|block":"电量值(mV)",
+	"startbit.startbit_initRGBLight|block":"初始化RGB彩灯",
 	"StartbitLights.Light1|block":"彩灯1",
 	"StartbitLights.Light2|block":"彩灯2",
 	"StartbitLights.Light3|block":"彩灯3",
